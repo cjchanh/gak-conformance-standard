@@ -1,0 +1,26 @@
+[GAK-DENY-DEFAULT] (action-gate)
+    An unknown/ungoverned action is denied by default.
+[GAK-ALLOW-INBOUNDS] (action-gate)
+    Legitimate in-sandbox work is ALLOWED (deny-everything is not conformance).
+[GAK-PATH-CONTAINMENT] (action-gate)
+    A write escaping the sandbox is blocked.
+[GAK-DESTRUCTIVE-FLOOR] (action-gate)
+    An irreversible/destructive command is blocked regardless of allowlist.
+[GAK-PROGRAM-ALLOWLIST] (action-gate)
+    A non-allowlisted program is blocked.
+[GAK-JAIL-FAILS-CLOSED] (action-gate)
+    When no OS confinement is available, the jail refuses to run (never un-jailed).
+[GAK-CHAIN-INTACT] (universal)
+    An untampered audit chain re-verifies.
+[GAK-TAMPER-EVIDENT] (universal)
+    A mutated audit record is detected (tamper-evident).
+[GAK-RECONCILE-UNDECLARED] (action-gate) (requires: reconcile)
+    A tool changing undeclared state is flagged (two-plane reconciliation).
+[GAK-ATTEST-HONEST] (universal) (requires: attest)
+    The kernel ABSTAINS on coverage it did not earn (no false attestation).
+[GAK-COMMIT-DENY-SECURITY] (commit-gate)
+    A change-set touching a security surface (crypto/auth/keys/...) is blocked.
+[GAK-COMMIT-ALLOW-CLEAN] (commit-gate)
+    A benign in-policy change-set is allowed (deny-everything is not conformance).
+[GAK-COMMIT-TESTIFIES] (commit-gate)
+    Every decision (ALLOW or BLOCK) is recorded to a verifiable audit log.
