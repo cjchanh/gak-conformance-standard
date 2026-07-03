@@ -1,0 +1,2 @@
+EARNED: deponent is GAK-conformant (11 pass / 3 na, action-gate); digest cf26befe5ad5
+exit: 0

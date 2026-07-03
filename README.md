@@ -60,10 +60,14 @@ Spec §7.2 walks a complete hypothetical commit-gate kernel through the process.
 
 ## Status
 
-`gak-conformance/v1` — v1 is frozen once shipped; breaking changes require v2
-(spec §9). Reference implementation: [Deponent](https://github.com/cjchanh/deponent)
-(Centennial Defense Systems). The standard is vendor-neutral: Deponent is the
-first kernel scored against it, not the owner of it.
+`gak-conformance/v1.1` — the current version. **v1 stays frozen** (13 clauses,
+digest `de6b7089…`); **v1.1** adds one *optional* clause (`GAK-AUDIT-CONTENT-BLIND`,
+content-blind audit) — 14 clauses, digest `cf26befe…`. The addition is
+capability-gated, so no v1 receipt changes; see the **v1.1 Amendment** in the spec.
+Breaking changes require v2 (spec §9). Reference implementation:
+[Deponent](https://github.com/cjchanh/deponent) (Centennial Defense Systems). The
+standard is vendor-neutral: Deponent is the first kernel scored against it, not the
+owner of it.
 
 ## License
 

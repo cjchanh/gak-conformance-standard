@@ -738,7 +738,7 @@ must hold: provable integrity **and** non-recoverable content.
 
 Deponent (action-gate; capabilities `reconcile` + `attest` + `content-blind-audit`) scores
 **11 PASS / 0 FAIL / 3 NA** on `gak-conformance/v1.1`.
-**Clauses digest (v1.1):** `cf26befe5ad50a18…` (14 clauses).
+**Clauses digest (v1.1):** `cf26befe5ad50a18afb427e7257f9272142873ac11879cf2ab81b90eaedbf664` (14 clauses).
 The frozen **v1** reference digest — `de6b7089f894e009a6d1a1dba8c9b32b26e38daf803b07b83ec0958ff64c5406`
 (13 clauses, `gak-conformance/v1`) — remains the canonical v1 record and is unaffected.
 

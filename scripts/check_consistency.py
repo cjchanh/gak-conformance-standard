@@ -37,10 +37,21 @@ def main() -> int:
     spec_text = SPEC.read_text(encoding="utf-8")
 
     try:
-        from deponent.badge import certify
+        from deponent.badge import HARNESS_VERSION, certify
         from deponent.conformance import CLAUSES
     except ImportError as e:
         return fail(3, f"reference harness not importable ({e}); cannot check")
+
+    # Version-aware: the live harness declares its own version. v1 stays frozen at
+    # 13 clauses / de6b7089; v1.1 adds the optional content-blind clause (14 clauses).
+    # The checker verifies the LIVE version against its own evidence + spec, and
+    # separately asserts the frozen v1 digest is still preserved in the spec.
+    FROZEN_V1_DIGEST = "de6b7089f894e009a6d1a1dba8c9b32b26e38daf803b07b83ec0958ff64c5406"
+    EXPECTED = {"gak-conformance/v1": 13, "gak-conformance/v1.1": 14}
+    expected_clauses = EXPECTED.get(HARNESS_VERSION)
+    # pick the evidence cert matching the live version (v1 -> base name; else -suffixed)
+    suffix = "" if HARNESS_VERSION == "gak-conformance/v1" else f"-{HARNESS_VERSION.split('/')[-1]}"
+    EVIDENCE_CERT = ROOT / "v1" / "evidence" / f"deponent-certification{suffix}.json"
 
     problems: list[str] = []
 
@@ -52,8 +63,13 @@ def main() -> int:
         problems.append(
             f"clause census mismatch: spec-only={sorted(spec_ids - harness_ids)} "
             f"harness-only={sorted(harness_ids - spec_ids)}")
-    if len(CLAUSES) != 13:
-        problems.append(f"harness clause count is {len(CLAUSES)}, spec says 13")
+    if expected_clauses is None:
+        problems.append(f"unknown harness version {HARNESS_VERSION!r}; add it to EXPECTED")
+    elif len(CLAUSES) != expected_clauses:
+        problems.append(f"harness clause count is {len(CLAUSES)}, {HARNESS_VERSION} expects {expected_clauses}")
+    # the frozen v1 digest must remain documented in the spec (v1 is never rewritten).
+    if FROZEN_V1_DIGEST not in spec_text:
+        problems.append("frozen v1 digest de6b7089… missing from spec (v1 record must be preserved)")
     for c in CLAUSES:
         anchor = f"**{c.id}** — profile: `{c.profile}`"
         if c.requires:
@@ -84,8 +100,9 @@ def main() -> int:
             print(f"INCONSISTENT: {p}", file=sys.stderr)
         return 1
 
-    print(f"CONSISTENT: 13 clauses matched, digest deterministic ({d1[:16]}...), "
-          f"spec worked value and evidence bundle agree with the live harness.")
+    print(f"CONSISTENT: {HARNESS_VERSION} — {len(CLAUSES)} clauses matched, digest "
+          f"deterministic ({d1[:16]}...), spec + evidence agree with the live harness; "
+          f"frozen v1 record preserved.")
     return 0
 
 
