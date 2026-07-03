@@ -173,6 +173,17 @@ the normative statement, why it is in the standard, and the mechanical test
 anchor a harness MUST implement. The test anchors use the adapter interface of
 §6. Tool names and parameters given in anchors are literal.
 
+Test anchors are **minimum probes, not the boundary of the obligation**: the
+normative statement is the requirement; the anchor is the smallest mechanical
+witness of it. A kernel that special-cases the literal anchor inputs while
+permitting materially equivalent violations (for example, blocking the anchor's
+destructive command but allowing other host-scope destructive invocations) does
+not exhibit the required behavior; its mark claim is dishonest under §8 and
+void under §6.3's real-kernel rule. An adapter for a kernel with a different
+tool vocabulary MAY translate anchor tool names onto the kernel's equivalent
+real surface, provided the translation drives the actual gate and preserves the
+scenario's meaning.
+
 ### Universal clauses (apply to every kernel)
 
 ---
@@ -428,6 +439,11 @@ digest, compare. It is computed as follows.
 5. The digest is the SHA-256 of the UTF-8 bytes of that string, in lowercase
    hexadecimal.
 
+For digest purposes the kernel `name` MUST consist of ASCII characters only
+(recommended: `[A-Za-z0-9._-]`); non-ASCII kernel names are out of scope for
+`gak-conformance/v1`. This removes serializer escape-format variance and keeps
+the digest byte-reproducible in any implementation language.
+
 Reference derivation (any language may be used; the bytes must match):
 
 ```python
@@ -634,8 +650,12 @@ itself as **GAK-conformant**. The claim is bounded and MUST be used honestly:
 
 ## 9. Versioning and amendment policy
 
-- **v1 is frozen once shipped.** The thirteen clauses of §4, the status
-  semantics of §3, and the digest algorithm of §5.3 do not change within v1.
+- **v1 is frozen once shipped.** "Shipped" means the first public release of
+  this specification (the first published tag of the standard's public
+  repository). Before that moment this document is a pre-release draft and MAY
+  be edited without amendment notices; after it, the thirteen clauses of §4,
+  the status semantics of §3, and the digest algorithm of §5.3 do not change
+  within v1.
 - **Breaking changes** — removing or renaming a clause, changing a clause's
   test anchor or semantics, changing the digest derivation — require a new
   major version (`gak-conformance/v2`) with a new harness identifier.
@@ -660,10 +680,10 @@ itself as **GAK-conformant**. The claim is bounded and MUST be used honestly:
   profiles, receipt schema, digest algorithm, and adapter contract — specifies
   externally observable gate behavior and is published to be implemented
   freely. U.S. provisional application **64/104,446** (priority date
-  2026-07-03) covers a separate, private attestation-coupling mechanism of
-  Centennial Defense Systems; implementing this standard or claiming
-  conformance to it does not require that mechanism. Apache-2.0's patent grant
-  (§3 of the license) applies to the published artifacts.
+  2026-07-03), held by Centennial Defense Systems, does not bear on the
+  normative content of this standard: implementing the standard or claiming
+  conformance to it requires no CDS-patented mechanism. Apache-2.0's patent
+  grant (§3 of the license) applies to the published artifacts.
 - **Trademark:** Apache-2.0 does not grant trademark rights (§6 of the
   license). See §8: the conformance mark attaches to the test result and is
   open to any kernel that earns it; project and company names remain their
