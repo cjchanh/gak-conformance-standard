@@ -1,0 +1,16 @@
+GAK Conformance Standard — a vendor-neutral conformance standard for governed
+agent kernels (gak-conformance/v1)
+Copyright 2026 CJ — Centennial Defense Systems
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+"It doesn't answer. It testifies."
+
+This standard is published so the governed-agent-kernel category — deny-by-default,
+fail-closed, audit-chained, tamper-evident, bounded, honest, contained — can be
+tested, not asserted. Any kernel that passes the clause set may claim the
+GAK-conformant mark, including kernels unaffiliated with Centennial Defense
+Systems. This published standard is and will remain Apache-2.0; the grant on
+every published version is irrevocable by the terms of the License.
