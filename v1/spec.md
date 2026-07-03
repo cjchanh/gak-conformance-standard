@@ -563,8 +563,9 @@ adapter (§6) and a harness run.
    conformant (§3.4 requires zero FAILs, not zero NAs).
 3. **Write the adapter.** One class, the attributes and methods of §6 for your
    profile. Each method drives your real kernel through the clause's scenario.
-4. **Run the harness.** With the reference harness installed, score any adapter
-   instance directly:
+4. **Run the harness.** The reference harness is one conforming implementation
+   (§1); use it, or any harness that scores the §4 clauses as specified. To use
+   the reference harness, score any adapter instance directly:
 
    ```python
    from deponent.conformance import run_conformance
@@ -641,9 +642,10 @@ itself as **GAK-conformant**. The claim is bounded and MUST be used honestly:
   kernels unrelated to the reference implementation. The reference
   implementation's name (and its owners' names) remain ordinary trademarks of
   their owners and are **not** granted by conformance.
-- A conformance claim SHOULD publish (or link to) its certification JSON so the
-  claim is re-verifiable. An unverifiable claim is an assertion, not a
-  certification.
+- A **public** conformance claim (a badge, marketing page, or directory
+  listing) **MUST** publish or link to its certification JSON so the claim is
+  re-verifiable; an internal claim SHOULD. An unverifiable public claim is an
+  assertion, not a certification.
 - A claim derived from a fabricated or simulated adapter (§6.3) is void.
 
 ---
