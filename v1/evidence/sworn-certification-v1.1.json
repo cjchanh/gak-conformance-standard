@@ -1,0 +1,72 @@
+{
+  "schema_version": "gak-certification/v1",
+  "harness_version": "gak-conformance/v1.1",
+  "kernel": "sworncode",
+  "profile": "commit-gate",
+  "conformant": true,
+  "mark": "GAK-conformant",
+  "counts": {
+    "pass": 5,
+    "fail": 0,
+    "na": 9
+  },
+  "clauses_digest": "e65dd28b321406eee8f8fd0f4bbd9e7add16baf5a0f1fd04ca6459a34e28a6f1",
+  "clauses": [
+    {
+      "id": "GAK-ALLOW-INBOUNDS",
+      "status": "NA"
+    },
+    {
+      "id": "GAK-ATTEST-HONEST",
+      "status": "NA"
+    },
+    {
+      "id": "GAK-AUDIT-CONTENT-BLIND",
+      "status": "NA"
+    },
+    {
+      "id": "GAK-CHAIN-INTACT",
+      "status": "PASS"
+    },
+    {
+      "id": "GAK-COMMIT-ALLOW-CLEAN",
+      "status": "PASS"
+    },
+    {
+      "id": "GAK-COMMIT-DENY-SECURITY",
+      "status": "PASS"
+    },
+    {
+      "id": "GAK-COMMIT-TESTIFIES",
+      "status": "PASS"
+    },
+    {
+      "id": "GAK-DENY-DEFAULT",
+      "status": "NA"
+    },
+    {
+      "id": "GAK-DESTRUCTIVE-FLOOR",
+      "status": "NA"
+    },
+    {
+      "id": "GAK-JAIL-FAILS-CLOSED",
+      "status": "NA"
+    },
+    {
+      "id": "GAK-PATH-CONTAINMENT",
+      "status": "NA"
+    },
+    {
+      "id": "GAK-PROGRAM-ALLOWLIST",
+      "status": "NA"
+    },
+    {
+      "id": "GAK-RECONCILE-UNDECLARED",
+      "status": "NA"
+    },
+    {
+      "id": "GAK-TAMPER-EVIDENT",
+      "status": "PASS"
+    }
+  ]
+}

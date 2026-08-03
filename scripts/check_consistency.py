@@ -95,6 +95,36 @@ def main() -> int:
     else:
         problems.append(f"evidence certification missing: {EVIDENCE_CERT}")
 
+    # 5. second kernel (sworncode, commit-gate) — optional adapter: verified
+    # whenever importable; when its evidence exists but the kernel is absent,
+    # say so explicitly rather than silently skipping.
+    sworn_cert_path = ROOT / "v1" / "evidence" / f"sworn-certification{suffix}.json"
+    try:
+        import sworn  # noqa: F401
+        sworn_importable = True
+    except ImportError:
+        sworn_importable = False
+    if sworn_importable:
+        s1 = certify("sworn").clauses_digest
+        s2 = certify("sworn").clauses_digest
+        if s1 != s2:
+            problems.append(f"sworn digest not deterministic: {s1} != {s2}")
+        if sworn_cert_path.exists():
+            sev = json.loads(sworn_cert_path.read_text(encoding="utf-8"))
+            if sev.get("clauses_digest") != s1:
+                problems.append(
+                    f"sworn evidence certification digest "
+                    f"{sev.get('clauses_digest')} != live {s1}")
+        else:
+            problems.append(
+                f"sworn kernel importable but evidence missing: {sworn_cert_path}")
+    elif sworn_cert_path.exists():
+        print(
+            "NOTICE: sworn evidence present but the sworncode kernel is not "
+            "importable here — second-kernel digest not re-verified this run",
+            file=sys.stderr,
+        )
+
     if problems:
         for p in problems:
             print(f"INCONSISTENT: {p}", file=sys.stderr)
