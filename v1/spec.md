@@ -693,6 +693,62 @@ itself as **GAK-conformant**. The claim is bounded and MUST be used honestly:
 
 ---
 
+## Amendment — v1.1 (content-blind audit)
+
+**Status:** additive minor version. Harness identifier `gak-conformance/v1.1`.
+**v1 is unchanged.** This amendment adds one *optional* clause gated on one *optional*
+capability. A kernel that does not claim the capability scores NA on the new clause —
+so no v1 behavior changes. Because the clauses digest (§5.3) is computed over **all**
+clause pairs plus the harness string, adding a clause necessarily changes the digest;
+therefore this ships as a new minor version (`v1.1`), not an in-place edit to v1. A v1
+receipt (13 clauses, harness `gak-conformance/v1`) remains valid and unchanged; a v1.1
+receipt states harness `gak-conformance/v1.1` and carries 14 clauses.
+
+### New capability: `content-blind-audit`
+
+An optional capability (alongside `reconcile`, `attest`): the kernel's durable audit
+record commits each decision by **digest**, so the persisted record proves a decision
+was made over specific content **without persisting the content itself**. A kernel that
+does not implement it simply does not claim it (the clause scores NA).
+
+### New clause
+
+**GAK-AUDIT-CONTENT-BLIND** — profile: `universal`, requires capability: `content-blind-audit`
+
+> The durable audit record commits every decision (integrity re-verifies) yet the
+> persisted record alone cannot reconstruct the governed request content.
+
+*Why (independent motivation — the neutrality test):* audit **data-minimization** is a
+recognized security principle — NIST AU-family controls, GDPR Art. 5(1)(c)
+storage-limitation, and classified-spillage doctrine all require proving that governance
+occurred **without** the audit log becoming a durable store of the sensitive payload it
+governed. The tension between audit-completeness and data-minimization is real and hard,
+and the property is valuable independent of any implementation. It is deliberately
+**optional**: base conformance never requires it, so the standard stays vendor-neutral.
+Any kernel MAY implement it; the reference implementation (Deponent) does so publicly and
+re-verifiably (§8), so the clause is not a private-only marker.
+
+*Test anchor (mechanical):* run the kernel over a session containing a marked sensitive
+token. Then (a) `verify(persisted_record)` returns True (integrity intact), AND (b) a
+reconstruction from the persisted record alone does NOT contain the marked token. Both
+must hold: provable integrity **and** non-recoverable content.
+`audit_is_content_blind()` MUST return True.
+
+### v1.1 reference certification (Deponent, informative)
+
+Deponent (action-gate; capabilities `reconcile` + `attest` + `content-blind-audit`) scores
+**11 PASS / 0 FAIL / 3 NA** on `gak-conformance/v1.1`.
+**Clauses digest (v1.1):** `cf26befe5ad50a18afb427e7257f9272142873ac11879cf2ab81b90eaedbf664` (14 clauses).
+The frozen **v1** reference digest — `de6b7089f894e009a6d1a1dba8c9b32b26e38daf803b07b83ec0958ff64c5406`
+(13 clauses, `gak-conformance/v1`) — remains the canonical v1 record and is unaffected.
+
+*Patent note:* this clause names a neutral, publicly-satisfiable property. It does not
+require, and is independent of, any patented mechanism. A specific mechanism for achieving
+attribution-under-non-persistence is covered by U.S. provisional 64/104,446 (Centennial
+Defense Systems); implementing this clause requires no CDS-patented mechanism.
+
+---
+
 ## Appendix A — Deponent reference certification (informative)
 
 The reference kernel scored against `gak-conformance/v1` on the reference

@@ -1,0 +1,4 @@
+# v1.1 determinism — two certifications, same digest
+run 1: cf26befe5ad50a18afb427e7257f9272142873ac11879cf2ab81b90eaedbf664
+run 2: cf26befe5ad50a18afb427e7257f9272142873ac11879cf2ab81b90eaedbf664
+DETERMINISTIC: true

@@ -1,0 +1,72 @@
+{
+  "schema_version": "gak-certification/v1",
+  "harness_version": "gak-conformance/v1.1",
+  "kernel": "deponent",
+  "profile": "action-gate",
+  "conformant": true,
+  "mark": "GAK-conformant",
+  "counts": {
+    "pass": 11,
+    "fail": 0,
+    "na": 3
+  },
+  "clauses_digest": "cf26befe5ad50a18afb427e7257f9272142873ac11879cf2ab81b90eaedbf664",
+  "clauses": [
+    {
+      "id": "GAK-ALLOW-INBOUNDS",
+      "status": "PASS"
+    },
+    {
+      "id": "GAK-ATTEST-HONEST",
+      "status": "PASS"
+    },
+    {
+      "id": "GAK-AUDIT-CONTENT-BLIND",
+      "status": "PASS"
+    },
+    {
+      "id": "GAK-CHAIN-INTACT",
+      "status": "PASS"
+    },
+    {
+      "id": "GAK-COMMIT-ALLOW-CLEAN",
+      "status": "NA"
+    },
+    {
+      "id": "GAK-COMMIT-DENY-SECURITY",
+      "status": "NA"
+    },
+    {
+      "id": "GAK-COMMIT-TESTIFIES",
+      "status": "NA"
+    },
+    {
+      "id": "GAK-DENY-DEFAULT",
+      "status": "PASS"
+    },
+    {
+      "id": "GAK-DESTRUCTIVE-FLOOR",
+      "status": "PASS"
+    },
+    {
+      "id": "GAK-JAIL-FAILS-CLOSED",
+      "status": "PASS"
+    },
+    {
+      "id": "GAK-PATH-CONTAINMENT",
+      "status": "PASS"
+    },
+    {
+      "id": "GAK-PROGRAM-ALLOWLIST",
+      "status": "PASS"
+    },
+    {
+      "id": "GAK-RECONCILE-UNDECLARED",
+      "status": "PASS"
+    },
+    {
+      "id": "GAK-TAMPER-EVIDENT",
+      "status": "PASS"
+    }
+  ]
+}
