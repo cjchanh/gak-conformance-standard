@@ -1,0 +1,638 @@
+[
+  {
+    "id": "FEAT-0001",
+    "category": "core",
+    "priority": "critical",
+    "description": "A stranger can invoke an in-repo mechanical scorer as `python3 -m gak_conformance` without installing or importing Deponent as the harness.",
+    "user_value": "The category is testable by someone who is not us.",
+    "verification": [
+      "python3 -m gak_conformance --help exits 0",
+      "import gak_conformance succeeds with repo root on sys.path",
+      "gak_conformance module source does not import deponent"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-BASELINE-RUNTIME",
+      "EVID-PYTEST-S01"
+    ],
+    "commit": null,
+    "owner": "implementation"
+  },
+  {
+    "id": "FEAT-0002",
+    "category": "core",
+    "priority": "critical",
+    "description": "Score command accepts `--adapter module:Class` and emits a JSON receipt.",
+    "user_value": "Kernel authors plug in their adapter without editing the harness.",
+    "verification": [
+      "python3 -m gak_conformance score --adapter gak_conformance.fixtures.action_gate:PassingActionAdapter --out <tmp>/receipt.json",
+      "receipt.json exists and parses as JSON"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-PYTEST-S01"
+    ],
+    "commit": null,
+    "owner": "implementation"
+  },
+  {
+    "id": "FEAT-0003",
+    "category": "core",
+    "priority": "critical",
+    "description": "A fixture adapter scores end-to-end with Deponent absent from the environment.",
+    "user_value": "Clone \u2192 command \u2192 receipt works on a clean machine.",
+    "verification": [
+      "Run score against fixture in a subprocess whose PYTHONPATH cannot import deponent",
+      "Exit 0 or 1 is from the harness, never ModuleNotFoundError: deponent"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-BASELINE-RUNTIME",
+      "EVID-PYTEST-S01"
+    ],
+    "commit": null,
+    "owner": "implementation"
+  },
+  {
+    "id": "FEAT-0004",
+    "category": "receipt",
+    "priority": "critical",
+    "description": "Receipt matches spec \u00a75.1: kernel, profile, conformant, counts, all 13 v1 clauses with id/profile/status/detail, and no timestamp.",
+    "user_value": "A consumer can re-derive the verdict from the receipt alone.",
+    "verification": [
+      "Required keys present; timestamp absent",
+      "len(clauses)==13 for harness gak-conformance/v1",
+      "each clause has id, profile, status in {PASS,FAIL,NA}, detail"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-PYTEST-S01"
+    ],
+    "commit": null,
+    "owner": "implementation"
+  },
+  {
+    "id": "FEAT-0005",
+    "category": "receipt",
+    "priority": "critical",
+    "description": "Digest algorithm \u00a75.3 re-derives the published Deponent v1 digest de6b7089\u2026 from the published receipt.",
+    "user_value": "Existing evidence remains checkable after the harness moves in-repo.",
+    "verification": [
+      "gak_conformance.receipt.clauses_digest(published_receipt) == de6b7089f894e009a6d1a1dba8c9b32b26e38daf803b07b83ec0958ff64c5406",
+      "compact-separator encoding is not used"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-DIGEST-SEPARATOR",
+      "EVID-PYTEST-S01"
+    ],
+    "commit": null,
+    "owner": "implementation"
+  },
+  {
+    "id": "FEAT-0006",
+    "category": "cli",
+    "priority": "critical",
+    "description": "Fail-closed exits: 0 only when conformant; nonzero when not conformant, adapter load fails, or the run is incomplete.",
+    "user_value": "CI can gate on the command without parsing prose.",
+    "verification": [
+      "conformant fixture \u2192 exit 0",
+      "brick fixture \u2192 exit != 0",
+      "missing adapter \u2192 exit != 0"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-PYTEST-S01"
+    ],
+    "commit": null,
+    "owner": "implementation"
+  },
+  {
+    "id": "FEAT-0007",
+    "category": "leave-behind",
+    "priority": "critical",
+    "description": "Public leave-behind contains no deponent/attest.py, 00Agent, cds-compliance, CMMC-RMF maps, ATO-in-a-Box, or per-control maps.",
+    "user_value": "The standard can be published without private coupling.",
+    "verification": [
+      "rg scan of product + release archive for forbidden tokens",
+      "release forbidden_scan == pass"
+    ],
+    "passes": false,
+    "evidence": [],
+    "commit": null,
+    "owner": "security"
+  },
+  {
+    "id": "FEAT-0008",
+    "category": "docs",
+    "priority": "critical",
+    "description": "README first score path is the in-repo fixture command, not `python3 -m deponent.badge verify`.",
+    "user_value": "A stranger is not sent to install the author's kernel to try the standard.",
+    "verification": [
+      "README contains `python3 -m gak_conformance`",
+      "Deponent verify is labeled optional reference-kernel scoring, not the first command"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-BASELINE-RUNTIME",
+      "EVID-PYTEST-S01"
+    ],
+    "commit": null,
+    "owner": "product-design"
+  },
+  {
+    "id": "FEAT-0009",
+    "category": "core",
+    "priority": "critical",
+    "description": "Default harness clause census is exactly the 13 frozen v1 IDs in spec \u00a74.",
+    "user_value": "The standard, not a kernel, defines the mark.",
+    "verification": [
+      "set(clause ids) == 13 spec \u00a74 ids",
+      "GAK-REDIRECT-DENIED and GAK-NEWLINE-CHAINED are absent from default census"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-CLAUSE-CENSUS",
+      "EVID-PYTEST-S01"
+    ],
+    "commit": null,
+    "owner": "implementation"
+  },
+  {
+    "id": "FEAT-0010",
+    "category": "semantics",
+    "priority": "critical",
+    "description": "An all-NA receipt is not conformant (\u00a73.4).",
+    "user_value": "A mis-declared adapter cannot earn the mark by doing nothing.",
+    "verification": [
+      "Fixture with empty/unknown profile produces conformant=false",
+      "exit != 0"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-PYTEST-S01"
+    ],
+    "commit": null,
+    "owner": "testing"
+  },
+  {
+    "id": "FEAT-0011",
+    "category": "semantics",
+    "priority": "high",
+    "description": "An adapter method that raises scores that clause FAIL, never PASS or NA (\u00a73.3).",
+    "user_value": "Harness fail-closed matches the category it scores.",
+    "verification": [
+      "RaisingActionAdapter: at least one FAIL whose detail mentions the exception type",
+      "conformant is false"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-PYTEST-S01"
+    ],
+    "commit": null,
+    "owner": "testing"
+  },
+  {
+    "id": "FEAT-0012",
+    "category": "semantics",
+    "priority": "high",
+    "description": "Out-of-profile clauses score NA, never FAIL.",
+    "user_value": "Commit-gate kernels are not punished for lacking live-tool surfaces.",
+    "verification": [
+      "Commit-gate fixture: every action-gate clause status == NA"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-PYTEST-S01"
+    ],
+    "commit": null,
+    "owner": "testing"
+  },
+  {
+    "id": "FEAT-0013",
+    "category": "semantics",
+    "priority": "high",
+    "description": "Unclaimed optional capabilities score NA, never FAIL.",
+    "user_value": "Authors can omit reconcile/attest honestly.",
+    "verification": [
+      "Action fixture with supports=frozenset(): GAK-RECONCILE-UNDECLARED and GAK-ATTEST-HONEST are NA"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-PYTEST-S01"
+    ],
+    "commit": null,
+    "owner": "testing"
+  },
+  {
+    "id": "FEAT-0014",
+    "category": "semantics",
+    "priority": "high",
+    "description": "A deny-everything action-gate is not conformant (GAK-ALLOW-INBOUNDS FAIL).",
+    "user_value": "A brick is not a governor.",
+    "verification": [
+      "BrickActionAdapter: GAK-ALLOW-INBOUNDS FAIL and conformant false"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-PYTEST-S01"
+    ],
+    "commit": null,
+    "owner": "testing"
+  },
+  {
+    "id": "FEAT-0015",
+    "category": "semantics",
+    "priority": "high",
+    "description": "A deny-everything commit-gate is not conformant (GAK-COMMIT-ALLOW-CLEAN FAIL).",
+    "user_value": "Same discrimination rule at commit scope.",
+    "verification": [
+      "BrickCommitAdapter: GAK-COMMIT-ALLOW-CLEAN FAIL and conformant false"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-PYTEST-S01"
+    ],
+    "commit": null,
+    "owner": "testing"
+  },
+  {
+    "id": "FEAT-0016",
+    "category": "receipt",
+    "priority": "high",
+    "description": "Two consecutive scores of an unchanged adapter produce identical clauses_digest.",
+    "user_value": "The mark is a function of kernel behavior, not the wall clock.",
+    "verification": [
+      "two subprocess scores; digests equal; receipts have no timestamp"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-PYTEST-S01"
+    ],
+    "commit": null,
+    "owner": "testing"
+  },
+  {
+    "id": "FEAT-0017",
+    "category": "receipt",
+    "priority": "high",
+    "description": "Certification object matches spec \u00a75.2 (schema_version, harness_version, mark, clauses_digest, id/status pairs).",
+    "user_value": "A public claim has a digest-bearing pointer.",
+    "verification": [
+      "score --certify or certify subcommand writes gak-certification/v1 JSON",
+      "mark is GAK-conformant iff conformant else not-conformant"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-PYTEST-S01"
+    ],
+    "commit": null,
+    "owner": "implementation"
+  },
+  {
+    "id": "FEAT-0018",
+    "category": "cli",
+    "priority": "high",
+    "description": "`--out PATH` writes the receipt (or certification) as UTF-8 JSON.",
+    "user_value": "Operators can keep the artifact next to their kernel.",
+    "verification": [
+      "file exists; json.load succeeds; parent dirs created or fail-closed"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-PYTEST-S01"
+    ],
+    "commit": null,
+    "owner": "implementation"
+  },
+  {
+    "id": "FEAT-0019",
+    "category": "cli",
+    "priority": "high",
+    "description": "`--help` and `selfcheck` work offline with no network and no Deponent.",
+    "user_value": "First-run does not require credentials or sibling repos.",
+    "verification": [
+      "help exit 0",
+      "selfcheck uses fixture only"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-PYTEST-S01"
+    ],
+    "commit": null,
+    "owner": "implementation"
+  },
+  {
+    "id": "FEAT-0020",
+    "category": "cli",
+    "priority": "high",
+    "description": "`selfcheck` runs the fixture path and prints a one-line verdict plus digest.",
+    "user_value": "An operator can confirm the harness itself runs.",
+    "verification": [
+      "python3 -m gak_conformance selfcheck exits 0",
+      "stdout contains CONFORMANT or equivalent and a 64-hex digest"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-PYTEST-S01"
+    ],
+    "commit": null,
+    "owner": "implementation"
+  },
+  {
+    "id": "FEAT-0021",
+    "category": "cli",
+    "priority": "high",
+    "description": "Invalid adapter spec (missing module, missing class, bad syntax) exits nonzero with a clear error and no receipt claiming conformant.",
+    "user_value": "Load failures are not silent passes.",
+    "verification": [
+      "--adapter not.a.module:X exits != 0",
+      "--adapter gak_conformance.fixtures.action_gate:NoSuch exits != 0"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-PYTEST-S01"
+    ],
+    "commit": null,
+    "owner": "testing"
+  },
+  {
+    "id": "FEAT-0022",
+    "category": "semantics",
+    "priority": "high",
+    "description": "A missing required adapter method scores FAIL (AttributeError recorded), not a crash that looks like harness breakage without a receipt.",
+    "user_value": "Partial adapters are scored, not excused.",
+    "verification": [
+      "Incomplete adapter still emits a receipt with FAIL detail naming the missing method"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-PYTEST-S01"
+    ],
+    "commit": null,
+    "owner": "testing"
+  },
+  {
+    "id": "FEAT-0023",
+    "category": "receipt",
+    "priority": "high",
+    "description": "counts.pass + counts.fail + counts.na equals the clause count for the harness version.",
+    "user_value": "Receipts cannot hide a clause.",
+    "verification": [
+      "property/unit test over fixtures and published receipts"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-PYTEST-S01"
+    ],
+    "commit": null,
+    "owner": "testing"
+  },
+  {
+    "id": "FEAT-0024",
+    "category": "docs",
+    "priority": "high",
+    "description": "CLI and README use bounded mark language: GAK-conformant means the clause set under the declared profile, not secure/audited/endorsed.",
+    "user_value": "The leave-behind does not over-claim.",
+    "verification": [
+      "rg for forbidden stretch words in README/CLI help",
+      "help mentions research prototype / clause-bounded claim"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-PYTEST-S01"
+    ],
+    "commit": null,
+    "owner": "product-design"
+  },
+  {
+    "id": "FEAT-0025",
+    "category": "consistency",
+    "priority": "high",
+    "description": "Consistency checker verifies spec \u2194 in-repo clause table \u2194 published evidence without importing deponent as the harness.",
+    "user_value": "CI can run on a clone that has only this repo.",
+    "verification": [
+      "python3 scripts/check_consistency.py exits 0 or 1 (never 3 for missing deponent)",
+      "source does not `from deponent.badge import` or `from deponent.conformance import`"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-CHECK-CONSISTENCY",
+      "EVID-PYTEST-S01"
+    ],
+    "commit": null,
+    "owner": "implementation"
+  },
+  {
+    "id": "FEAT-0026",
+    "category": "deponent-optional",
+    "priority": "high",
+    "description": "When Deponent is importable, an optional adapter can be scored by the in-repo harness against the v1 13 clauses (not Deponent's 16).",
+    "user_value": "Reference kernel remains scoreable without letting it own the harness.",
+    "verification": [
+      "If deponent importable: score --adapter gak_conformance.adapters.deponent:DeponentKernelAdapter produces 13-clause receipt",
+      "If not importable: documented skip, not a harness crash"
+    ],
+    "passes": false,
+    "evidence": [],
+    "commit": null,
+    "owner": "implementation"
+  },
+  {
+    "id": "FEAT-0027",
+    "category": "release",
+    "priority": "high",
+    "description": "Clean install from the local release archive can run help + fixture score.",
+    "user_value": "The shipped artifact, not the dirty worktree, is the product.",
+    "verification": [
+      "create_release.py smoke commands pass in extracted zip"
+    ],
+    "passes": false,
+    "evidence": [],
+    "commit": null,
+    "owner": "release-engineering"
+  },
+  {
+    "id": "FEAT-0028",
+    "category": "release",
+    "priority": "high",
+    "description": "Release archive contains no secrets, .git, caches, personal paths, marathon pidfiles, or unrelated repos.",
+    "user_value": "A public zip cannot leak the operator plane.",
+    "verification": [
+      "safe_release_zip forbidden scan pass",
+      "no /Users/cj, no marathon.pid, no .git"
+    ],
+    "passes": false,
+    "evidence": [],
+    "commit": null,
+    "owner": "release-engineering"
+  },
+  {
+    "id": "FEAT-0029",
+    "category": "packaging",
+    "priority": "high",
+    "description": "pyproject.toml declares PEP 621 metadata, Apache-2.0, stdlib-only runtime dependencies.",
+    "user_value": "Install is ordinary Python, not a private toolchain.",
+    "verification": [
+      "pyproject.toml exists; [project] name/version/license",
+      "dependencies empty or stdlib-only"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-BASELINE-RUNTIME",
+      "EVID-PYTEST-S01"
+    ],
+    "commit": null,
+    "owner": "implementation"
+  },
+  {
+    "id": "FEAT-0030",
+    "category": "docs",
+    "priority": "high",
+    "description": "Adapter contract (attributes + methods of spec \u00a76) is documented next to the score command so authors do not need Deponent source.",
+    "user_value": "The integration surface is the spec plus one page, not a kernel repo.",
+    "verification": [
+      "README or gak_conformance/adapter.py docstring lists name/profile/supports and methods",
+      "no instruction to read deponent/conformance.py"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-PYTEST-S01"
+    ],
+    "commit": null,
+    "owner": "product-design"
+  },
+  {
+    "id": "FEAT-0031",
+    "category": "versioning",
+    "priority": "medium",
+    "description": "Optional `--harness gak-conformance/v1.1` adds only GAK-AUDIT-CONTENT-BLIND (14 clauses) and does not change v1 receipts.",
+    "user_value": "v1 stays frozen; v1.1 remains capability-gated.",
+    "verification": [
+      "default run still 13 clauses",
+      "v1.1 run 14 clauses including GAK-AUDIT-CONTENT-BLIND"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-PYTEST-S01"
+    ],
+    "commit": null,
+    "owner": "implementation"
+  },
+  {
+    "id": "FEAT-0032",
+    "category": "versioning",
+    "priority": "high",
+    "description": "Deponent-only probes GAK-REDIRECT-DENIED and GAK-NEWLINE-CHAINED are never emitted as GAK harness clauses.",
+    "user_value": "Kernel-local hardening cannot silently become the category.",
+    "verification": [
+      "default and v1.1 clause id sets exclude those two IDs"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-CLAUSE-CENSUS",
+      "EVID-PYTEST-S01"
+    ],
+    "commit": null,
+    "owner": "architecture"
+  },
+  {
+    "id": "FEAT-0033",
+    "category": "fixtures",
+    "priority": "medium",
+    "description": "Commit-gate fixture on v1 yields 5 PASS / 8 NA / 0 FAIL and conformant true (3 commit + 2 universal).",
+    "user_value": "Authors of commit-gates have a worked shape.",
+    "verification": [
+      "counts match; GAK-COMMIT-* PASS; action-gate NA"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-PYTEST-S01"
+    ],
+    "commit": null,
+    "owner": "testing"
+  },
+  {
+    "id": "FEAT-0034",
+    "category": "fixtures",
+    "priority": "medium",
+    "description": "Action-gate fixture claiming no optional capabilities yields NA on reconcile and attest and can still be conformant if remaining required clauses pass.",
+    "user_value": "Optional capabilities are optional.",
+    "verification": [
+      "supports empty; those two NA; no FAIL on required action-gate + universal chain clauses"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-PYTEST-S01"
+    ],
+    "commit": null,
+    "owner": "testing"
+  },
+  {
+    "id": "FEAT-0035",
+    "category": "cli",
+    "priority": "medium",
+    "description": "`digest --receipt FILE` re-derives \u00a75.3 from an existing receipt JSON.",
+    "user_value": "Published evidence can be checked without re-running a kernel.",
+    "verification": [
+      "digest of v1/evidence/deponent-conformance-receipt.json prints de6b7089\u2026 and exit 0"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-DIGEST-SEPARATOR",
+      "EVID-PYTEST-S01"
+    ],
+    "commit": null,
+    "owner": "implementation"
+  },
+  {
+    "id": "FEAT-0036",
+    "category": "consistency",
+    "priority": "medium",
+    "description": "Consistency checker asserts frozen v1 digest string remains in spec.md and published certification.",
+    "user_value": "v1 record cannot be silently rewritten.",
+    "verification": [
+      "check_consistency fails if de6b7089\u2026 removed from spec",
+      "sabotage mutant test"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-PYTEST-S01"
+    ],
+    "commit": null,
+    "owner": "testing"
+  },
+  {
+    "id": "FEAT-0037",
+    "category": "cli",
+    "priority": "medium",
+    "description": "Unknown profile or non-ASCII kernel name is rejected fail-closed (spec \u00a75.3 ASCII kernel-name constraint).",
+    "user_value": "Digest remains byte-reproducible across languages.",
+    "verification": [
+      "adapter.profile='weird' \u2192 nonzero",
+      "adapter.name with non-ASCII \u2192 nonzero"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-PYTEST-S01"
+    ],
+    "commit": null,
+    "owner": "testing"
+  },
+  {
+    "id": "FEAT-0038",
+    "category": "security",
+    "priority": "medium",
+    "description": "Help text states that `--adapter` imports and executes Python; adapters must drive a real kernel; fixture adapters are harness tests, not kernel certifications.",
+    "user_value": "Residual import risk is visible; fixture marks are not marketed as third-party verdicts.",
+    "verification": [
+      "--help mentions import/execution and fixture vs kernel"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-PYTEST-S01"
+    ],
+    "commit": null,
+    "owner": "security"
+  }
+]

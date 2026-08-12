@@ -1,0 +1,4 @@
+BLOCKED: reference harness not importable (No module named 'deponent'); cannot check
+exit_code: 3
+command: python3 scripts/check_consistency.py
+captured_at: 2026-08-12T17:59:20Z

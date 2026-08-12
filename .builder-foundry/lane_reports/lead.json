@@ -1,0 +1,45 @@
+{
+  "lane": "lead",
+  "role": "campaign-lead",
+  "mode": "writer",
+  "implemented_work": true,
+  "findings": [
+    "Initializer contract lock matches (2bab65ac…); no amendments.",
+    "Baseline: no gak_conformance; check_consistency exit 3; README required Deponent.",
+    "Sibling Deponent harness has 16 clauses including two IDs absent from spec.",
+    "Digest must use default json.dumps separators; compact JSON breaks de6b7089…",
+    "Session 1 shipped the in-repo v1 scorer, fixtures, tests (25 passed), and a Deponent-free consistency checker."
+  ],
+  "rejected_assumptions": [
+    "The published standard already had a third-party-runnable scorer.",
+    "Importing deponent.conformance is an acceptable v0 harness.",
+    "Compact canonical JSON is compatible with published digests."
+  ],
+  "work_performed": [
+    "Verified immutable contract hash",
+    "Captured runtime baseline and evidence",
+    "Wrote failing-first ledgers (38 features, 10 hypotheses, 10 claims, 6 blockers)",
+    "Fanned out six independent lanes",
+    "Implemented gak_conformance + tests + README first-run path",
+    "Rewrote scripts/check_consistency.py"
+  ],
+  "evidence": [
+    "EVID-BASELINE-RUNTIME",
+    "EVID-DIGEST-SEPARATOR",
+    "EVID-CLAUSE-CENSUS",
+    "EVID-CHECK-CONSISTENCY",
+    "EVID-PYTEST-S01"
+  ],
+  "conflicts": [
+    "Product-design suggested FixtureActionAdapter name; implementation shipped PassingActionAdapter. README matches implementation."
+  ],
+  "open_risks": [
+    "No optional Deponent adapter yet (FEAT-0026); live reference-kernel score not re-run in this env.",
+    "No release zip (FEAT-0027/0028).",
+    "ITER-0001 awaits independent reviewer.",
+    "Campaign guard still red: remaining features, release, redteam, holdout, sessions."
+  ],
+  "verdict": "advisory",
+  "timestamp": "2026-08-12T18:20:00Z",
+  "implemented_work_note": "Lead implemented the scorer; cannot independently approve ITER-0001."
+}

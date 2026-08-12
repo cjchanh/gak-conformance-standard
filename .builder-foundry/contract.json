@@ -1,0 +1,61 @@
+{
+  "campaign_id": "mission-gak-v0-standard-20260812",
+  "created_at": "2026-08-12T17:53:08Z",
+  "immutable_rules": [
+    "Do not reduce quotas or weaken gates.",
+    "Features and claims begin failing or unverified.",
+    "Reviewers may not approve their own implementation.",
+    "Critical and high defects block closure.",
+    "Evidence must exist and match its recorded hash.",
+    "Remote mutation and destructive actions require explicit operator authorization.",
+    "The shipped artifact must pass its clean smoke path."
+  ],
+  "profile": "standard",
+  "profile_contract": {
+    "description": "Substantial end-to-end product build with independent audit.",
+    "max_sessions": 8,
+    "min_evidence_artifacts": 12,
+    "min_features": 30,
+    "min_holdout_audits": 1,
+    "min_hypotheses": 8,
+    "min_iterations": 6,
+    "min_lane_reports": 6,
+    "min_local_commits": 4,
+    "min_redteam_loops": 1,
+    "min_resolved_hypotheses": 8,
+    "min_sessions": 4,
+    "min_user_visible_iterations": 3,
+    "min_visual_artifacts": 0,
+    "name": "standard",
+    "require_all_features_pass": true,
+    "require_clean_artifact_smoke": true,
+    "require_performance_verdict": false,
+    "require_release_artifact": true,
+    "require_security_verdict": true,
+    "require_visual_evidence": false,
+    "required_lanes": [
+      "lead",
+      "repo-archaeology",
+      "research",
+      "product-design",
+      "architecture",
+      "implementation",
+      "testing",
+      "adversarial-audit",
+      "release-engineering"
+    ],
+    "required_waves": [
+      "baseline",
+      "research",
+      "product",
+      "architecture",
+      "implementation",
+      "verification",
+      "redteam",
+      "holdout",
+      "release",
+      "audit"
+    ]
+  },
+  "schema_version": "1.0.0"
+}

@@ -1,0 +1,67 @@
+{
+  "captured_at": "2026-08-12T17:59:36Z",
+  "campaign_id": "mission-gak-v0-standard-20260812",
+  "git": {
+    "baseline_head": "e55b068d2e933a5deecfc396ffadb5d8edd377f9",
+    "live_head": "e55b068d2e933a5deecfc396ffadb5d8edd377f9",
+    "baseline_branch": "main",
+    "campaign_branch": "foundry/gak-v0-standard",
+    "dirty_at_init": {
+      "untracked": 103,
+      "modified_tracked": 0
+    },
+    "tracked_product_paths": [
+      ".gitignore",
+      "LICENSE",
+      "NOTICE",
+      "README.md",
+      "scripts/check_consistency.py",
+      "v1/spec.md",
+      "v1/evidence/"
+    ]
+  },
+  "python": {
+    "version": "3.14.5",
+    "executable": "/opt/homebrew/opt/python@3.14/bin/python3.14"
+  },
+  "imports": {
+    "gak_conformance": {"ok": false, "error": "ModuleNotFoundError: No module named 'gak_conformance'"},
+    "deponent": {"ok": false, "error": "ModuleNotFoundError: No module named 'deponent'"},
+    "sworn": {"ok": false, "error": "ModuleNotFoundError: No module named 'sworn'"}
+  },
+  "commands": [
+    {
+      "id": "gak-help",
+      "command": "python3 -m gak_conformance --help",
+      "exit_code": 1,
+      "stderr": "No module named gak_conformance"
+    },
+    {
+      "id": "deponent-badge-verify",
+      "command": "python3 -m deponent.badge verify --kernel deponent",
+      "exit_code": 1,
+      "stderr": "ModuleNotFoundError: No module named 'deponent'"
+    },
+    {
+      "id": "check-consistency",
+      "command": "python3 scripts/check_consistency.py",
+      "exit_code": 3,
+      "stderr": "BLOCKED: reference harness not importable (No module named 'deponent'); cannot check"
+    }
+  ],
+  "contract": {
+    "sha256": "2bab65acb206ecff080843d0e613744cbb1714b4d6a137fbe1f2c63162fb22c7",
+    "lock_match": true,
+    "amendments": [],
+    "profile": "standard"
+  },
+  "packaging": {
+    "pyproject_toml": false,
+    "tests_dir": false,
+    "setup_py": false
+  },
+  "readme": {
+    "documents_deponent_badge": true,
+    "documents_gak_conformance_module": false
+  }
+}

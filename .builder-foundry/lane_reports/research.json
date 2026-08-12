@@ -1,0 +1,47 @@
+{
+  "lane": "research",
+  "role": "primary-source-researcher",
+  "mode": "read-only",
+  "implemented_work": false,
+  "findings": [
+    "Copy named clause IDs + ternary PASS/FAIL/NA + versioned harness URI + re-runnable SHA-256; do not copy Scorecard 0-10 aggregates, SLSA/in-toto envelopes, SBOM schemas, CC labs/EALs, or CISA self-attestation forms.",
+    "Spec §5.3 already matches CPython json.dumps(sort_keys=True) default separators (', ', ': ') and ensure_ascii=True. RFC 8785 JCS forbids whitespace and would break frozen digest de6b7089…. Pin dumps kwargs explicitly.",
+    "PEP 517 module:object grammar is the --adapter contract. importlib.import_module executes module-level code (not a sandbox). Never pickle/eval. Residual ACE must be documented.",
+    "Exit 0 only when conformant (pytest/Appendix A). Distinguish 1=scored-not-conformant from 2=usage/cannot-score. Do not use 0 for 'harness ran'.",
+    "First-run is CLI: python3 -m gak_conformance --help/selfcheck/score with offline argparse, GNU --help/--version, stdout receipt, no Deponent import, no color-only status.",
+    "Self-score failure modes that v0 must close: author-only evidence (CISA SSDF / OpenSSF badge), simulated adapters (spec §6.3 void), clause-anchor special-casing, all-NA and deny-everything treated as pass.",
+    "Backlog now has concrete FEAT-001..025 and HYP-001..015 in primary-sources.md (ledgers were empty; this lane did not edit them)."
+  ],
+  "rejected_assumptions": [
+    "That GAK should wrap receipts in SLSA provenance or in-toto DSSE in v0 (timestamps and signatures are outside §5.3 identity).",
+    "That RFC 8785 / compact separators are a compatible 'canonical JSON' upgrade (byte-incompatible with §5.3 and de6b7089…).",
+    "That OpenSSF Scorecard's weighted 0-10 or CIS percentage scoring is an improvement on §3.4 boolean conformance.",
+    "That CISA/NIST SSDF attestation is a model for the product (it is author self-claim; GAK exists to replace that).",
+    "That Common Criteria EAL/PP machinery should be emulated; copy Exact Conformance + bounded mark only.",
+    "That --adapter can be a safe data plugin (import is trusted-code execution; honesty > fake sandbox).",
+    "That sysexits.h 64-78 should be advertised as portable (OpenBSD man page: non-portable, 'Do not use them'); use a small documented table.",
+    "That v0 should emit CycloneDX Declarations or SPDX JSON-LD as the receipt."
+  ],
+  "work_performed": [
+    "Read v1/spec.md §§3-8, Appendix A, mission, existing deponent receipt, empty feature/hypothesis ledgers.",
+    "Opened official primary sources: SLSA v1.2 provenance, in-toto attestation v1.2, SPDX 3.0.1, CycloneDX 1.7/ECMA-424, OpenSSF Scorecard checks + non-goals, CIS-CAT scoring-status, NIST SP 800-218, CISA SSDF form (2024-05-14), OWASP ASVS 5.0.0, CC:2022 portal, PEP 517/621/338, PyPA pyproject.toml spec, CPython 3.14 json/importlib/runpy/pickle/hashlib/argparse, RFC 8785, pytest exit codes, OpenBSD sysexits(3), GNU CLI standards.",
+    "Wrote .builder-foundry/research/primary-sources.md (findings F-01..F-27 + backlog FEAT/HYP).",
+    "Wrote .builder-foundry/lane_reports/research.json. No product code, contract, or ledger edits."
+  ],
+  "evidence": [],
+  "conflicts": [
+    "Spec §5.3 cites json.dumps(sort_keys=True) defaults (spaces) vs common 'canonical JSON' (RFC 8785 / compact separators). Spec is correct; do not 'fix' it.",
+    "Spec Appendix A Deponent verify uses exit 2 = unknown kernel; mission says 0=conformant / nonzero otherwise. Research recommends 0/1/2/3/4 table that satisfies both.",
+    "scripts/check_consistency.py still imports deponent.conformance — coupling the mission names as a defect; scorer must live in this repo.",
+    "v1.1 adds a 14th clause and a new digest; v0 must stay on frozen v1 13 clauses / de6b7089…."
+  ],
+  "open_risks": [
+    "Adapter import is in-process arbitrary code execution; can only be disclosed and grammar-bounded, not sandboxed in stdlib.",
+    "Author-produced v1/evidence/ remains first-party even after a live Deponent rescore.",
+    "Digest serializer drift (indent, separators, ensure_ascii, JCS) silently invalidates the frozen worked value.",
+    "Literal test-anchor special-casing is the primary gaming vector; extra probes are optional hardening, not a spec change.",
+    "Import-time or --help coupling to Deponent/network would make the stranger-run path fail."
+  ],
+  "verdict": "advisory",
+  "timestamp": "2026-08-12T20:30:00Z"
+}

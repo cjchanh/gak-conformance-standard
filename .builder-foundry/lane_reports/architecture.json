@@ -1,0 +1,119 @@
+{
+  "lane": "architecture",
+  "role": "system-architect",
+  "mode": "read-only",
+  "implemented_work": false,
+  "findings": [
+    {
+      "id": "ARCH-01",
+      "severity": "S2",
+      "path": "scripts/check_consistency.py",
+      "detail": "Harness source of truth is deponent.badge + deponent.conformance. Third party cannot check consistency without Deponent. Mission names this as the defect to close."
+    },
+    {
+      "id": "ARCH-02",
+      "severity": "S1",
+      "path": "/Users/cj/Workspace/active/deponent/deponent/conformance.py",
+      "detail": "Live sibling CLAUSES has 16 entries (adds GAK-REDIRECT-DENIED, GAK-NEWLINE-CHAINED, GAK-AUDIT-CONTENT-BLIND). badge.HARNESS_VERSION is gak-conformance/v1.1. Wrapping that module would fork frozen v1 (13 clauses) and change digest identity."
+    },
+    {
+      "id": "ARCH-03",
+      "severity": "S2",
+      "path": "README.md",
+      "detail": "Stranger path is still `python3 -m deponent.badge verify --kernel deponent`. Spec §7.1 / Appendix A–B teach the same. v0 must retarget the documented entrypoint to python3 -m gak_conformance without changing §3–§6 semantics."
+    },
+    {
+      "id": "ARCH-04",
+      "severity": "S3",
+      "path": "v1/evidence/sworn-conformance-receipt-v1.1.json",
+      "detail": "Sworn evidence is a 14-clause v1.1 receipt. Out of v0 frozen set. No sworn adapter in the smallest architecture."
+    },
+    {
+      "id": "ARCH-05",
+      "severity": "S3",
+      "path": "/Users/cj/Workspace/active/deponent/deponent/adapters/contract.py",
+      "detail": "Deponent KernelAdapter includes audit_is_content_blind (v1.1). v0 Protocol must match spec §6 only; optional wrapper must not require or forward that method."
+    }
+  ],
+  "rejected_assumptions": [
+    {
+      "assumption": "Reuse deponent.conformance as the in-repo harness (thin wrap).",
+      "reason": "Live clause set ≠ spec §4. Forces a Deponent install. Mission forbids importing Deponent as the harness."
+    },
+    {
+      "assumption": "v0 can ship v1.1 (14 clauses) because the amendment is already in spec.md.",
+      "reason": "Mission: v0 ships the frozen v1 clause set. v1.1 changes harness string and digest (cf26befe vs de6b7089)."
+    },
+    {
+      "assumption": "This repo should be a Deponent extra or library-cli package.",
+      "reason": "Profile is standard (category + harness + leave-behind). Vendor extra re-captures the standard."
+    },
+    {
+      "assumption": "Spec-only leave-behind is enough.",
+      "reason": "Gap is 0 third-party runnable scores, not missing prose."
+    },
+    {
+      "assumption": "Receipts need durable storage or signatures.",
+      "reason": "Spec: no timestamp; digest is SHA-256 of clause pairs. Outputs only. No key material."
+    }
+  ],
+  "work_performed": [
+    "Read v1/spec.md §§3–6 (profiles, 13 clauses, receipt/digest, adapter contract).",
+    "Read scripts/check_consistency.py, README.md, LICENSE, NOTICE, v1/evidence receipts.",
+    "Read .builder-foundry/MISSION.md and sibling deponent conformance/badge/adapter surfaces (read-only).",
+    "Wrote .builder-foundry/decisions/ARCHITECTURE.md (smallest coherent in-repo architecture).",
+    "Wrote this lane report. No product package implemented."
+  ],
+  "evidence": [
+    {
+      "path": "v1/spec.md",
+      "detail": "§3.4 conformant = no FAIL and ≥1 PASS; §5.3 digest algorithm + worked value de6b7089…; §6 adapter methods and raise→FAIL."
+    },
+    {
+      "path": "scripts/check_consistency.py",
+      "detail": "lines 40–41 import deponent.badge HARNESS_VERSION/certify and deponent.conformance CLAUSES."
+    },
+    {
+      "path": "v1/evidence/deponent-conformance-receipt.json",
+      "detail": "13 clauses, 10/0/3, action-gate, no timestamp. Certification digest de6b7089f894e009a6d1a1dba8c9b32b26e38daf803b07b83ec0958ff64c5406."
+    },
+    {
+      "path": "/Users/cj/Workspace/active/deponent/deponent/conformance.py",
+      "detail": "CLAUSES includes unspec'd GAK-REDIRECT-DENIED and GAK-NEWLINE-CHAINED plus v1.1 GAK-AUDIT-CONTENT-BLIND."
+    },
+    {
+      "path": ".builder-foundry/decisions/ARCHITECTURE.md",
+      "detail": "Locked layout, §6 protocol, import graph, CLI exits, test seams, leave-behind threats, migration, rollback, rejected alternatives."
+    }
+  ],
+  "conflicts": [
+    {
+      "id": "C-01",
+      "detail": "spec §1/§7/Appendix A–B name Deponent as the reference harness; mission relocates the harness here. Resolve by docs retarget of command paths only — do not edit §3–§6."
+    },
+    {
+      "id": "C-02",
+      "detail": "Sibling Deponent live harness (16 clauses, v1.1) disagrees with this repo's frozen v1 evidence (13 clauses). v0 must not sync toward live Deponent CLAUSES."
+    }
+  ],
+  "open_risks": [
+    {
+      "id": "R-01",
+      "detail": "Adapter honesty (§6.3) cannot be mechanically proven; fabricated adapters void the mark. Fixtures must not be published as product-kernel evidence."
+    },
+    {
+      "id": "R-02",
+      "detail": "A stray import deponent in core re-closes the coupling. Import-isolation test is load-bearing."
+    },
+    {
+      "id": "R-03",
+      "detail": "Live Deponent score may drift detail text vs v1/evidence; refresh evidence only if status set or digest changes."
+    },
+    {
+      "id": "R-04",
+      "detail": "Optional Deponent wrap inherits jail_fails_closed mock usage from deponent.adapters.deponent — acceptable; do not reimplement kernel internals here."
+    }
+  ],
+  "verdict": "advisory",
+  "timestamp": "2026-08-12T18:45:00Z"
+}

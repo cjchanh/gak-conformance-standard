@@ -1,0 +1,49 @@
+{
+  "captured_at": "2026-08-12T17:59:36Z",
+  "method": "Regex Clause(\"GAK-...\") on sibling deponent/conformance.py vs **GAK-** headings in v1/spec.md",
+  "classification": "measured",
+  "spec_ids": [
+    "GAK-ALLOW-INBOUNDS",
+    "GAK-ATTEST-HONEST",
+    "GAK-AUDIT-CONTENT-BLIND",
+    "GAK-CHAIN-INTACT",
+    "GAK-COMMIT-ALLOW-CLEAN",
+    "GAK-COMMIT-DENY-SECURITY",
+    "GAK-COMMIT-TESTIFIES",
+    "GAK-DENY-DEFAULT",
+    "GAK-DESTRUCTIVE-FLOOR",
+    "GAK-JAIL-FAILS-CLOSED",
+    "GAK-PATH-CONTAINMENT",
+    "GAK-PROGRAM-ALLOWLIST",
+    "GAK-RECONCILE-UNDECLARED",
+    "GAK-TAMPER-EVIDENT"
+  ],
+  "spec_v1_frozen_count": 13,
+  "spec_v1_1_optional_count": 14,
+  "deponent_live_ids": [
+    "GAK-DENY-DEFAULT",
+    "GAK-ALLOW-INBOUNDS",
+    "GAK-PATH-CONTAINMENT",
+    "GAK-DESTRUCTIVE-FLOOR",
+    "GAK-PROGRAM-ALLOWLIST",
+    "GAK-REDIRECT-DENIED",
+    "GAK-NEWLINE-CHAINED",
+    "GAK-JAIL-FAILS-CLOSED",
+    "GAK-CHAIN-INTACT",
+    "GAK-TAMPER-EVIDENT",
+    "GAK-RECONCILE-UNDECLARED",
+    "GAK-ATTEST-HONEST",
+    "GAK-COMMIT-DENY-SECURITY",
+    "GAK-COMMIT-ALLOW-CLEAN",
+    "GAK-COMMIT-TESTIFIES",
+    "GAK-AUDIT-CONTENT-BLIND"
+  ],
+  "deponent_live_count": 16,
+  "deponent_only": [
+    "GAK-NEWLINE-CHAINED",
+    "GAK-REDIRECT-DENIED"
+  ],
+  "spec_only": [],
+  "sibling_path": "/Users/cj/Workspace/active/deponent/deponent/conformance.py",
+  "implication": "GAK v0 must own the frozen v1 13-clause scorer in this repo. Importing deponent.conformance as the harness would silently expand the category."
+}

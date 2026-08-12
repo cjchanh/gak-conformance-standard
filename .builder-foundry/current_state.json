@@ -1,0 +1,14 @@
+{
+  "active_wave": "implementation",
+  "campaign_id": "mission-gak-v0-standard-20260812",
+  "sessions_completed": 1,
+  "state": "ACTIVE",
+  "updated_at": "2026-08-12T18:09:19Z",
+  "waves_completed": [
+    "baseline",
+    "research",
+    "product",
+    "architecture",
+    "implementation"
+  ]
+}

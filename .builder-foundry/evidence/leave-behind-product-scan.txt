@@ -1,0 +1,6 @@
+leave_behind_hits NONE
+roots_scanned: gak_conformance/ scripts/ tests/ v1/ README.md pyproject.toml
+needles: deponent/attest.py, 00Agent, cds-compliance, CMMC-RMF, ATO-in-a-Box, per-control map
+import_scan gak_conformance: no deponent imports
+captured_at: 2026-08-12T18:20:00Z
+note: product tree only; release archive not yet built (FEAT-0027/0028 remain failing)

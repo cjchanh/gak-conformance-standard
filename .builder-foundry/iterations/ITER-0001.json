@@ -1,0 +1,44 @@
+{
+  "id": "ITER-0001",
+  "problem": "The repo was a spec plus author self-scores; a stranger could not run a score command, and the only checker imported Deponent (which also drifted to 16 clauses).",
+  "impact_evidence": ["EVID-BASELINE-RUNTIME", "EVID-CHECK-CONSISTENCY", "EVID-CLAUSE-CENSUS"],
+  "alternatives": [
+    "Wrap deponent.conformance.run_conformance as the harness",
+    "Ship spec-only and keep README pointed at deponent.badge",
+    "Implement an in-repo frozen v1 scorer with fixture selfcheck"
+  ],
+  "choice": "Implement an in-repo frozen v1 scorer with fixture selfcheck",
+  "files_changed": [
+    "gak_conformance/",
+    "tests/",
+    "scripts/check_consistency.py",
+    "pyproject.toml",
+    "README.md"
+  ],
+  "tests": [
+    "tests/test_digest.py",
+    "tests/test_clause_census.py",
+    "tests/test_scorer_semantics.py",
+    "tests/test_import_boundary.py",
+    "tests/test_cli.py",
+    "tests/test_check_consistency.py"
+  ],
+  "before": {
+    "gak_conformance_importable": false,
+    "check_consistency_exit": 3,
+    "pytest": "no tests/"
+  },
+  "after": {
+    "gak_conformance_importable": true,
+    "check_consistency_exit": 0,
+    "pytest": "25 passed"
+  },
+  "regressions": [],
+  "remediation": [],
+  "evidence": ["EVID-PYTEST-S01"],
+  "user_visible": true,
+  "commit": null,
+  "reviewer": "pending-independent-qa",
+  "reviewer_verdict": "pending",
+  "timestamp": "2026-08-12T18:20:00Z"
+}

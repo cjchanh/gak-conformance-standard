@@ -1,0 +1,117 @@
+{
+  "lane": "product-design",
+  "role": "product-designer",
+  "mode": "read-only",
+  "implemented_work": false,
+  "verdict": "advisory",
+  "timestamp": "2026-08-12T18:25:00Z",
+  "work_performed": [
+    "Read README.md journeys, v1/spec.md §§0–3, 5, 6, 8, .builder-foundry/MISSION.md, evidence receipts, scripts/check_consistency.py import surface.",
+    "Authored .builder-foundry/decisions/DESIGN_DOCTRINE.md (binding UX contract). No product code, no README rewrite, no ledger writes."
+  ],
+  "findings": [
+    {
+      "id": "PD-01",
+      "severity": "S1",
+      "path": "README.md",
+      "detail": "First runnable journey is `python3 -m deponent.badge verify --kernel deponent`. Stranger cannot get a receipt without Deponent. Contradicts mission first-run."
+    },
+    {
+      "id": "PD-02",
+      "severity": "S1",
+      "path": "README.md",
+      "detail": "`Score your own kernel` is four prose steps with no in-repo command and implies the Deponent harness (spec §7.1)."
+    },
+    {
+      "id": "PD-03",
+      "severity": "S1",
+      "path": "scripts/check_consistency.py",
+      "detail": "Imports deponent.badge / deponent.conformance. Mission names this coupling as a defect: harness must live in this repo."
+    },
+    {
+      "id": "PD-04",
+      "severity": "S2",
+      "path": "v1/spec.md",
+      "detail": "§1 and §7.1 present Deponent as the reference harness (`from deponent.conformance import run_conformance`). Product face must not copy that ownership."
+    },
+    {
+      "id": "PD-05",
+      "severity": "S2",
+      "path": "README.md",
+      "detail": "Status leads with v1.1 as current. v0 ships frozen gak-conformance/v1 (13 clauses)."
+    },
+    {
+      "id": "PD-06",
+      "severity": "S3",
+      "path": "README.md",
+      "detail": "Honest line `Third-party verdicts to date: zero` is correct and must be preserved."
+    }
+  ],
+  "rejected_assumptions": [
+    "First-run should verify Deponent.",
+    "Strangers will pip-install Deponent to try GAK.",
+    "A web UI, badge gallery, or kernel directory is required for v0.",
+    "v1.1 (14th clause) is the v0 ship surface.",
+    "Score-your-kernel can remain prose-only.",
+    "A fixture receipt may be published as a public mark.",
+    "Author self-scores (Deponent, sworncode) count as third-party verdicts."
+  ],
+  "conflicts": [
+    {
+      "path": "README.md vs .builder-foundry/MISSION.md",
+      "detail": "README first-run requires Deponent; mission requires clone → documented score command → JSON receipt with no Deponent for fixture/selfcheck."
+    },
+    {
+      "path": "v1/spec.md §7.1 vs MISSION.md",
+      "detail": "Spec tells authors to `from deponent.conformance import run_conformance`. Mission forbids Deponent internals as the harness."
+    },
+    {
+      "path": "README.md Status vs MISSION.md",
+      "detail": "README faces v1.1; v0 product face is frozen 13-clause v1."
+    }
+  ],
+  "open_risks": [
+    "python3 -m gak_conformance on a raw clone needs a packaging/path decision; a hidden PYTHONPATH breaks first-use clarity.",
+    "Fixture adapters that return correct answers are simulations; legal only as selfcheck, never as a published certification.",
+    "CLI --adapter module:Class is Python-centric (acceptable for v0; do not claim language-neutral CLI).",
+    "Fabricated adapters cannot be fully detected; void-claim language is the trust control.",
+    "Half-updated docs that still show deponent.badge as the GAK command will split the product in two."
+  ],
+  "evidence": [
+    {
+      "path": "README.md",
+      "detail": "Lines 33–45 first command is Deponent verify; lines 47–61 score-your-kernel has no in-repo CLI."
+    },
+    {
+      "path": ".builder-foundry/MISSION.md",
+      "detail": "Product §2: python3 -m gak_conformance score --adapter <module:Class>; offline --help/selfcheck with fixture; no Deponent required."
+    },
+    {
+      "path": "v1/spec.md",
+      "detail": "§3.4 all-NA refusal; §5.1 receipt/no timestamp; §5.3 digest; §6 adapter + raise=FAIL; §8 bounded mark."
+    },
+    {
+      "path": "v1/evidence/deponent-conformance-receipt.json",
+      "detail": "§5.1 shape exists (10/0/3) but is author evidence, not a stranger first-run path."
+    },
+    {
+      "path": ".builder-foundry/decisions/DESIGN_DOCTRINE.md",
+      "detail": "Binding UX: Sequences A–D, exit 0/1/2, README hierarchy, FEAT-0001–0040, H-01–H-12."
+    }
+  ],
+  "recommendations": {
+    "doctrine": ".builder-foundry/decisions/DESIGN_DOCTRINE.md",
+    "first_run": [
+      "python3 -m gak_conformance --help",
+      "python3 -m gak_conformance selfcheck",
+      "python3 -m gak_conformance score --adapter gak_conformance.fixtures:FixtureActionAdapter --out receipt.json"
+    ],
+    "features": "FEAT-0001 .. FEAT-0040",
+    "hypotheses": "H-01 .. H-12",
+    "next_lanes": [
+      "architecture: in-repo harness + clone-to-run import story; no deponent import on score/selfcheck",
+      "implementation: CLI + fixtures + receipt/digest + exit contract",
+      "docs/README: invert journeys to Sequence A first"
+    ]
+  }
+}

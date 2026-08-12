@@ -8,10 +8,42 @@ with a reproducible conformance receipt anyone can re-derive.
 
 > A category is real when a third party can test against it and get a verdict.
 
+## Score a kernel (no Deponent required)
+
+From a clone of this repository:
+
+```
+python3 -m gak_conformance --help
+python3 -m gak_conformance selfcheck
+python3 -m gak_conformance score \
+  --adapter gak_conformance.fixtures.action_gate:PassingActionAdapter \
+  --out receipt.json
+```
+
+`selfcheck` and the `fixtures.*` adapters exercise the **harness**. They are
+not a kernel certification. To score *your* kernel, implement spec §6 and
+point `--adapter` at your `module:Class`. `--adapter` imports and executes
+that module.
+
+```
+python3 -m gak_conformance digest \
+  --receipt v1/evidence/deponent-conformance-receipt.json
+```
+
+re-derives the published v1 digest
+`de6b7089f894e009a6d1a1dba8c9b32b26e38daf803b07b83ec0958ff64c5406`
+without running any kernel. Exit `0` only when a `score` / `selfcheck` run
+is conformant (no FAIL, at least one PASS).
+
+This is a **research prototype**, not a security-evaluated product. The mark
+means exactly: *the adapter passed `gak-conformance/v1` under its declared
+profile.* Not "secure," not "audited," not "endorsed" (spec §8).
+
 ## What is in this repository
 
 | Artifact | Path |
 |---|---|
+| **In-repo scorer** — vendor-neutral harness (`python3 -m gak_conformance`) | [`gak_conformance/`](gak_conformance/) |
 | **The standard (normative)** — 7-primitive thesis, 3 profiles, 13 clauses, receipt + digest schema, adapter contract, worked example (a *hypothetical* commit-gate kernel, spec §7.2) | [`v1/spec.md`](v1/spec.md) |
 | Reference conformance receipt (Deponent, action-gate) | [`v1/evidence/deponent-conformance-receipt.json`](v1/evidence/deponent-conformance-receipt.json) |
 | Reference certification (digest-bearing) | [`v1/evidence/deponent-certification.json`](v1/evidence/deponent-certification.json) |
@@ -30,16 +62,24 @@ meaning exactly: *it passes the `gak-conformance/v1` clause set under its
 declared profile.* Not "secure," not "audited," not "endorsed." The bounded
 claim language is part of the standard (spec §8).
 
-## Verify the reference kernel
+## Verify the reference kernel (optional)
 
-With the reference implementation (Deponent) installed:
+The reference implementation (Deponent) is the first *scored* kernel, not the
+owner of this standard. Scoring it requires Deponent installed locally and an
+adapter that drives the real kernel. The in-repo harness does **not** import
+Deponent.
+
+With Deponent installed, the historical verify command remains:
 
 ```
 python3 -m deponent.badge verify --kernel deponent
 ```
 
-Re-runs the harness, re-derives the clauses digest, exits `0` only if the mark
-is earned. Expected digest for the reference kernel:
+That command lives in Deponent. Prefer scoring through this repo's harness
+once a Deponent adapter is wired (`gak_conformance` never uses
+`deponent.conformance` as the clause table).
+
+Expected digest for the published v1 evidence pack:
 
 ```
 de6b7089f894e009a6d1a1dba8c9b32b26e38daf803b07b83ec0958ff64c5406

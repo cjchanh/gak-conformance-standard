@@ -1,18 +1,7 @@
 #!/usr/bin/env python3
-"""check_consistency.py — fail-closed consistency check: spec.md vs live harness.
+"""check_consistency.py — spec.md vs in-repo harness vs published evidence.
 
-Verifies, mechanically, that the normative spec and the reference harness agree:
-
-  1. clause census — the 13 clause IDs in v1/spec.md exactly match the harness
-     CLAUSES set (ids, profiles, required capabilities);
-  2. digest determinism — two consecutive certifications of the reference kernel
-     produce the same clauses_digest;
-  3. worked value — the digest in the spec's §5.3/Appendix A matches the live
-     digest of the reference kernel;
-  4. evidence freshness — the receipt in v1/evidence/ carries the same digest.
-
-Exit codes: 0 = consistent; 1 = inconsistency found; 3 = cannot check
-(harness not importable / files missing) — fail-closed, never a silent pass.
+Does not import Deponent. Exit 0 = consistent; 1 = mismatch; 3 = files missing.
 """
 from __future__ import annotations
 
@@ -22,8 +11,13 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
 SPEC = ROOT / "v1" / "spec.md"
+EVIDENCE_RECEIPT = ROOT / "v1" / "evidence" / "deponent-conformance-receipt.json"
 EVIDENCE_CERT = ROOT / "v1" / "evidence" / "deponent-certification.json"
+FROZEN_V1_DIGEST = "de6b7089f894e009a6d1a1dba8c9b32b26e38daf803b07b83ec0958ff64c5406"
 
 
 def fail(code: int, msg: str) -> int:
@@ -37,102 +31,62 @@ def main() -> int:
     spec_text = SPEC.read_text(encoding="utf-8")
 
     try:
-        from deponent.badge import HARNESS_VERSION, certify
-        from deponent.conformance import CLAUSES
+        from gak_conformance.clauses import CLAUSES_V1, FORBIDDEN_HARNESS_IDS, V1_IDS
+        from gak_conformance.receipt import clauses_digest
     except ImportError as e:
-        return fail(3, f"reference harness not importable ({e}); cannot check")
-
-    # Version-aware: the live harness declares its own version. v1 stays frozen at
-    # 13 clauses / de6b7089; v1.1 adds the optional content-blind clause (14 clauses).
-    # The checker verifies the LIVE version against its own evidence + spec, and
-    # separately asserts the frozen v1 digest is still preserved in the spec.
-    FROZEN_V1_DIGEST = "de6b7089f894e009a6d1a1dba8c9b32b26e38daf803b07b83ec0958ff64c5406"
-    EXPECTED = {"gak-conformance/v1": 13, "gak-conformance/v1.1": 14}
-    expected_clauses = EXPECTED.get(HARNESS_VERSION)
-    # pick the evidence cert matching the live version (v1 -> base name; else -suffixed)
-    suffix = "" if HARNESS_VERSION == "gak-conformance/v1" else f"-{HARNESS_VERSION.split('/')[-1]}"
-    EVIDENCE_CERT = ROOT / "v1" / "evidence" / f"deponent-certification{suffix}.json"
+        return fail(3, f"in-repo harness not importable ({e}); cannot check")
 
     problems: list[str] = []
 
-    # 1. clause census — every harness clause appears in the spec with its
-    # profile; every GAK-* id in the spec's clause sections exists in the harness.
-    harness_ids = {c.id for c in CLAUSES}
     spec_ids = set(re.findall(r"\*\*(GAK-[A-Z-]+)\*\*", spec_text))
-    if spec_ids != harness_ids:
+    # Spec also names the v1.1 optional clause; v1 census is §4 minus that one.
+    spec_v1 = spec_ids - {"GAK-AUDIT-CONTENT-BLIND"}
+    if spec_v1 != V1_IDS:
         problems.append(
-            f"clause census mismatch: spec-only={sorted(spec_ids - harness_ids)} "
-            f"harness-only={sorted(harness_ids - spec_ids)}")
-    if expected_clauses is None:
-        problems.append(f"unknown harness version {HARNESS_VERSION!r}; add it to EXPECTED")
-    elif len(CLAUSES) != expected_clauses:
-        problems.append(f"harness clause count is {len(CLAUSES)}, {HARNESS_VERSION} expects {expected_clauses}")
-    # the frozen v1 digest must remain documented in the spec (v1 is never rewritten).
+            f"v1 clause census mismatch: spec-only={sorted(spec_v1 - V1_IDS)} "
+            f"harness-only={sorted(V1_IDS - spec_v1)}"
+        )
+    if len(CLAUSES_V1) != 13:
+        problems.append(f"in-repo v1 clause count is {len(CLAUSES_V1)}, expected 13")
     if FROZEN_V1_DIGEST not in spec_text:
-        problems.append("frozen v1 digest de6b7089… missing from spec (v1 record must be preserved)")
-    for c in CLAUSES:
+        problems.append("frozen v1 digest de6b7089… missing from spec")
+    leaked = V1_IDS & FORBIDDEN_HARNESS_IDS
+    if leaked:
+        problems.append(f"forbidden Deponent-local ids in v1 harness: {sorted(leaked)}")
+
+    for c in CLAUSES_V1:
         anchor = f"**{c.id}** — profile: `{c.profile}`"
         if c.requires:
             anchor += f", requires capability: `{c.requires}`"
         if anchor not in spec_text:
             problems.append(f"spec heading drift for {c.id}: expected '{anchor}'")
 
-    # 2 + 3. determinism and the worked value.
-    d1 = certify("deponent").clauses_digest
-    d2 = certify("deponent").clauses_digest
-    if d1 != d2:
-        problems.append(f"digest not deterministic: {d1} != {d2}")
-    if d1 not in spec_text:
-        problems.append(f"live reference digest {d1} not present in spec")
-
-    # 4. evidence freshness.
-    if EVIDENCE_CERT.exists():
-        ev = json.loads(EVIDENCE_CERT.read_text(encoding="utf-8"))
-        if ev.get("clauses_digest") != d1:
-            problems.append(
-                f"evidence certification digest {ev.get('clauses_digest')} "
-                f"!= live {d1}")
+    if not EVIDENCE_RECEIPT.exists():
+        problems.append(f"evidence receipt missing: {EVIDENCE_RECEIPT}")
     else:
-        problems.append(f"evidence certification missing: {EVIDENCE_CERT}")
-
-    # 5. second kernel (sworncode, commit-gate) — optional adapter: verified
-    # whenever importable; when its evidence exists but the kernel is absent,
-    # say so explicitly rather than silently skipping.
-    sworn_cert_path = ROOT / "v1" / "evidence" / f"sworn-certification{suffix}.json"
-    try:
-        import sworn  # noqa: F401
-        sworn_importable = True
-    except ImportError:
-        sworn_importable = False
-    if sworn_importable:
-        s1 = certify("sworn").clauses_digest
-        s2 = certify("sworn").clauses_digest
-        if s1 != s2:
-            problems.append(f"sworn digest not deterministic: {s1} != {s2}")
-        if sworn_cert_path.exists():
-            sev = json.loads(sworn_cert_path.read_text(encoding="utf-8"))
-            if sev.get("clauses_digest") != s1:
+        receipt = json.loads(EVIDENCE_RECEIPT.read_text(encoding="utf-8"))
+        digest = clauses_digest(receipt, "gak-conformance/v1")
+        if digest != FROZEN_V1_DIGEST:
+            problems.append(f"published receipt re-derives {digest}, expected {FROZEN_V1_DIGEST}")
+        if EVIDENCE_CERT.exists():
+            cert = json.loads(EVIDENCE_CERT.read_text(encoding="utf-8"))
+            if cert.get("clauses_digest") != digest:
                 problems.append(
-                    f"sworn evidence certification digest "
-                    f"{sev.get('clauses_digest')} != live {s1}")
+                    f"evidence certification digest {cert.get('clauses_digest')} != re-derived {digest}"
+                )
         else:
-            problems.append(
-                f"sworn kernel importable but evidence missing: {sworn_cert_path}")
-    elif sworn_cert_path.exists():
-        print(
-            "NOTICE: sworn evidence present but the sworncode kernel is not "
-            "importable here — second-kernel digest not re-verified this run",
-            file=sys.stderr,
-        )
+            problems.append(f"evidence certification missing: {EVIDENCE_CERT}")
 
     if problems:
         for p in problems:
             print(f"INCONSISTENT: {p}", file=sys.stderr)
         return 1
 
-    print(f"CONSISTENT: {HARNESS_VERSION} — {len(CLAUSES)} clauses matched, digest "
-          f"deterministic ({d1[:16]}...), spec + evidence agree with the live harness; "
-          f"frozen v1 record preserved.")
+    print(
+        f"CONSISTENT: gak-conformance/v1 — {len(CLAUSES_V1)} clauses matched, "
+        f"published receipt re-derives {FROZEN_V1_DIGEST[:16]}..., "
+        f"spec + in-repo harness agree; frozen v1 record preserved."
+    )
     return 0
 
 

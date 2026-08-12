@@ -1,0 +1,51 @@
+[PASS] file:campaign.json: present and valid JSON
+[PASS] file:contract.json: present and valid JSON
+[PASS] file:contract.lock.json: present and valid JSON
+[PASS] file:current_state.json: present and valid JSON
+[PASS] file:blockers.json: present and valid JSON
+[PASS] file:feature_ledger.json: present and valid JSON
+[PASS] contract-lock: expected=2bab65acb206ecff080843d0e613744cbb1714b4d6a137fbe1f2c63162fb22c7 actual=2bab65acb206ecff080843d0e613744cbb1714b4d6a137fbe1f2c63162fb22c7
+[PASS] mission: mission length=5322
+[PASS] allowed-roots: allowed_roots=['.']
+[FAIL] sessions: 0/4 sessions
+[FAIL] waves: missing=['audit', 'holdout', 'redteam', 'release', 'verification']
+[PASS] features-unique: 38 IDs
+[PASS] features-count: 38/30
+[FAIL] features-pass: failing=['FEAT-0007', 'FEAT-0026', 'FEAT-0027', 'FEAT-0028']
+[PASS] features-verifiable: all have verification
+[PASS] hypotheses-jsonl: valid JSONL
+[PASS] hypotheses-count: 10/8
+[PASS] hypotheses-resolved: 10/8
+[PASS] iterations-valid: all valid
+[FAIL] iterations-count: 1/6
+[FAIL] iterations-user-visible: 1/3
+[FAIL] iterations-reviewed: not independently passed=['ITER-0001']
+[PASS] iterations-alternatives: all considered alternatives
+[PASS] lanes-valid: all valid
+[PASS] lanes-count: 8/6
+[FAIL] lanes-required: missing=['adversarial-audit', 'release-engineering']
+[PASS] lanes-independent: no declared self-approval
+[FAIL] redteam-loops: 0/1
+[FAIL] holdout-audits: 0/1
+[PASS] redteam-pass: all pass
+[PASS] holdout-pass: all pass
+[PASS] evidence-jsonl: valid JSONL
+[FAIL] evidence-count: 8/12
+[PASS] evidence-integrity: all hashes verify
+[PASS] claims-approved: 10 approved claims
+[PASS] blockers: open critical/high=0
+[FAIL] local-commits: 0/4
+[PASS] git-diff-check: clean
+[FAIL] release-record: missing release/release.json
+[FAIL] verdict:TECHNICAL_VERDICT: actual=FAIL expected=PASS
+[FAIL] verdict:PRODUCT_VERDICT: actual=INCONCLUSIVE expected=AUTOMATED_WORTH_TESTING
+[FAIL] verdict:EVIDENCE_VERDICT: actual=FAIL expected=PASS
+[FAIL] verdict:RELEASE_VERDICT: actual=FAIL expected=PASS
+[FAIL] verdict:SECURITY_VERDICT: actual=BLOCKED expected=PASS
+[PASS] command:git-diff-check: exit=0 required=True
+[PASS] command:gak-help: exit=0 required=False
+[PASS] command:gak-selfcheck: exit=0 required=False
+[PASS] command:gak-digest-published: exit=0 required=False
+[PASS] command:python-tests: exit=0 required=False
+[PASS] command:check-consistency: exit=0 required=False
+CAMPAIGN_GUARD: FAIL (17 blockers)

@@ -1,0 +1,78 @@
+[
+  {
+    "id": "BLK-0001",
+    "severity": "critical",
+    "status": "closed",
+    "summary": "No in-repo scorer: python3 -m gak_conformance does not exist.",
+    "evidence": [
+      "EVID-BASELINE-RUNTIME"
+    ],
+    "owner": "implementation",
+    "opened_at": "2026-08-12T17:59:20Z",
+    "resolution": "gak_conformance package + CLI shipped; pytest 25 passed.",
+    "closed_at": "2026-08-12T18:20:00Z"
+  },
+  {
+    "id": "BLK-0002",
+    "severity": "high",
+    "status": "closed",
+    "summary": "scripts/check_consistency.py imports deponent.badge / deponent.conformance and exits 3 without Deponent.",
+    "evidence": [
+      "EVID-CHECK-CONSISTENCY"
+    ],
+    "owner": "implementation",
+    "opened_at": "2026-08-12T17:59:20Z",
+    "resolution": "check_consistency.py rewritten against in-repo clauses; exit 0 without deponent.",
+    "closed_at": "2026-08-12T18:20:00Z"
+  },
+  {
+    "id": "BLK-0003",
+    "severity": "high",
+    "status": "closed",
+    "summary": "README first-party verify path requires Deponent; third-party fixture path is undocumented.",
+    "evidence": [
+      "EVID-BASELINE-RUNTIME"
+    ],
+    "owner": "product-design",
+    "opened_at": "2026-08-12T17:59:20Z",
+    "resolution": "README first commands are python3 -m gak_conformance help/selfcheck/score.",
+    "closed_at": "2026-08-12T18:20:00Z"
+  },
+  {
+    "id": "BLK-0004",
+    "severity": "high",
+    "status": "closed",
+    "summary": "No tests/, no pyproject.toml, no package \u2014 nothing a stranger can install or pytest.",
+    "evidence": [
+      "EVID-BASELINE-RUNTIME"
+    ],
+    "owner": "implementation",
+    "opened_at": "2026-08-12T17:59:20Z",
+    "resolution": "tests/ and pyproject.toml exist; pytest -q green.",
+    "closed_at": "2026-08-12T18:20:00Z"
+  },
+  {
+    "id": "BLK-0005",
+    "severity": "high",
+    "status": "closed",
+    "summary": "If the in-repo harness imported live Deponent CLAUSES it would silently adopt two extra IDs not in the spec.",
+    "evidence": [
+      "EVID-CLAUSE-CENSUS"
+    ],
+    "owner": "architecture",
+    "opened_at": "2026-08-12T17:59:36Z",
+    "resolution": "In-repo table is 13 v1 ids; extras excluded by FORBIDDEN_HARNESS_IDS.",
+    "closed_at": "2026-08-12T18:20:00Z"
+  },
+  {
+    "id": "BLK-0006",
+    "severity": "medium",
+    "status": "open",
+    "summary": "Deponent and sworn are not importable in the campaign Python, so live reference-kernel scoring cannot be re-run here until an optional adapter + local install path exists.",
+    "evidence": [
+      "EVID-BASELINE-RUNTIME"
+    ],
+    "owner": "implementation",
+    "opened_at": "2026-08-12T17:59:20Z"
+  }
+]

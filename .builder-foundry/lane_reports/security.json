@@ -1,0 +1,42 @@
+{
+  "lane": "security",
+  "role": "security-privacy-reviewer",
+  "mode": "reviewer",
+  "implemented_work": false,
+  "findings": [
+    "S2: scripts/check_consistency.py imports deponent.badge (HARNESS_VERSION, certify) and deponent.conformance (CLAUSES); README + spec §7.1/App A tell third parties to run python3 -m deponent.badge / from deponent.conformance import run_conformance. No in-repo scorer. Vendor harness, not adapter-boundary. Does not import deponent.attest.",
+    "S2: .gitignore excludes only __pycache__, *.pyc, .DS_Store. Untracked .builder-foundry/ already contains /Users/cj paths (baseline.json, marathon.pid, logs/grok-inspect.txt, session-01.jsonl). Origin is https://github.com/cjchanh/gak-conformance-standard.git. Accidental git add leaks host paths.",
+    "S3: README restates §8 (not secure/audited/endorsed) and honestly reports zero third-party verdicts, but omits mission face 'research prototype, not a security-evaluated product'.",
+    "S3: spec §6.3 requires exception type+message in clause detail — future harness host-path leak. Planned --adapter module:Class is trusted-code import (not present yet).",
+    "S3: v1/evidence/determinism-proof.txt names internal branch feat/rename-deponent. Untracked MISSION_FOUNDRY_GAK_V0.md names forbid-list surfaces and ~/Workspace/active — do not commit.",
+    "INFO: tracked product tree has no secrets, no /Users/cj, no deponent/attest.py, no 00Agent, no cds-compliance, no CMMC-RMF/ATO-in-a-Box/per-control maps. Receipts have no timestamp/path/env."
+  ],
+  "rejected_assumptions": [
+    "Did not assume .builder-foundry is gitignored — verified it is not.",
+    "Did not treat public capability name 'attest' as the private sibling module deponent.attest.",
+    "Did not assume from deponent.conformance transitively imports deponent.attest — names-only check: it does not (claims.attest / cell.attest only)."
+  ],
+  "work_performed": [
+    "Read-only scan of tracked product files, untracked campaign dirs, README/spec §8, evidence receipts, scripts/check_consistency.py.",
+    "Names-only peek at sibling deponent tree to confirm private names (attest.py, 00Agent, cds-compliance) and that GAK did not copy them.",
+    "Wrote .builder-foundry/security/leave-behind-scan.md and this lane report. No product-tree edits."
+  ],
+  "evidence": [
+    "scripts/check_consistency.py:40-41 from deponent.badge import HARNESS_VERSION, certify; from deponent.conformance import CLAUSES; certify('deponent') at 81-82.",
+    ".gitignore is three lines; .builder-foundry/baseline.json worktrees and logs/grok-inspect.txt contain /Users/cj.",
+    "v1/spec.md §8 (claiming the mark); README.md 'The claim, bounded'; receipts lack timestamp/path/env.",
+    "Repo-wide grep: no deponent/attest.py, 00Agent, cds-compliance, ATO-in-a-Box, CMMC-RMF maps in product files; no AKIA/ghp_/sk-/BEGIN PRIVATE KEY.",
+    "HEAD e55b068; baseline porcelain lists campaign/mission files as untracked ??; sibling public tree --help/ has no attest.py (private tree does)."
+  ],
+  "conflicts": [
+    "Public spec/README still document Deponent modules as the runnable harness; mission requires a vendor-neutral in-repo scorer and adapter-boundary-only leave-behind. Security lane did not resolve — implementation work."
+  ],
+  "open_risks": [
+    "git add -A would commit .builder-foundry host paths to a repo with a public origin.",
+    "Implementing --adapter module:Class without a trusted-import contract is arbitrary code execution.",
+    "New harness that copies exception messages into receipt.detail can leak host paths.",
+    "Running check_consistency.py against a local Deponent install executes that kernel (jail/gate) on the host; this repo does not sandbox it."
+  ],
+  "verdict": "advisory",
+  "timestamp": "2026-08-12T18:35:00Z"
+}

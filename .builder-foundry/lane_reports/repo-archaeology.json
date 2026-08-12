@@ -1,0 +1,51 @@
+{
+  "lane": "repo-archaeology",
+  "role": "repository-archaeologist",
+  "mode": "read-only",
+  "implemented_work": false,
+  "findings": [
+    "Tracked product is spec + author evidence + Deponent-coupled checker; no gak_conformance package, pyproject, tests, or fixture adapter.",
+    "Foundry install is untracked (baseline porcelain at e55b068): .builder-foundry, .builder-foundry-kit, skill copies, AGENTS.builder-foundry.md, MISSION_FOUNDRY_GAK_V0.md.",
+    "Frozen v1 is 13 clauses (gak-conformance/v1). v1.1 adds optional GAK-AUDIT-CONTENT-BLIND (14). v0 must ship v1 only.",
+    "scripts/check_consistency.py imports deponent.badge (HARNESS_VERSION, certify) and deponent.conformance (CLAUSES); ImportError -> exit 3.",
+    "README / spec §7.1 tell strangers to run python3 -m deponent.badge verify and from deponent.conformance import run_conformance; mission requires in-repo python3 -m gak_conformance score.",
+    "Evidence: Deponent v1 10/0/3 digest de6b7089…; Deponent v1.1 11/0/3 digest cf26befe…; sworncode v1.1 only (5/0/9 digest e65dd28b…). No sworn v1 receipt.",
+    "Deponent public score surface: KernelAdapter, DeponentAdapter, SwornAdapter, BUILTIN_ADAPTERS, run_conformance(kernel, clauses=CLAUSES), badge.certify/verify. Live CLAUSES has 16 rows including GAK-REDIRECT-DENIED and GAK-NEWLINE-CHAINED (not in spec) — do not copy.",
+    "Sworn has no in-tree GAK adapter. Public drive surface: load_config, run_pipeline, verify_chain, read_entries. Adapter lives only in deponent/adapters/sworn.py."
+  ],
+  "rejected_assumptions": [
+    "Rejected: live deponent.conformance.CLAUSES is the v1 clause set (it is 16, not 13).",
+    "Rejected: sworn ships a public GAK adapter (it does not; adapter is Deponent-owned).",
+    "Rejected: README score path is already vendor-neutral (it requires Deponent installed).",
+    "Rejected: v1.1 evidence can satisfy v0 acceptance (mission: frozen 13-clause v1)."
+  ],
+  "work_performed": [
+    "Read v1/spec.md, README.md, scripts/check_consistency.py, all v1/evidence files, MISSION.md, baseline.json.",
+    "Read-only mapped deponent adapters/contract.py, adapters/deponent.py, adapters/sworn.py, adapters/__init__.py, conformance.py, conform.py, badge.py, sworn_adapter.py, __init__.py, API_SURFACE.md.",
+    "Read-only mapped sworn src/sworn __init__.py, config.load_config, pipeline.run_pipeline, evidence.log verify_chain/read_entries.",
+    "Wrote .builder-foundry/research/repo-map.md and this lane report only."
+  ],
+  "evidence": [
+    "v1/spec.md §3–§6, §5.3, v1.1 amendment, Appendix A",
+    "scripts/check_consistency.py:40-43,53-54,101-106 (imports + exit 3 + sworn optional)",
+    "README.md:33-39,48-59 (deponent.badge / adapter via Deponent harness)",
+    "v1/evidence/deponent-certification.json digest de6b7089f894e009a6d1a1dba8c9b32b26e38daf803b07b83ec0958ff64c5406",
+    "v1/evidence/deponent-certification-v1.1.json digest cf26befe5ad50a18afb427e7257f9272142873ac11879cf2ab81b90eaedbf664",
+    "v1/evidence/sworn-certification-v1.1.json digest e65dd28b321406eee8f8fd0f4bbd9e7add16baf5a0f1fd04ca6459a34e28a6f1",
+    "/Users/cj/Workspace/active/deponent/deponent/conformance.py CLAUSES (16) + run_conformance L159",
+    "/Users/cj/Workspace/active/deponent/deponent/adapters/__init__.py BUILTIN_ADAPTERS",
+    "/Users/cj/Workspace/active/gak-conformance-standard/.builder-foundry/baseline.json status_porcelain_v1"
+  ],
+  "conflicts": [
+    "Live Deponent HARNESS_VERSION is gak-conformance/v1.1 and CLAUSES includes two extra action-gate ids not present in v1/spec.md; copying that module would fail frozen-v1 census.",
+    "check_consistency is version-aware (13 vs 14) against live Deponent; v0 scorer must be 13 and not depend on that live set."
+  ],
+  "open_risks": [
+    "Scoring real Deponent later must load DeponentAdapter only (adapter boundary), never attest.py / 00Agent / cds-compliance.",
+    "Default python cannot import deponent or sworn; stranger fixture path must work without them; live kernel score needs optional PYTHONPATH.",
+    "DeponentAdapter.attest_abstains_when_unproven and jail_fails_closed reach Cell/Gate/Ledger internals — GAK must not reimplement those modules.",
+    "No sworn v1 receipt: second-kernel proof is v1.1-only."
+  ],
+  "verdict": "advisory",
+  "timestamp": "2026-08-12T18:15:00Z"
+}

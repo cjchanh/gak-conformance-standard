@@ -1,0 +1,49 @@
+{
+  "lane": "testing",
+  "role": "test-reliability-engineer",
+  "mode": "read-only",
+  "implemented_work": false,
+  "findings": [
+    "No gak_conformance package, tests/, or score CLI exist; vendor-neutral scorer is the product gap.",
+    "Published v1 oracle is v1/evidence/deponent-conformance-receipt.json → digest de6b7089f894e009a6d1a1dba8c9b32b26e38daf803b07b83ec0958ff64c5406 (10 PASS / 0 FAIL / 3 NA).",
+    "scripts/check_consistency.py:40-41 imports deponent.badge / deponent.conformance; mission names this coupling a defect. Rewrite is deferred (not in this test wave).",
+    "Sibling deponent/deponent/conformance.py CLAUSES is a superset of frozen v1 (GAK-REDIRECT-DENIED, GAK-NEWLINE-CHAINED, GAK-AUDIT-CONTENT-BLIND). Copying live Deponent as the harness would fail de6b7089… and the 13-clause census.",
+    "20 failing-first files specified under tests/; each names a first semantic assertion and a sabotage mutant. Tests themselves are not written (design-only lane)."
+  ],
+  "rejected_assumptions": [
+    "Live Deponent harness (gak-conformance/v1.1) is not the v0 clause set.",
+    "Author self-score in v1/evidence/ is an oracle for the digest algorithm, not a third-party verdict.",
+    "Fixture adapters are not simulated Deponent and must not be shipped as a kernel.",
+    "check_consistency.py rewrite is not required to design or later run the v0 scorer suite.",
+    "gak_conformance must not import deponent for help, fixture score, or digest re-derivation."
+  ],
+  "work_performed": [
+    "Read v1/spec.md §§3.1–3.4, §4 (13 clauses), §5.1–5.3, §6, Appendix A.",
+    "Read v1/evidence/deponent-conformance-receipt.json, deponent-certification.json, determinism-proof.txt.",
+    "Read scripts/check_consistency.py and sibling deponent conformance/badge tests (read-only).",
+    "Wrote .builder-foundry/tests/test-plan.md (20 files, first assertions, mutants, deferred checker)."
+  ],
+  "evidence": [
+    "v1/spec.md:463-468 worked value de6b7089f894e009a6d1a1dba8c9b32b26e38daf803b07b83ec0958ff64c5406",
+    "v1/spec.md:151-165 §3.4 (no FAIL and ≥1 PASS; all-NA not conformant; brick fails ALLOW clauses)",
+    "v1/spec.md:425-440 §5.3 digest algorithm (sort_keys, default JSON spaces, no timestamp)",
+    "v1/spec.md:538-548 §6.3 raise → FAIL; out-of-profile not dispatched; real kernel not simulation",
+    "v1/evidence/deponent-conformance-receipt.json counts 10/0/3; no timestamp key",
+    "v1/evidence/deponent-certification.json clauses_digest de6b7089…",
+    "scripts/check_consistency.py:40-43 ImportError path couples checker to deponent",
+    ".builder-foundry/tests/test-plan.md file index + sabotage checklist"
+  ],
+  "conflicts": [
+    "Mission v0 = frozen 13-clause gak-conformance/v1; sibling Deponent HARNESS_VERSION is gak-conformance/v1.1.",
+    "spec.md §7.1 still documents from deponent.conformance import run_conformance as the reference run path; v0 harness must live in this repo.",
+    "check_consistency.py still treats Deponent as the harness owner."
+  ],
+  "open_risks": [
+    "Public API names are test-imposed (score / clauses_digest / is_conformant / python3 -m gak_conformance). Architecture may rename; tests then move with the contract.",
+    "§6.3 honesty is only partly mechanical: spy-dispatch catches canned receipts, not a fixture that hardcodes the right strings while claiming to be a kernel.",
+    "Clean-install subprocess with python3 -I depends on later package layout (flat vs src).",
+    "If implementation copies live Deponent CLAUSES, digest + census tests fail on purpose — that is the trap, not a test bug."
+  ],
+  "verdict": "advisory",
+  "timestamp": "2026-08-12T19:10:00Z"
+}
