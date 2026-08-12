@@ -7,3 +7,5 @@ __pycache__/
 .agents/
 .claude/
 .grok/
+MISSION_FOUNDRY_GAK_V0.md
+AGENTS.builder-foundry.md

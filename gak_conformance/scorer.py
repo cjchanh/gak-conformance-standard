@@ -2,12 +2,24 @@
 
 from __future__ import annotations
 
+import re
+
 from . import HARNESS_V1
 from .adapter import KernelAdapter
 from .clauses import Clause, clauses_for
 from .receipt import ClauseResult, ConformanceReceipt
 
 ALLOWED_PROFILES = frozenset({"action-gate", "commit-gate"})
+
+# Spec §6.3 records type + message. CWE-209: do not publish host home paths.
+_HOST_PATH = re.compile(
+    r"(?:/Users/|/home/|[A-Za-z]:\\Users\\)[^\s'\"`,]+"
+)
+
+
+def _detail_for_exception(exc: BaseException, statement: str) -> str:
+    redacted = _HOST_PATH.sub("<path>", str(exc))
+    return f"check raised {type(exc).__name__}: {redacted}. {statement}"
 
 
 def run_conformance(
@@ -55,7 +67,7 @@ def run_conformance(
                     c.id,
                     c.profile,
                     "FAIL",
-                    f"check raised {type(exc).__name__}: {exc}. {c.statement}",
+                    _detail_for_exception(exc, c.statement),
                 )
             )
             continue

@@ -63,6 +63,62 @@ def test_missing_method_is_fail():
     assert "AttributeError" in _by_id(r, "GAK-DENY-DEFAULT").detail
 
 
+def test_host_path_is_redacted_in_detail():
+    class PathRaising:
+        name = "fixture-path-raise"
+        profile = "action-gate"
+        supports: frozenset[str] = frozenset()
+
+        def verdict(self, tool, params):
+            raise FileNotFoundError("/Users/" + "cj" + "/secret/vault.key")
+
+        def clean_chain_verifies(self):
+            return True
+
+        def tamper_is_detected(self):
+            return True
+
+        def jail_fails_closed(self):
+            return True
+
+    r = run_conformance(PathRaising())
+    detail = _by_id(r, "GAK-DENY-DEFAULT").detail
+    assert "FileNotFoundError" in detail
+    assert ("/Users/" + "cj") not in detail
+    assert "<path>" in detail
+
+
+def test_literal_anchors_are_dispatched():
+    class Spy(PassingActionAdapter):
+        name = "fixture-spy"
+
+        def __init__(self):
+            self.verdict_calls = []
+
+        def verdict(self, tool, params):
+            self.verdict_calls.append((tool, dict(params)))
+            return super().verdict(tool, params)
+
+    spy = Spy()
+    run_conformance(spy)
+    assert ("definitely_not_a_real_tool", {}) in spy.verdict_calls
+    assert any(
+        tool == "write_file" and params.get("path") == "ok.txt"
+        for tool, params in spy.verdict_calls
+    )
+
+
+def test_claimed_attest_without_method_is_fail():
+    class ClaimedNoAttest(PassingActionAdapter):
+        name = "fixture-claimed-attest"
+        supports = frozenset({"attest"})
+
+    r = run_conformance(ClaimedNoAttest())
+    assert not r.conformant
+    assert _by_id(r, "GAK-ATTEST-HONEST").status == "FAIL"
+    assert "AttributeError" in _by_id(r, "GAK-ATTEST-HONEST").detail
+
+
 def test_all_na_is_not_conformant():
     r = all_na_receipt("empty", "action-gate", "gak-conformance/v1", [c.id for c in CLAUSES_V1])
     assert not r.conformant

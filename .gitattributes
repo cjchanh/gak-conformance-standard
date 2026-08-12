@@ -1,0 +1,7 @@
+.builder-foundry export-ignore
+.builder-foundry-kit export-ignore
+.agents export-ignore
+.claude export-ignore
+.grok export-ignore
+MISSION_FOUNDRY_GAK_V0.md export-ignore
+AGENTS.builder-foundry.md export-ignore

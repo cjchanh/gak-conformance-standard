@@ -26,14 +26,32 @@ point `--adapter` at your `module:Class`. `--adapter` imports and executes
 that module.
 
 ```
+python3 -m gak_conformance score \
+  --adapter your_pkg.adapter:YourAdapter \
+  --out receipt.json
+python3 -m gak_conformance verify \
+  --adapter your_pkg.adapter:YourAdapter \
+  --cert certification.json
 python3 -m gak_conformance digest \
   --receipt v1/evidence/deponent-conformance-receipt.json
 ```
 
-re-derives the published v1 digest
+`digest` re-derives the published v1 digest
 `de6b7089f894e009a6d1a1dba8c9b32b26e38daf803b07b83ec0958ff64c5406`
-without running any kernel. Exit `0` only when a `score` / `selfcheck` run
-is conformant (no FAIL, at least one PASS).
+**without** running any kernel. `verify` **does** re-run the kernel (spec §5.4)
+and fail-closes if the live score is not conformant or the digest does not
+match.
+
+| Exit | Meaning |
+|---|---|
+| `0` | scored and conformant, or verify matched |
+| `1` | scored not-conformant, all-NA, or verify digest mismatch |
+| `2` | could not score (bad `--adapter`, missing file, invalid declaration) |
+
+A receipt is JSON with `kernel`, `profile`, `conformant`, `counts`, and 13
+`clauses` each with `id` / `profile` / `status` / `detail`. No timestamp.
+`conformant` is true only when there is no FAIL and at least one PASS. A
+deny-everything brick FAILs the ALLOW clauses. All-NA is a refusal.
 
 This is a **research prototype**, not a security-evaluated product. The mark
 means exactly: *the adapter passed `gak-conformance/v1` under its declared
@@ -62,22 +80,22 @@ meaning exactly: *it passes the `gak-conformance/v1` clause set under its
 declared profile.* Not "secure," not "audited," not "endorsed." The bounded
 claim language is part of the standard (spec §8).
 
-## Verify the reference kernel (optional)
+## Score Deponent if it is installed locally (optional)
 
-The reference implementation (Deponent) is the first *scored* kernel, not the
-owner of this standard. Scoring it requires Deponent installed locally and an
-adapter that drives the real kernel. The in-repo harness does **not** import
-Deponent.
-
-With Deponent installed, the historical verify command remains:
+Deponent is the first *scored* kernel, not the owner of this standard. The
+in-repo harness does **not** import Deponent until you ask for this adapter.
+If Deponent is not installed, the command exits `2` with a skip message —
+that is not a harness crash.
 
 ```
-python3 -m deponent.badge verify --kernel deponent
+python3 -m gak_conformance score \
+  --adapter gak_conformance.adapters.deponent:DeponentKernelAdapter \
+  --out deponent-receipt.json
 ```
 
-That command lives in Deponent. Prefer scoring through this repo's harness
-once a Deponent adapter is wired (`gak_conformance` never uses
-`deponent.conformance` as the clause table).
+Author-produced evidence in `v1/evidence/` is **not** a third-party verdict.
+The historical `python3 -m deponent.badge verify` command lives in Deponent
+and is not the GAK entrypoint.
 
 Expected digest for the published v1 evidence pack:
 
@@ -87,29 +105,32 @@ de6b7089f894e009a6d1a1dba8c9b32b26e38daf803b07b83ec0958ff64c5406
 
 ## Score your own kernel
 
-You do not need Deponent's code to conform — you need the adapter contract
-(spec §6) and a harness run (spec §7). Short version:
+```
+python3 -m gak_conformance score \
+  --adapter your_pkg.adapter:YourAdapter \
+  --out receipt.json --certify
+```
 
-1. Declare your profile: `action-gate` (gates live tool calls) or
-   `commit-gate` (gates proposed change-sets).
-2. Claim only capabilities you implement (`reconcile`, `attest`) — unclaimed
+You do not need Deponent. You need spec §6 (one class: `name`, `profile`,
+`supports`, and the methods for your shape) driving your **real** kernel.
+
+1. Declare `action-gate` or `commit-gate`.
+2. Claim only `reconcile` / `attest` if you implement them — unclaimed
    optional clauses score NA, never FAIL.
-3. Implement the adapter methods for your profile against your **real** kernel.
-4. Run the harness; publish your certification JSON so the claim is
-   re-verifiable.
+3. Publish the certification JSON and re-check with `verify --cert`.
 
-Spec §7.2 walks a complete hypothetical commit-gate kernel through the process.
+Spec §7.2 walks a hypothetical commit-gate kernel through the process.
 
 ## Status
 
-`gak-conformance/v1.1` — the current version. **v1 stays frozen** (13 clauses,
-digest `de6b7089…`); **v1.1** adds one *optional* clause (`GAK-AUDIT-CONTENT-BLIND`,
-content-blind audit) — 14 clauses, digest `cf26befe…`. The addition is
-capability-gated, so no v1 receipt changes; see the **v1.1 Amendment** in the spec.
-Breaking changes require v2 (spec §9). Reference implementation:
-[Deponent](https://github.com/cjchanh/deponent) (Centennial Defense Systems). The
-standard is vendor-neutral: Deponent is the first kernel scored against it, not the
-owner of it.
+**v0 ships frozen `gak-conformance/v1`** — 13 clauses, digest `de6b7089…`.
+That is the default harness. Optional `--harness gak-conformance/v1.1` adds
+one capability-gated clause (`GAK-AUDIT-CONTENT-BLIND`, digest `cf26befe…`)
+and does not change v1 receipts. Breaking changes require v2 (spec §9).
+
+The first scored kernel is [Deponent](https://github.com/cjchanh/deponent)
+(Centennial Defense Systems). The standard is vendor-neutral: Deponent does
+not own the command, the clause table, or the first-run path.
 
 **Scored kernels to date: two, across two governance shapes** —
 [Deponent](https://github.com/cjchanh/deponent) (action-gate, 11 pass / 3 na) and

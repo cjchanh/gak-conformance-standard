@@ -26,6 +26,23 @@ def test_help_exits_zero():
     assert cp.returncode == 0
     assert "adapter" in cp.stdout.lower()
     assert "imports and executes" in cp.stdout.lower()
+    for name in ("score", "selfcheck", "verify", "list-clauses", "digest"):
+        assert name in cp.stdout
+
+
+def test_list_clauses_prints_v1_ids():
+    cp = _run(["list-clauses"])
+    assert cp.returncode == 0
+    for cid in (
+        "GAK-DENY-DEFAULT",
+        "GAK-ALLOW-INBOUNDS",
+        "GAK-COMMIT-ALLOW-CLEAN",
+        "GAK-CHAIN-INTACT",
+    ):
+        assert cid in cp.stdout
+    assert "GAK-AUDIT-CONTENT-BLIND" not in cp.stdout
+    assert "GAK-REDIRECT-DENIED" not in cp.stdout
+    assert cp.stdout.count("GAK-") == 13
 
 
 def test_digest_published_receipt():

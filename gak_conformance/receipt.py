@@ -81,6 +81,9 @@ def clauses_digest(receipt: Mapping[str, Any], harness: str) -> str:
     body = json.dumps(
         {"clauses": [list(p) for p in pairs], "harness": harness, "kernel": kernel},
         sort_keys=True,
+        separators=(", ", ": "),
+        ensure_ascii=True,
+        allow_nan=False,
     )
     return hashlib.sha256(body.encode("utf-8")).hexdigest()
 

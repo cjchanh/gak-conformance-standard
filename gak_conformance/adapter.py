@@ -48,4 +48,4 @@ class KernelAdapter(Protocol):
         """Decision lands in a verifiable audit log (commit-gate)."""
 
     def audit_is_content_blind(self) -> bool:
-        """Optional v1.1: integrity without recoverable request content."""
+        """v1.1 only (``--harness gak-conformance/v1.1``). Not a v1 clause."""
