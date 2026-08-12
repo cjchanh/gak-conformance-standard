@@ -1,0 +1,57 @@
+{
+  "measured_at": "2026-08-12T18:55:00Z",
+  "producer": "session-04-architecture",
+  "classification": "measured",
+  "command": "python3 -m gak_conformance digest|verify against published evidence",
+  "defects": [
+    {
+      "id": "ARCH-TYPE-01",
+      "severity": "high",
+      "command": "digest --receipt v1/evidence/deponent-certification.json",
+      "exit": 0,
+      "stdout": "de6b7089f894e009a6d1a1dba8c9b32b26e38daf803b07b83ec0958ff64c5406",
+      "detail": "§5.2 certification accepted as a §5.1 receipt. Happy-path hash happens to match because both carry the same 13 (id,status) pairs under harness v1."
+    },
+    {
+      "id": "ARCH-TYPE-02",
+      "severity": "critical",
+      "command": "digest --receipt v1/evidence/deponent-conformance-receipt-v1.1.json",
+      "exit": 0,
+      "stdout": "d35b32472cb9353e248eb1312ebcaa79b1eb3a472e7f0c795471621900b416ca",
+      "published_v1_1_digest": "cf26befe5ad50a18afb427e7257f9272142873ac11879cf2ab81b90eaedbf664",
+      "detail": "14-clause v1.1 receipt hashed under default harness string gak-conformance/v1. Exit 0 emits a plausible but wrong identity."
+    },
+    {
+      "id": "ARCH-TYPE-03",
+      "severity": "critical",
+      "command": "digest --receipt v1/evidence/deponent-certification-v1.1.json",
+      "exit": 0,
+      "stdout": "d35b32472cb9353e248eb1312ebcaa79b1eb3a472e7f0c795471621900b416ca",
+      "detail": "Same silent wrong hash when the inbound file is a certification."
+    },
+    {
+      "id": "ARCH-TYPE-04",
+      "severity": "high",
+      "command": "verify --adapter fixture --cert v1/evidence/deponent-conformance-receipt.json",
+      "exit": 2,
+      "stderr": "BLOCKED: 'clauses_digest'",
+      "detail": "Receipt passed as --cert fail-closes, but the error is a KeyError string, not an artifact-type contract."
+    },
+    {
+      "id": "ARCH-TYPE-05",
+      "severity": "high",
+      "command": "verify fixture against a v1.1 fixture certification without --harness",
+      "exit": 1,
+      "stderr": "digest mismatch: derived 9949c515… != published 2523924f…",
+      "detail": "CLI default --harness v1 overrides the certification harness_version. Looks like kernel drift. Re-run with --harness gak-conformance/v1.1 exits 0 VERIFIED."
+    },
+    {
+      "id": "ARCH-TYPE-06",
+      "severity": "medium",
+      "command": "digest --receipt <published v1 receipt with timestamp added>",
+      "exit": 0,
+      "stdout": "de6b7089f894e009a6d1a1dba8c9b32b26e38daf803b07b83ec0958ff64c5406",
+      "detail": "Spec §5.1 forbids timestamp. Extra key is ignored; file is still treated as a conforming receipt."
+    }
+  ]
+}

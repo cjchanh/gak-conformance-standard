@@ -1,7 +1,7 @@
 {
   "artifact_path": "/Users/cj/Workspace/active/gak-conformance-standard/.builder-foundry/release/artifact.zip",
-  "created_at": "2026-08-12T18:43:34Z",
-  "file_count": 49,
+  "created_at": "2026-08-12T19:14:00Z",
+  "file_count": 52,
   "files": [
     {
       "executable": false,
@@ -30,14 +30,14 @@
     {
       "executable": false,
       "path": "README.md",
-      "sha256": "a90ff081126bf4a7c4bba8183a7859a23c8dd7890bc9acb8130a99538f6badb1",
-      "size": 5534
+      "sha256": "725fc06d52f3f881346bc5e71857aeaac0c346f77a74cf942eb59e07cf2d27e5",
+      "size": 5985
     },
     {
       "executable": false,
       "path": "examples/README.md",
-      "sha256": "7c9136df36df190e948c1ca70c770a976de2caaeb7e01cc110a9b6eb9be15386",
-      "size": 236
+      "sha256": "354152275f0a8df6fbe83884af4ff42f16ef4bbacb966b9f6d7b5be3461de352",
+      "size": 428
     },
     {
       "executable": false,
@@ -48,8 +48,8 @@
     {
       "executable": false,
       "path": "gak_conformance/__init__.py",
-      "sha256": "908246f8df4a7a24a80e845a2a49afa0fcf84b6a5ac07fc7a37daa1a6267598e",
-      "size": 809
+      "sha256": "e2476848ef191432fbbf0360bdfe31615e986b60efbae25ecf1b6fc489a820df",
+      "size": 1086
     },
     {
       "executable": false,
@@ -77,6 +77,12 @@
     },
     {
       "executable": false,
+      "path": "gak_conformance/artifacts.py",
+      "sha256": "b57dd97cb40a449229a9dc1976a49f67a184c1c8f28918c4f625fa15db8658f5",
+      "size": 8926
+    },
+    {
+      "executable": false,
       "path": "gak_conformance/clauses.py",
       "sha256": "3996891f63c140eb147718d9dd1ad2a569e614364426d667b62dfd7fc96c63a2",
       "size": 4911
@@ -84,8 +90,8 @@
     {
       "executable": false,
       "path": "gak_conformance/cli.py",
-      "sha256": "6f1f74c5ee363e3f79d176f85b2042cdb615e9e97e5686e4a9d9c723d3ffc6c5",
-      "size": 8408
+      "sha256": "e6c3c35f276e29d2f9439a463b447709f6d39fcfccf42d030424941f4e622986",
+      "size": 9221
     },
     {
       "executable": false,
@@ -126,8 +132,8 @@
     {
       "executable": false,
       "path": "gak_conformance/receipt.py",
-      "sha256": "764b22540c514f5266571034afe4550030251fae1e23c6d8a2c08df9b169ca1c",
-      "size": 3707
+      "sha256": "cbcc9d8d8c529431bc38a68a85e0ead69c524fd2a7a120e7f9a5d7c60e56a296",
+      "size": 3810
     },
     {
       "executable": false,
@@ -149,6 +155,12 @@
     },
     {
       "executable": false,
+      "path": "tests/test_artifacts.py",
+      "sha256": "c137bfdb67f027b312bc24b61649cff7e32aa8da7171eab321facbbe104b90e7",
+      "size": 7151
+    },
+    {
+      "executable": false,
       "path": "tests/test_check_consistency.py",
       "sha256": "b0a999b260dc10933f3d3396f80d21305b78583591927f3078cdf0fcbbf9b2c2",
       "size": 751
@@ -162,8 +174,8 @@
     {
       "executable": false,
       "path": "tests/test_cli.py",
-      "sha256": "cfd5266d7cd8ed72d854ef1237514f2e228c1d1210aee4f690a6c197575f56ed",
-      "size": 4533
+      "sha256": "5917543d2370738c198b72e04f01eb880aa84ff5ce0d5433f8725f380d456758",
+      "size": 4622
     },
     {
       "executable": false,
@@ -180,14 +192,14 @@
     {
       "executable": false,
       "path": "tests/test_import_boundary.py",
-      "sha256": "99e3cfd14515a2813f5a14c9bff64ba37a715a37b3420609ba5156ad2a5bc29e",
-      "size": 878
+      "sha256": "dfd53bc470cb23cd99a613657c88962e74d61b0b8dcf07cac292d817e2091968",
+      "size": 1299
     },
     {
       "executable": false,
       "path": "tests/test_journeys.py",
-      "sha256": "e454181caa59e68d796da3f86be05833cf7f38565f9895f68dad44b73fa339c2",
-      "size": 4267
+      "sha256": "f8dfd3f843089e30a2717247ddf914cd46e006b7712bda06f55ec389cc781fac",
+      "size": 4537
     },
     {
       "executable": false,
@@ -210,8 +222,14 @@
     {
       "executable": false,
       "path": "tests/test_verify.py",
-      "sha256": "4b64531123e7a8e33cc0486cfb00f62c0858c1489cedd40a38a9d6cc16f45b37",
-      "size": 2502
+      "sha256": "9f5c55dfee50623894f809e7ca0453ed3be093da4e6160417b18434634ee141c",
+      "size": 2758
+    },
+    {
+      "executable": false,
+      "path": "v1/certification.schema.json",
+      "sha256": "c004dce42fb8d17ab21fa74587259b0d994c06980c61d39b8ede3fdb82675ec6",
+      "size": 1648
     },
     {
       "executable": false,
@@ -288,8 +306,8 @@
     {
       "executable": false,
       "path": "v1/receipt.schema.json",
-      "sha256": "0eb4179b6301ede469f17d7affc1c895f00e9c02c852115cb4e08ed423f9600d",
-      "size": 1304
+      "sha256": "f790d15681a2e7e7811a037cf78b5d6ada605804990559248e9f0e03360f912b",
+      "size": 1362
     },
     {
       "executable": false,
@@ -301,5 +319,5 @@
   "forbidden_scan": "pass",
   "schema_version": "1.0.0",
   "secret_scan_hits": [],
-  "sha256": "2091e6aaac4676380418e96bf2e1819764dafa8bce8d99db91921065a86af0fc"
+  "sha256": "5dada14d8113a06e24feba316163ef709c01b2dd1c0bd3b57c26a886326c01a6"
 }

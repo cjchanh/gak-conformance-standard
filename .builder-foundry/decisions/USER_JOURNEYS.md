@@ -41,7 +41,7 @@ python3 -m gak_conformance score \
 
 1. Copy `examples/adapter_skeleton.py`.
 2. Drive the real kernel. Methods that still raise score FAIL.
-3. `python3 -m gak_conformance score --adapter your_pkg.adapter:YourAdapter --out receipt.json --certify`
+3. `python3 -m gak_conformance score --adapter your_pkg.adapter:YourAdapter --out certification.json --certify`
 4. Exit 0 / 1 / 2 per the table.
 
 **Pass when:** switching `--adapter` needs no new conceptual model; skeleton cannot earn a fabricated PASS.
@@ -54,9 +54,9 @@ python3 -m gak_conformance verify \
   --cert certification.json
 ```
 
-**Pass when:** matching digest + live conformant → 0; stale digest → 1 even if live kernel is conformant; unloadable adapter → 2.
+**Pass when:** matching digest + live conformant → 0; a self-consistent cert for another kernel → 1 even if live kernel is conformant; unloadable adapter → 2; a §5.1 receipt passed as `--cert` → 2 naming certification vs receipt (not `BLOCKED: 'clauses_digest'`); omitted `--harness` inherits `harness_version`; a conflicting `--harness` → 2 (usage), not 1 (mismatch).
 
-`digest --receipt FILE` is **not** Journey C. It does not re-run the kernel.
+`digest --receipt FILE` is **not** Journey C. It does not re-run the kernel. It refuses certifications and refuses a v1.1 receipt under the default v1 table.
 
 ## Journey D — Deponent if present (not first-run)
 
@@ -76,6 +76,9 @@ python3 -m gak_conformance score \
 | Bad `--adapter` | `BLOCKED:` + reason | 2 |
 | Brick / all-NA / any FAIL | receipt with `conformant: false` | 1 |
 | Fixture used as a public mark | HARNESS_OK + README void language | 0 on selfcheck only |
+| Certification passed to `digest --receipt` | `BLOCKED:` names certification vs receipt | 2 |
+| Receipt passed to `verify --cert` | `BLOCKED:` names certification vs receipt | 2 |
+| v1.1 receipt digested without `--harness v1.1` | `BLOCKED:` clause-census hint, no wrong hash | 2 |
 
 ## Out of v0 journeys
 

@@ -51,5 +51,27 @@
     "status": "released",
     "note": "Product-face only. Frozen clause text and digest strings in spec \u00a74/\u00a75 are out of scope.",
     "released_at": "2026-08-12T18:58:00Z"
+  },
+  {
+    "id": "LEASE-ARCH-S04",
+    "owner": "session-04-architecture",
+    "scope": [
+      "gak_conformance/artifacts.py",
+      "gak_conformance/cli.py",
+      "gak_conformance/__init__.py",
+      "tests/test_artifacts.py",
+      "tests/test_verify.py",
+      "tests/test_import_boundary.py",
+      "v1/receipt.schema.json",
+      "v1/certification.schema.json",
+      "README.md",
+      ".builder-foundry/decisions/",
+      ".builder-foundry/research/session-04-artifact-contract.md"
+    ],
+    "mode": "writer",
+    "acquired_at": "2026-08-12T18:55:00Z",
+    "status": "released",
+    "note": "Artifact contract + architecture lock. Frozen spec \u00a73\u2013\u00a76 and digest de6b7089 out of scope.",
+    "released_at": "2026-08-12T19:16:00Z"
   }
 ]

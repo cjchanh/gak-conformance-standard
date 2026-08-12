@@ -4,7 +4,7 @@
 - Profile: `standard`
 - Branch: `foundry/gak-v0-standard`
 - Initialized: 2026-08-12T17:53:08Z
-- Session 3 (this file): product director — journeys, doctrine, acceptance, cuts
+- Session 4 (this file): architecture — data flows, interfaces, migration, rollback, risk
 
 ## Wave 0 — baseline (done)
 
@@ -17,7 +17,17 @@
 - Session 2: four grok-fleet tasks + six native lanes + official page reads.
 - Material session-2 changes: ship `verify`; lazy Deponent adapter; zip excludes; loader `..` reject; path redaction; keep exits 0/1/2; no REUSE gate; no official agent-gate suite.
 
-## Wave 2–3 — doctrine / architecture (done, amended in session 3)
+## Wave 3 — architecture (session 4)
+
+- Measured type-confusion: `digest` of a v1.1 receipt/cert under default v1 printed `d35b3247…` exit 0 (published `cf26befe…`).
+- Shipped `gak_conformance/artifacts.py` + CLI gates (D-008).
+- `verify` inherits `harness_version`; `--harness` conflict is exit 2.
+- Self-inconsistent cert is exit 2 before adapter import.
+- Sequence B `--out certification.json --certify` (not receipt.json).
+- ARCHITECTURE.md now matches shipped layout + inbound data flow + rollback/migration table.
+- Frozen digest `de6b7089…` still re-derives.
+
+## Wave 2–3 — doctrine / architecture (session 3)
 
 - D-003 optional adapter; D-004 verify; D-005 release hygiene.
 - D-006 v0 cuts; D-007 spec §7/appendix command retarget.

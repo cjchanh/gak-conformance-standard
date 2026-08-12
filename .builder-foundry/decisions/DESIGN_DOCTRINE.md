@@ -95,7 +95,7 @@ Author implements spec §6 against the **real** kernel. They do not import harne
 python3 -m gak_conformance verify --adapter your_pkg.adapter:YourAdapter --cert certification.json
 ```
 
-Re-runs the harness, re-derives §5.3 digest, compares to the published `clauses_digest`. Exit `0` only if the mark is still earned **and** the digest matches. A previously published receipt does not save a failing re-run (spec §5.4).
+Re-runs the harness, re-derives §5.3 digest, compares to the published `clauses_digest`. Exit `0` only if the mark is still earned **and** the digest matches. A previously published receipt does not save a failing re-run (spec §5.4). Pass a certification, not a receipt. Omit `--harness` unless checking a conflict — `verify` inherits `harness_version`.
 
 ### Sequence D — Deponent, only if present locally (not first-run)
 

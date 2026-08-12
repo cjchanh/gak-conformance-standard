@@ -1,0 +1,44 @@
+{
+  "lane": "architecture",
+  "role": "system-architect",
+  "mode": "writer",
+  "implemented_work": true,
+  "findings": [
+    "S1: digest --receipt accepted §5.2 certifications and 14-clause v1.1 receipts under default harness gak-conformance/v1, exiting 0 with hash d35b3247… instead of published cf26befe… (silent wrong identity).",
+    "S2: verify --cert given a §5.1 receipt exited 2 with BLOCKED: 'clauses_digest' (fail-closed but untyped).",
+    "S2: verify defaulted --harness to v1 even when the certification declared v1.1, producing a false digest mismatch that looked like kernel drift.",
+    "S3: Timestamped receipts still digested (spec §5.1 forbids timestamp).",
+    "S3: ARCHITECTURE.md was still an unimplemented advisory lock (stale fixtures layout, --cert vs --certify, no inbound data flow)."
+  ],
+  "rejected_assumptions": [
+    "Auto-detect harness from clause count — hides the operator error that produced d35b3247…",
+    "Allow digest of either object because both have (id,status) pairs — turns digest into a fake verifier.",
+    "Add explain-receipt / inspect — CUT-04.",
+    "Require Cosign/DSSE/TSA — mission is offline SHA-256; copy SLSA predicateType check only.",
+    "Exit 1 on type confusion — that is 'could not hash/score' (exit 2), not kernel drift."
+  ],
+  "work_performed": [
+    "Measured type-confusion on HEAD 5dfbe5f; wrote evidence/artifact-type-confusion.json.",
+    "Shipped gak_conformance/artifacts.py (classify, validate_receipt, validate_certification, resolve_verify_harness).",
+    "Wired cli digest/verify; verify inherits harness_version; adapter is not imported until the cert is well-typed.",
+    "Added tests/test_artifacts.py; rewrote stale-digest test to a self-consistent foreign kernel (D-004 preserved).",
+    "Documented D-008, ARCHITECTURE §14/16/19, USER_JOURNEYS C + recovery, README verify/digest, certification.schema.json.",
+    "Did not edit frozen spec §3–§6 or digest de6b7089…."
+  ],
+  "evidence": [
+    ".builder-foundry/evidence/artifact-type-confusion.json",
+    "tests/test_artifacts.py",
+    ".builder-foundry/decisions/D-008-artifact-contract.md",
+    ".builder-foundry/research/session-04-artifact-contract.md"
+  ],
+  "conflicts": [
+    "D-004 said a mutated clauses_digest exits 1. Session 4 splits that: self-inconsistent cert is exit 2; self-consistent foreign identity remains exit 1. Meaning of 'published digest is not a waiver' is preserved."
+  ],
+  "open_risks": [
+    "clauses_digest() remains a pure function and can still emit d35b3247… if called directly — CLI is the gate.",
+    "Adapter honesty (§6.3) is still social.",
+    "Live Deponent score still skipped in this environment."
+  ],
+  "verdict": "pass",
+  "timestamp": "2026-08-12T19:05:00Z"
+}

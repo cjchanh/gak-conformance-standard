@@ -2,7 +2,7 @@
 
 **Decision:** this repo owns the harness. Deponent is a scored kernel behind an optional adapter. Frozen `gak-conformance/v1` (13 clauses). Stdlib only. No persistence.
 
-**Status:** advisory lock for implementation. Not implemented here.
+**Status:** shipped and session-4 locked. Implementation lives in `gak_conformance/`. Session 4 added the inbound artifact contract (`artifacts.py`).
 
 **Normative sources:** `v1/spec.md` §§3–6; mission `.builder-foundry/MISSION.md`; defect `scripts/check_consistency.py` (imports `deponent.badge` / `deponent.conformance`).
 
@@ -100,10 +100,13 @@ gak-conformance-standard/
     receipt.py           # receipt dict, certification dict, clauses_digest
     cli.py               # score / selfcheck / list-clauses / digest
     load.py              # --adapter module:Class (importlib only)
+    artifacts.py         # classify/validate §5.1 vs §5.2; inherit cert harness
     fixtures/
       __init__.py
-      kernel.py          # tiny real in-process kernel (not a hardcoded receipt)
-      adapters.py        # FixtureAdapter, BrickAdapter, AllNaAdapter, RaisingAdapter
+      action_gate.py     # PassingActionAdapter (harness fixture)
+      commit_gate.py     # PassingCommitAdapter
+      brick.py           # deny-everything fixtures
+      raising.py         # dispatched method raises → FAIL
     adapters/
       __init__.py        # empty / docstring; MUST NOT import deponent
       deponent.py        # optional; import deponent only inside loader
@@ -280,9 +283,9 @@ One entrypoint: `python3 -m gak_conformance`
 | `--help` / no args | usage; no Deponent | 0 |
 | `selfcheck` | score in-repo fixture + brick + all-NA + raising; print digest; no Deponent | 0 if harness invariants hold; else 1 |
 | `list-clauses` | print 13 ids / profiles / requires / statements | 0 |
-| `score --adapter M:C [--out receipt.json] [--cert cert.json]` | run §6 adapter; write outputs | **0 iff conformant**; 1 not conformant; 2 load/declaration error |
-| `verify --adapter M:C --cert FILE` | re-score + compare published `clauses_digest` (§5.4) | 0 iff conformant and digest matches; 1 mismatch or not conformant; 2 load/parse |
-| `digest --receipt receipt.json` | re-derive §5.3 to stdout | 0; 2 if file missing/invalid |
+| `score --adapter M:C [--out receipt.json] [--certify]` | run §6 adapter; write receipt or certification; refuse `--certify` on `fixture-*` | **0 iff conformant**; 1 not conformant; 2 load/declaration/fixture-certify |
+| `verify --adapter M:C --cert FILE` | validate §5.2 cert (self-consistent); inherit `harness_version`; re-score + compare `clauses_digest` (§5.4) | 0 iff conformant and digest matches; 1 mismatch or not conformant; 2 load/parse/**wrong type**/self-inconsistent cert/`--harness` conflict |
+| `digest --receipt receipt.json` | re-derive §5.3 to stdout from a **§5.1 receipt only** | 0; 2 if file missing/invalid/**wrong type**/census mismatch |
 
 Fail-closed: 0 means the mark is earned (or the meta-command succeeded). Nonzero otherwise.
 
@@ -316,6 +319,7 @@ Stdlib `unittest`. `python3 -m unittest discover -s tests -v`.
 | `test_clauses.py` | 13 ids; profiles; requires; heading strings match spec `**ID** — profile:` form |
 | `test_scorer.py` | NA by profile / capability; error → FAIL; all-NA not conformant; brick fails ALLOW clauses; 13 rows always |
 | `test_digest.py` | Appendix A receipt re-derives `de6b7089…`; two fixture runs match |
+| `test_artifacts.py` | classify published files; digest refuses certs and v1.1-as-v1; verify inherits harness; self-inconsistent cert → 2; foreign self-consistent cert → 1 |
 | `test_receipt.py` | required keys; no timestamp; count integrity; mark honesty |
 | `test_adapter_protocol.py` | out-of-profile methods not called; unclaimed capability methods not called |
 | `test_cli.py` | `--help`, `selfcheck`, exit codes, adapter load failure → 2 |
@@ -338,6 +342,11 @@ Fixture receipts use kernel names `gak-fixture`, `gak-fixture-brick`, … Never 
 
 | Failure | Behavior | Recovery |
 |---|---|---|
+| Certification passed to `digest --receipt` | exit 2, names types | pass the §5.1 receipt |
+| Receipt passed to `verify --cert` | exit 2, names types | pass the §5.2 certification |
+| v1.1 receipt under default v1 harness | exit 2, census hint | `--harness gak-conformance/v1.1` |
+| `--harness` disagrees with cert `harness_version` | exit 2 | omit `--harness` or pass the matching value |
+| Self-inconsistent certification | exit 2, before adapter import | fix the published object |
 | Adapter module missing | exit 2 | fix `PYTHONPATH` / module name |
 | Declaration invalid | exit 2, no receipt | fix name / profile / supports |
 | Clause check raises | that clause FAIL; run continues | fix kernel or adapter; re-run |
@@ -408,8 +417,32 @@ argv --adapter M:C
   → ConformanceReceipt (in memory)
   → counts + conformant (§3.4)
   → optional Certification + SHA-256 digest (§5.3)
-  → stdout / --out / --cert
+  → stdout / --out / --certify
   → process exit 0 iff conformant
+```
+
+**Inbound (`digest` / `verify`) — session 4:**
+
+```
+digest --receipt FILE
+  → JSON object
+  → classify_artifact
+  → refuse certification / unknown / timestamp / census≠--harness
+  → clauses_digest(receipt, --harness)   # default v1
+  → stdout hex; exit 0 | 2
+
+verify --adapter M:C --cert FILE
+  → JSON object
+  → classify_artifact
+  → refuse receipt / unknown
+  → validate_certification (mark honesty, counts, self-consistent digest)
+  → harness = cert.harness_version
+       unless --harness set and equal
+       if --harness set and differs → exit 2 (usage, not kernel drift)
+  → THEN load.py (do not exec adapter on a bad artifact)
+  → re-score under inherited harness
+  → compare live digest to published clauses_digest
+  → exit 0 match+conformant | 1 live fail or identity mismatch | 2 load
 ```
 
 No write except the paths the user named.
@@ -418,70 +451,70 @@ No write except the paths the user named.
 
 ## 15. Migration from `deponent.badge` (README path)
 
-**Today (defect):**
+**Shipped stranger path (repository root, no PYTHONPATH):**
 
 ```
-python3 -m deponent.badge verify --kernel deponent
-```
-
-Also in spec §7.1 (`from deponent.conformance import run_conformance`) and Appendix A / Appendix B.
-
-**v0 primary path (stranger):**
-
-```
-PYTHONPATH=. python3 -m gak_conformance --help
-PYTHONPATH=. python3 -m gak_conformance selfcheck
-PYTHONPATH=. python3 -m gak_conformance score \
+python3 -m gak_conformance --help
+python3 -m gak_conformance selfcheck
+python3 -m gak_conformance score \
   --adapter your.kernel.adapter:YourAdapter \
-  --out receipt.json --cert cert.json
+  --out receipt.json --certify
 ```
 
 **Deponent, when installed locally:**
 
 ```
-PYTHONPATH=. python3 -m gak_conformance score \
+python3 -m gak_conformance score \
   --adapter gak_conformance.adapters.deponent:DeponentKernelAdapter \
-  --out receipt.json --cert cert.json
+  --out receipt.json --certify
 ```
 
-README: this command is the documented entrypoint. Keep `python3 -m deponent.badge verify` as a **kernel-local / historical** footnote only — not the stranger path.
+`python3 -m deponent.badge verify` is a **kernel-local / historical** footnote only.
 
-Spec §1 currently says the reference harness ships with Deponent. **Docs lane retargets §1 / §7 / Appendix A–B commands to this repo.** That is not a clause-set change (spec §9: non-normative command paths may move). Do not touch §3–§6 semantics.
+Spec §7.1 / Appendix A–B were retargeted in session 3 (D-007). Frozen digest untouched.
 
-`scripts/check_consistency.py` becomes a client of `gak_conformance`:
+`scripts/check_consistency.py` is a client of `gak_conformance` (no `deponent.badge` / `deponent.conformance`). Missing Deponent is not exit 3.
 
-1. Parse spec `**GAK-…**` headings vs `clauses.CLAUSES` (expect 13 for v0; still assert frozen digest `de6b7089…` remains in the spec).
-2. Re-derive digest of `v1/evidence/deponent-conformance-receipt.json` via `receipt.clauses_digest`.
-3. If Deponent is importable, score the optional adapter and compare status set / digest to evidence. If not importable → exit 0 on spec+fixture+evidence checks; print NOTICE (do not exit 3 for missing Deponent — that was the old fail-closed-on-vendor bug).
-4. **Never** `import deponent.badge` or `deponent.conformance`.
-
-Out of scope: rewriting Deponent to call `gak_conformance`. Prefer an adapter note if Deponent's public adapter is missing a §6 method.
+Out of scope: rewriting Deponent to call `gak_conformance`.
 
 ---
 
 ## 16. Rollback
 
-The package is additive. Spec + `v1/evidence/` stay.
+The package is additive. Spec + `v1/evidence/` stay. **No persisted score store**, so there is no data migration and no backup/restore of receipts.
+
+**Rollback of the v0 harness (whole product):**
 
 1. Remove `gak_conformance/`, `tests/`, `pyproject.toml` if added.
 2. Restore README / spec command paths to `deponent.badge` / `deponent.conformance`.
 3. Restore `scripts/check_consistency.py` imports if needed.
 4. Oracle: frozen digest `de6b7089f894e009a6d1a1dba8c9b32b26e38daf803b07b83ec0958ff64c5406` still in spec + evidence.
 
-No data migration. Receipts were never stored as system state.
+**Rollback of the session-4 artifact contract only:**
+
+1. Revert `gak_conformance/artifacts.py`, `cli.py` digest/verify wiring, and `tests/test_artifacts.py`.
+2. Published v1 receipts still re-derive `de6b7089…` via `clauses_digest` (pure function; contract is a CLI gate).
+3. Operators who mixed certs into `digest --receipt` would again get exit 0 (the defect).
+
+**Migration (operators):**
+
+| Old object / habit | v0 command |
+|---|---|
+| `python3 -m deponent.badge verify` | historical footnote; not the stranger path |
+| §5.1 receipt on disk | `digest --receipt FILE` |
+| §5.2 certification on disk | `verify --adapter M:C --cert FILE` |
+| v1.1 receipt | `digest --receipt FILE --harness gak-conformance/v1.1` |
+| v1.1 certification | `verify --cert FILE` (inherits harness) |
+| Receipt passed to `--cert` | exit 2, not a score |
+| Certification passed to `--receipt` | exit 2, not a hash |
+
+No receipt rewrite. Old well-formed v1 receipts remain valid inputs to `digest`.
 
 ---
 
-## 17. Implementation order (for the next lane)
+## 17. Implementation order
 
-1. `adapter.py` + `clauses.py` + `receipt.py` + digest tests (including worked value).
-2. `scorer.py` + fixture / brick / all-NA / raising tests.
-3. `cli.py` + `selfcheck` + import-isolation + leave-behind scan.
-4. Retarget `check_consistency.py`.
-5. Optional `adapters/deponent.py`; skip-tested live score.
-6. README (and spec command) migration. Refresh evidence only if a live v1 run disagrees.
-
-Do not add SVG badges, sworn adapters, v1.1 scoring, or Deponent rewrites in v0.
+Steps 1–6 shipped in sessions 1–3. Session 4 shipped the inbound artifact contract (`artifacts.py` + CLI gates). Do not add SVG badges, sworn adapters, default v1.1 scoring, or Deponent rewrites in v0.
 
 ---
 
@@ -490,4 +523,31 @@ Do not add SVG badges, sworn adapters, v1.1 scoring, or Deponent rewrites in v0.
 - Adapter honesty (§6.3) is social + void-mark, not mechanically closed.
 - Live Deponent adapter uses `unittest.mock` inside `jail_fails_closed`; wrapping it inherits that. Acceptable (their kernel, their adapter).
 - Detail-text drift vs old evidence does not change the digest; only refresh evidence if **status set or digest** changes.
-- Spec §7 still teaches `deponent.conformance` until docs lane edits it — implementer must not wait on that to ship the package.
+- `clauses_digest()` stays a pure function: tests that want the silent-wrong hash can still call it. The CLI is the fail-closed gate.
+- Live Deponent 13-clause score remains environment-blocked in this campaign Python (`find_spec("deponent")` is None).
+
+## 19. Artifact contract (session 4)
+
+**Decision (D-008):** inbound JSON is typed. `digest` consumes receipts. `verify` consumes certifications. `verify` inherits `harness_version`. `--harness` conflict is exit 2. Self-inconsistent certifications are exit 2. Clause census must match the harness in force.
+
+**Rejected:**
+
+| Alternative | Why rejected |
+|---|---|
+| Auto-detect harness from clause count | Hides operator error; a 14-row object hashed under v1 is the defect |
+| Allow digest of either object (both have pairs) | Turns `digest` into a fake verifier; CUT-04 already forbids an explain command |
+| New `inspect` / `explain-receipt` subcommand | CUT-04 |
+| Signatures / DSSE / TSA / network | Mission: offline SHA-256 content digest. SLSA/in-toto type checks are copied; envelopes are not |
+| Exit 1 on type confusion | Type error is "could not score/hash", not "kernel drifted" |
+| jsonschema runtime dependency | Stdlib-only (A-007) |
+
+**Threats closed**
+
+| ID | Threat | Control |
+|---|---|---|
+| T9 | Certification hashed as a receipt under the wrong harness → plausible wrong identity, exit 0 | `validate_receipt` refuses certifications and census mismatch |
+| T10 | Receipt passed to verify → cryptic `BLOCKED: 'clauses_digest'` | typed `validate_certification` |
+| T11 | Default `--harness v1` makes a v1.1 cert look like kernel drift | inherit `harness_version`; flag conflict is exit 2 |
+| T12 | Tampered `clauses_digest` on an otherwise valid cert treated as §5.4 mismatch | self-consistency check before adapter import |
+
+**Oracle:** `digest --receipt v1/evidence/deponent-conformance-receipt.json` still prints `de6b7089…` and exits 0.

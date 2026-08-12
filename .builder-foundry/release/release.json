@@ -1,22 +1,23 @@
 {
   "artifact_path": ".builder-foundry/release/artifact.zip",
-  "created_at": "2026-08-12T18:43:34Z",
-  "file_count": 49,
+  "created_at": "2026-08-12T19:14:00Z",
+  "file_count": 52,
   "forbidden_scan": "pass",
   "manifest_path": ".builder-foundry/release/artifact.zip.manifest.json",
   "schema_version": "1.0.0",
-  "sha256": "2091e6aaac4676380418e96bf2e1819764dafa8bce8d99db91921065a86af0fc",
+  "sha256": "5dada14d8113a06e24feba316163ef709c01b2dd1c0bd3b57c26a886326c01a6",
   "smoke_commands": [
     "PYTHONPATH=. python3 -m gak_conformance --help",
     "PYTHONPATH=. python3 -m gak_conformance selfcheck",
-    "PYTHONPATH=. python3 -m gak_conformance score --adapter gak_conformance.fixtures.action_gate:PassingActionAdapter --out receipt.json"
+    "PYTHONPATH=. python3 -m gak_conformance score --adapter gak_conformance.fixtures.action_gate:PassingActionAdapter --out receipt.json",
+    "PYTHONPATH=. python3 -m gak_conformance digest --receipt v1/evidence/deponent-conformance-receipt.json"
   ],
   "smoke_results": [
     {
       "command": "PYTHONPATH=. python3 -m gak_conformance --help",
       "exit_code": 0,
       "stderr_tail": "",
-      "stdout_tail": "usage: gak_conformance [-h] [--version]\n                       {score,verify,digest,list-clauses,selfcheck} ...\n\nVendor-neutral mechanical scorer for governed agent kernels (gak-\nconformance/v1). Research prototype — not a security evaluation. --adapter\nmodule:Class imports and executes that Python module. Fixture adapters test\nthe harness; they are not kernel certifications.\n\npositional arguments:\n  {score,verify,digest,list-clauses,selfcheck}\n    score               Score an adapter and emit a JSON receipt.\n    verify              Re-score an adapter and compare to a published\n                        certification digest (§5.4).\n    digest              Re-derive §5.3 digest from an existing receipt.\n    list-clauses        Print the harness clause table.\n    selfcheck           Score the in-repo action-gate fixture (harness test,\n                        not a kernel certification).\n\noptions:\n  -h, --help            show this help message and exit\n  --version             show program's version number and exit\n\nExits: 0 scored and conformant; 1 scored not-conformant or verify mismatch; 2\ncould not score. Example: python3 -m gak_conformance score --adapter\ngak_conformance.fixtures.action_gate:PassingActionAdapter\n",
+      "stdout_tail": "usage: gak_conformance [-h] [--version]\n                       {score,verify,digest,list-clauses,selfcheck} ...\n\nVendor-neutral mechanical scorer for governed agent kernels (gak-\nconformance/v1). Research prototype — not a security evaluation. --adapter\nmodule:Class imports and executes that Python module. Fixture adapters test\nthe harness; they are not kernel certifications.\n\npositional arguments:\n  {score,verify,digest,list-clauses,selfcheck}\n    score               Score an adapter and emit a JSON receipt.\n    verify              Re-score an adapter and compare to a published\n                        certification digest (§5.4).\n    digest              Re-derive §5.3 digest from a §5.1 receipt (not a\n                        certification).\n    list-clauses        Print the harness clause table.\n    selfcheck           Score the in-repo action-gate fixture (harness test,\n                        not a kernel certification).\n\noptions:\n  -h, --help            show this help message and exit\n  --version             show program's version number and exit\n\nExits: 0 scored and conformant; 1 scored not-conformant or verify mismatch; 2\ncould not score. Example: python3 -m gak_conformance score --adapter\ngak_conformance.fixtures.action_gate:PassingActionAdapter\n",
       "timed_out": false
     },
     {
@@ -30,7 +31,14 @@
       "command": "PYTHONPATH=. python3 -m gak_conformance score --adapter gak_conformance.fixtures.action_gate:PassingActionAdapter --out receipt.json",
       "exit_code": 0,
       "stderr_tail": "NOTE: fixture adapter — not a kernel certification\n",
-      "stdout_tail": "GAK CONFORMANCE — fixture-action  (profile: action-gate; gak-conformance/v1)\n============================================================\n  ok [GAK-CHAIN-INTACT] An untampered audit chain re-verifies.\n  ok [GAK-TAMPER-EVIDENT] A mutated audit record is detected.\n  -- [GAK-ATTEST-HONEST] kernel does not claim 'attest'. The kernel abstains on coverage it did not earn. No false attestation.\n  ok [GAK-DENY-DEFAULT] An unknown or ungoverned action is denied by default.\n  ok [GAK-ALLOW-INBOUNDS] Legitimate in-sandbox work is allowed. Deny-everything is not conformance.\n  ok [GAK-PATH-CONTAINMENT] A write escaping the sandbox is blocked.\n  ok [GAK-DESTRUCTIVE-FLOOR] An irreversible or destructive command is blocked regardless of allowlist.\n  ok [GAK-PROGRAM-ALLOWLIST] A non-allowlisted program is blocked.\n  ok [GAK-JAIL-FAILS-CLOSED] When no OS confinement is available, the jail refuses to run. Never un-jailed.\n  -- [GAK-RECONCILE-UNDECLARED] kernel does not claim 'reconcile'. A tool changing undeclared state is flagged (two-plane reconciliation).\n  -- [GAK-COMMIT-DENY-SECURITY] out of profile (commit-gate); kernel is action-gate. A change-set touching a security surface is blocked.\n  -- [GAK-COMMIT-ALLOW-CLEAN] out of profile (commit-gate); kernel is action-gate. A benign in-policy change-set is allowed. Deny-everything is not conformance.\n  -- [GAK-COMMIT-TESTIFIES] out of profile (commit-gate); kernel is action-gate. Every decision — ALLOW or BLOCK — is recorded to a verifiable audit log.\n\nCONFORMANT\ndigest 9949c515cac1cfb2581297c6736c244aec117099dcc20cac118a8358507e0039\nwrote receipt.json\n",
+      "stdout_tail": "digest 9949c515cac1cfb2581297c6736c244aec117099dcc20cac118a8358507e0039\nwrote receipt.json\n",
+      "timed_out": false
+    },
+    {
+      "command": "PYTHONPATH=. python3 -m gak_conformance digest --receipt v1/evidence/deponent-conformance-receipt.json",
+      "exit_code": 0,
+      "stderr_tail": "",
+      "stdout_tail": "de6b7089f894e009a6d1a1dba8c9b32b26e38daf803b07b83ec0958ff64c5406\n",
       "timed_out": false
     }
   ],

@@ -873,5 +873,110 @@
     ],
     "commit": "0432cac954e74f4f3fef988c23eef5ab10fe2c3a",
     "owner": "product-design"
+  },
+  {
+    "id": "FEAT-0052",
+    "category": "architecture",
+    "priority": "high",
+    "description": "digest --receipt refuses a \u00a75.2 certification (exit 2, names receipt vs certification) and does not print a digest.",
+    "user_value": "A published certification cannot be silently re-hashed as if it were a receipt.",
+    "verification": [
+      "tests/test_artifacts.py::test_digest_refuses_published_certification",
+      "tests/test_artifacts.py::test_digest_v11_certification_does_not_emit_wrong_hash"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-ARCH-TYPE",
+      "EVID-PYTEST-S04"
+    ],
+    "commit": "526bc8fb716590a1b1020b5a25058690e78523e6",
+    "owner": "architecture"
+  },
+  {
+    "id": "FEAT-0053",
+    "category": "architecture",
+    "priority": "high",
+    "description": "verify --cert refuses a \u00a75.1 receipt with a type error (exit 2). The stderr is not a bare KeyError for clauses_digest.",
+    "user_value": "Journey C fails closed with a readable contract, not a traceback field name.",
+    "verification": [
+      "tests/test_artifacts.py::test_verify_refuses_receipt_with_type_error"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-ARCH-TYPE",
+      "EVID-PYTEST-S04"
+    ],
+    "commit": "526bc8fb716590a1b1020b5a25058690e78523e6",
+    "owner": "architecture"
+  },
+  {
+    "id": "FEAT-0054",
+    "category": "architecture",
+    "priority": "high",
+    "description": "verify inherits harness_version from the certification when --harness is omitted. A v1.1 fixture certification verifies without passing --harness.",
+    "user_value": "A published v1.1 claim does not look like kernel drift under the v1 default.",
+    "verification": [
+      "tests/test_artifacts.py::test_verify_inherits_v11_harness_from_cert"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-ARCH-TYPE",
+      "EVID-PYTEST-S04"
+    ],
+    "commit": "526bc8fb716590a1b1020b5a25058690e78523e6",
+    "owner": "architecture"
+  },
+  {
+    "id": "FEAT-0055",
+    "category": "architecture",
+    "priority": "high",
+    "description": "verify --harness that disagrees with certification harness_version exits 2 (usage), not 1 (digest mismatch).",
+    "user_value": "Operator error and kernel drift stay distinct exits.",
+    "verification": [
+      "tests/test_artifacts.py::test_verify_harness_flag_mismatch_exits_2"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-PYTEST-S04"
+    ],
+    "commit": "526bc8fb716590a1b1020b5a25058690e78523e6",
+    "owner": "architecture"
+  },
+  {
+    "id": "FEAT-0056",
+    "category": "architecture",
+    "priority": "high",
+    "description": "Inbound receipts and certifications are validated: required keys, counts, \u00a73.4 conformant, mark honesty, no timestamp on receipts, self-consistent clauses_digest on certifications.",
+    "user_value": "Broken published objects are rejected before the adapter runs.",
+    "verification": [
+      "tests/test_artifacts.py::test_digest_refuses_timestamped_receipt",
+      "tests/test_artifacts.py::test_verify_self_inconsistent_cert_exits_2",
+      "tests/test_artifacts.py::test_verify_self_consistent_foreign_digest_exits_1"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-PYTEST-S04"
+    ],
+    "commit": "526bc8fb716590a1b1020b5a25058690e78523e6",
+    "owner": "architecture"
+  },
+  {
+    "id": "FEAT-0057",
+    "category": "architecture",
+    "priority": "high",
+    "description": "digest --receipt of a v1.1 receipt under default v1 harness exits 2 and does not print the silent-wrong hash d35b3247\u2026. Passing --harness gak-conformance/v1.1 prints cf26befe\u2026.",
+    "user_value": "The default table cannot mint a plausible false identity for a 14-clause object.",
+    "verification": [
+      "tests/test_artifacts.py::test_digest_v11_receipt_without_harness_does_not_emit_wrong_hash",
+      "tests/test_artifacts.py::test_classify_bypass_would_fail_census_gate",
+      "digest of v1/evidence/deponent-conformance-receipt.json still prints de6b7089\u2026"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-ARCH-TYPE",
+      "EVID-PYTEST-S04"
+    ],
+    "commit": "526bc8fb716590a1b1020b5a25058690e78523e6",
+    "owner": "architecture"
   }
 ]

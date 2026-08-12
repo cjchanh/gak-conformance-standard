@@ -20,7 +20,8 @@
   "release_smoke_commands": [
     "PYTHONPATH=. python3 -m gak_conformance --help",
     "PYTHONPATH=. python3 -m gak_conformance selfcheck",
-    "PYTHONPATH=. python3 -m gak_conformance score --adapter gak_conformance.fixtures.action_gate:PassingActionAdapter --out receipt.json"
+    "PYTHONPATH=. python3 -m gak_conformance score --adapter gak_conformance.fixtures.action_gate:PassingActionAdapter --out receipt.json",
+    "PYTHONPATH=. python3 -m gak_conformance digest --receipt v1/evidence/deponent-conformance-receipt.json"
   ],
   "launch_commands": [
     "python3 -m gak_conformance --help",
