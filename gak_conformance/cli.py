@@ -57,6 +57,13 @@ def cmd_score(args: argparse.Namespace) -> int:
         print(f"BLOCKED: {exc}", file=sys.stderr)
         return 2
     payload = receipt.to_dict()
+    if args.certify and str(receipt.kernel).startswith("fixture-"):
+        print(
+            "BLOCKED: fixture adapters cannot be certified "
+            "(not a kernel mark)",
+            file=sys.stderr,
+        )
+        return 2
     if args.certify:
         out = certification_from_receipt(payload, args.harness)
         digest = out["clauses_digest"]
@@ -65,10 +72,19 @@ def cmd_score(args: argparse.Namespace) -> int:
         digest = clauses_digest(payload, args.harness)
     dest = Path(args.out) if args.out else None
     _write_json(dest, out)
+    if str(receipt.kernel).startswith("fixture-"):
+        print(
+            "NOTE: fixture adapter — not a kernel certification",
+            file=sys.stderr,
+        )
     if dest is not None:
-        print(receipt.render())
-        print(f"digest {digest}")
-        print(f"wrote {dest}")
+        if str(receipt.kernel).startswith("fixture-"):
+            print(f"digest {digest}")
+            print(f"wrote {dest}")
+        else:
+            print(receipt.render())
+            print(f"digest {digest}")
+            print(f"wrote {dest}")
     else:
         print(f"digest {digest}", file=sys.stderr)
     return 0 if receipt.conformant else 1
@@ -87,9 +103,25 @@ def cmd_digest(args: argparse.Namespace) -> int:
 
 
 def cmd_selfcheck(args: argparse.Namespace) -> int:
-    args.adapter = SELFCHECK_ADAPTER
-    args.certify = False
-    return cmd_score(args)
+    """Harness probe. Never print a public mark banner."""
+    adapter = _load_or_block(SELFCHECK_ADAPTER)
+    try:
+        receipt = run_conformance(adapter, harness=args.harness)
+    except ValueError as exc:
+        print(f"BLOCKED: {exc}", file=sys.stderr)
+        return 2
+    payload = receipt.to_dict()
+    digest = clauses_digest(payload, args.harness)
+    dest = Path(args.out) if args.out else None
+    _write_json(dest, payload)
+    print(
+        f"HARNESS_OK fixture={receipt.kernel} digest={digest} "
+        "(not a kernel certification)",
+        file=sys.stderr,
+    )
+    if dest is not None:
+        print(f"wrote {dest}")
+    return 0 if receipt.conformant else 1
 
 
 def cmd_verify(args: argparse.Namespace) -> int:

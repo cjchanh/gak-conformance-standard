@@ -14,6 +14,7 @@ PRODUCT = [
     ROOT / "scripts",
     ROOT / "tests",
     ROOT / "v1",
+    ROOT / "examples",
     ROOT / "README.md",
     ROOT / "LICENSE",
     ROOT / "NOTICE",

@@ -21,6 +21,11 @@ def _run(args, **kwargs):
     )
 
 
+def test_no_args_exits_two():
+    cp = _run([])
+    assert cp.returncode == 2
+
+
 def test_help_exits_zero():
     cp = _run(["--help"])
     assert cp.returncode == 0
@@ -62,8 +67,26 @@ def test_selfcheck_conformant():
     assert cp.returncode == 0
     receipt = json.loads(cp.stdout)
     assert receipt["conformant"] is True
+    assert receipt["kernel"].startswith("fixture-")
     assert len(receipt["clauses"]) == 13
     assert "timestamp" not in receipt
+    assert "HARNESS_OK" in cp.stderr
+    assert "not a kernel certification" in cp.stderr
+    assert "GAK-conformant" not in cp.stdout
+    assert "GAK-conformant" not in cp.stderr
+    assert "\nCONFORMANT" not in cp.stdout
+    assert "\nCONFORMANT" not in cp.stderr
+
+
+def test_selfcheck_out_does_not_print_mark_banner(tmp_path):
+    dest = tmp_path / "fixture.json"
+    cp = _run(["selfcheck", "--out", str(dest)])
+    assert cp.returncode == 0
+    assert dest.is_file()
+    assert "HARNESS_OK" in cp.stderr
+    assert "GAK-conformant" not in cp.stdout + cp.stderr
+    assert "\nCONFORMANT" not in cp.stdout
+    assert json.loads(dest.read_text())["kernel"].startswith("fixture-")
 
 
 def test_score_brick_nonzero():
@@ -100,6 +123,8 @@ def test_score_out_writes_file(tmp_path):
     data = json.loads(dest.read_text())
     assert data["kernel"] == "fixture-action"
     assert data["conformant"] is True
+    assert "not a kernel certification" in cp.stderr
+    assert "\nCONFORMANT" not in cp.stdout
 
 
 def test_two_runs_same_digest(tmp_path):
@@ -109,7 +134,6 @@ def test_two_runs_same_digest(tmp_path):
         cp = _run(
             [
                 "score",
-                "--certify",
                 "--adapter",
                 "gak_conformance.fixtures.commit_gate:PassingCommitAdapter",
                 "--out",
@@ -117,7 +141,24 @@ def test_two_runs_same_digest(tmp_path):
             ]
         )
         assert cp.returncode == 0
+    from gak_conformance.receipt import clauses_digest
+    from gak_conformance import HARNESS_V1
+
     da = json.loads(a.read_text())
     db = json.loads(b.read_text())
-    assert da["clauses_digest"] == db["clauses_digest"]
-    assert len(da["clauses_digest"]) == 64
+    assert clauses_digest(da, HARNESS_V1) == clauses_digest(db, HARNESS_V1)
+    assert len(clauses_digest(da, HARNESS_V1)) == 64
+
+
+def test_score_refuses_to_certify_a_fixture():
+    cp = _run(
+        [
+            "score",
+            "--certify",
+            "--adapter",
+            "gak_conformance.fixtures.action_gate:PassingActionAdapter",
+        ]
+    )
+    assert cp.returncode == 2
+    assert "cannot be certified" in cp.stderr
+    assert "GAK-conformant" not in cp.stdout

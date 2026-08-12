@@ -4,7 +4,7 @@
 **Certification schema:** `gak-certification/v1`
 **Status:** v1 — frozen on ship (see §9, Versioning)
 **License:** Apache-2.0 (see §10)
-**Reference implementation:** Deponent (Centennial Defense Systems). The standard is vendor-neutral; Deponent is the first kernel scored against it, not the owner of it.
+**Reference implementation:** Deponent (Centennial Defense Systems). The standard is vendor-neutral; Deponent is the first kernel scored against it, not the owner of it. This repository's leave-behind scorer is `python3 -m gak_conformance`.
 
 ---
 
@@ -563,14 +563,20 @@ adapter (§6) and a harness run.
    conformant (§3.4 requires zero FAILs, not zero NAs).
 3. **Write the adapter.** One class, the attributes and methods of §6 for your
    profile. Each method drives your real kernel through the clause's scenario.
-4. **Run the harness.** The reference harness is one conforming implementation
-   (§1); use it, or any harness that scores the §4 clauses as specified. To use
-   the reference harness, score any adapter instance directly:
+4. **Run the harness.** Any program that scores the §4 clauses as specified is
+   a conforming harness (§1). This repository's vendor-neutral leave-behind is
+   `python3 -m gak_conformance` (run from the repository root). Deponent
+   historically hosted a conforming implementation and remains the first
+   *scored* kernel — it is not the category entrypoint.
 
    ```python
-   from deponent.conformance import run_conformance
+   from gak_conformance import run_conformance
    receipt = run_conformance(YourAdapter())
    print(receipt.render())          # per-clause PASS/FAIL/NA + verdict
+   ```
+
+   ```
+   python3 -m gak_conformance score --adapter your_pkg.adapter:YourAdapter --out receipt.json
    ```
 
 5. **Claim the mark if — and only if — it is earned** (§8), and publish the
@@ -776,16 +782,18 @@ harness. Deponent declares `action-gate` with capabilities
 
 Machine-readable evidence accompanies this specification in `evidence/`:
 the conformance receipt, the certification JSON, the verifier output, and a
-two-run determinism proof. With the reference implementation installed, the
-fail-closed verification command is:
+two-run determinism proof. The fail-closed verification command in this
+repository (spec §5.4) is:
 
 ```
-python3 -m deponent.badge verify --kernel deponent
+python3 -m gak_conformance verify --adapter <module:Class> --cert evidence/deponent-certification.json
 ```
 
 which re-runs the harness, re-derives the digest, prints the verdict, and
-exits `0` only if the mark is earned (non-conformant → exit `1`; unknown
-kernel → exit `2`).
+exits `0` only if the mark is earned (non-conformant or digest mismatch →
+exit `1`; unloadable adapter → exit `2`). The historical kernel-local
+command `python3 -m deponent.badge verify --kernel deponent` is not the
+category entrypoint.
 
 ---
 
@@ -797,7 +805,7 @@ consistent with a harness that claims to implement it:
 1. **Clause census.** The harness's clause listing contains exactly the
    thirteen identifiers of §4 — no more, no fewer — with the profiles and
    capability requirements stated there.
-   (Reference harness: `python3 -m deponent.conform --list-clauses`.)
+   (Reference harness: `python3 -m gak_conformance list-clauses`.)
 2. **Determinism.** Two consecutive certification runs of the same kernel
    produce byte-identical `clauses_digest` values (§5.3).
 3. **Fail-closed exit codes.** The verifier exits `0` for a conformant kernel
