@@ -17,6 +17,11 @@
     "history-rewrite",
     "unrelated-repository-write"
   ],
+  "release_smoke_commands": [
+    "PYTHONPATH=. python3 -m gak_conformance --help",
+    "PYTHONPATH=. python3 -m gak_conformance selfcheck",
+    "PYTHONPATH=. python3 -m gak_conformance score --adapter gak_conformance.fixtures.action_gate:PassingActionAdapter --out receipt.json"
+  ],
   "launch_commands": [
     "python3 -m gak_conformance --help",
     "python3 -m gak_conformance selfcheck",

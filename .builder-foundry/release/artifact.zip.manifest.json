@@ -1,0 +1,287 @@
+{
+  "artifact_path": "/Users/cj/Workspace/active/gak-conformance-standard/.builder-foundry/release/artifact.zip",
+  "created_at": "2026-08-12T18:27:00Z",
+  "file_count": 46,
+  "files": [
+    {
+      "executable": false,
+      "path": ".gitattributes",
+      "sha256": "c1c95483cb519c581067eac248e2b6c382624d0b1a4812f0ee5a9199716f7ce1",
+      "size": 210
+    },
+    {
+      "executable": false,
+      "path": ".gitignore",
+      "sha256": "de60d61aa396ee34e2c70f749ee0c207ef27fdef958b7de832eaccac0bd97d54",
+      "size": 175
+    },
+    {
+      "executable": false,
+      "path": "LICENSE",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "size": 11358
+    },
+    {
+      "executable": false,
+      "path": "NOTICE",
+      "sha256": "120a176a21b76a0fd5659b58db9825ce83c0ac01a92aa6220d353424aeade79f",
+      "size": 877
+    },
+    {
+      "executable": false,
+      "path": "README.md",
+      "sha256": "395df25b03691b2a99858af024a85c9e1963390396a477886cc1c4b4e01efb67",
+      "size": 6887
+    },
+    {
+      "executable": false,
+      "path": "gak_conformance/__init__.py",
+      "sha256": "908246f8df4a7a24a80e845a2a49afa0fcf84b6a5ac07fc7a37daa1a6267598e",
+      "size": 809
+    },
+    {
+      "executable": false,
+      "path": "gak_conformance/__main__.py",
+      "sha256": "307299fda7b77d22c64cb51430ec75e5f59d78e9c948786afb3b2544fe45e4b7",
+      "size": 79
+    },
+    {
+      "executable": false,
+      "path": "gak_conformance/adapter.py",
+      "sha256": "936eb5a64cda0b4991c2ab9b2d0c3cc1f4e3a5d12713a50683e14ca66498061f",
+      "size": 1891
+    },
+    {
+      "executable": false,
+      "path": "gak_conformance/adapters/__init__.py",
+      "sha256": "e525535dac3faaf02e3135da4bfac4ea21e38d4663d4fd8b8bf3ff3841a7d2bb",
+      "size": 241
+    },
+    {
+      "executable": false,
+      "path": "gak_conformance/adapters/deponent.py",
+      "sha256": "98e01e7e29ed3a1feb4de7bf51abc07260ea83e8cc1a65913ad08bcbf8be5e3d",
+      "size": 2431
+    },
+    {
+      "executable": false,
+      "path": "gak_conformance/clauses.py",
+      "sha256": "3996891f63c140eb147718d9dd1ad2a569e614364426d667b62dfd7fc96c63a2",
+      "size": 4911
+    },
+    {
+      "executable": false,
+      "path": "gak_conformance/cli.py",
+      "sha256": "519a3d5720f8ea5eda490d30fc67e73273149b7e25f9fbe465b9a94f9b0e2cc8",
+      "size": 7405
+    },
+    {
+      "executable": false,
+      "path": "gak_conformance/fixtures/__init__.py",
+      "sha256": "a6a3e45adbcced8743eba1959ca0dac82f4f64771dd2591e048a0a796dcf708e",
+      "size": 679
+    },
+    {
+      "executable": false,
+      "path": "gak_conformance/fixtures/action_gate.py",
+      "sha256": "068b96693134dfc05d293d57e6f85105636d53983c930c62023520b3a8996511",
+      "size": 865
+    },
+    {
+      "executable": false,
+      "path": "gak_conformance/fixtures/brick.py",
+      "sha256": "58d775e4f8a8ca8452e54df75a1143c742e6be8dbd567ce6f4e65a912fa6823a",
+      "size": 906
+    },
+    {
+      "executable": false,
+      "path": "gak_conformance/fixtures/commit_gate.py",
+      "sha256": "de83b43828919b406b9507acece025d922b7845c2b5cbafaf6890b03c8a789d3",
+      "size": 683
+    },
+    {
+      "executable": false,
+      "path": "gak_conformance/fixtures/raising.py",
+      "sha256": "ceedb54285d4e890019aae85a40457878f3feab3a3f637d2ee8c643fbab888f8",
+      "size": 874
+    },
+    {
+      "executable": false,
+      "path": "gak_conformance/load.py",
+      "sha256": "9b421304fa2b4e549c77bff76cb456158a4d0464a07bfaa4501b62569b03691e",
+      "size": 1472
+    },
+    {
+      "executable": false,
+      "path": "gak_conformance/receipt.py",
+      "sha256": "764b22540c514f5266571034afe4550030251fae1e23c6d8a2c08df9b169ca1c",
+      "size": 3707
+    },
+    {
+      "executable": false,
+      "path": "gak_conformance/scorer.py",
+      "sha256": "e8ad781af603eb1cde8809b3b3be35ed5e7cccd7ef0a7f5d7d8c2246ceba2e55",
+      "size": 2648
+    },
+    {
+      "executable": false,
+      "path": "pyproject.toml",
+      "sha256": "1874987d860e312da92e97b8d9f2b4f5f748cbc7521091424e7231109428ec29",
+      "size": 967
+    },
+    {
+      "executable": false,
+      "path": "scripts/check_consistency.py",
+      "sha256": "3150f3a629aacf44cbc742921a496f619d7a8ad59ed486cce3909d8d481321d8",
+      "size": 3509
+    },
+    {
+      "executable": false,
+      "path": "tests/test_check_consistency.py",
+      "sha256": "b0a999b260dc10933f3d3396f80d21305b78583591927f3078cdf0fcbbf9b2c2",
+      "size": 751
+    },
+    {
+      "executable": false,
+      "path": "tests/test_clause_census.py",
+      "sha256": "ffd87f6ec2aeb33c3daf66f29242d8726a2912a7837b5b723a149ed7c264be24",
+      "size": 1283
+    },
+    {
+      "executable": false,
+      "path": "tests/test_cli.py",
+      "sha256": "a3e8a5af4aba84d36b4485c9f45a8957a8bd3a9acb82fe29c2c98daee35f5416",
+      "size": 3212
+    },
+    {
+      "executable": false,
+      "path": "tests/test_deponent_adapter.py",
+      "sha256": "abadcd067b3a0da8a18be724d6e77d4c1bcc9bb12bc711d675211be4b46de37f",
+      "size": 2193
+    },
+    {
+      "executable": false,
+      "path": "tests/test_digest.py",
+      "sha256": "d3578ac49506c6c243004a94acc880da551646c37fc3aa7dc1d915e3b17e8daa",
+      "size": 1409
+    },
+    {
+      "executable": false,
+      "path": "tests/test_import_boundary.py",
+      "sha256": "99e3cfd14515a2813f5a14c9bff64ba37a715a37b3420609ba5156ad2a5bc29e",
+      "size": 878
+    },
+    {
+      "executable": false,
+      "path": "tests/test_leavebehind.py",
+      "sha256": "2a5b4d1e88f20897f6bc32ee691d8d0af45047896ef9ecab2fa963bc297d6bcf",
+      "size": 2604
+    },
+    {
+      "executable": false,
+      "path": "tests/test_load.py",
+      "sha256": "591f120876656f3e58d281160b76e27b3c3bb7a769a22fb4b4d3e077e01aa8f0",
+      "size": 904
+    },
+    {
+      "executable": false,
+      "path": "tests/test_scorer_semantics.py",
+      "sha256": "399d144d69bbd832e1f7202d5231cb4fdafd8bb67196457edd46eef80c81dcbd",
+      "size": 5019
+    },
+    {
+      "executable": false,
+      "path": "tests/test_verify.py",
+      "sha256": "8e551aae1ed6d2994def50549ca8f638c7593be5b6b4eb9eee668c0eefb133e0",
+      "size": 2238
+    },
+    {
+      "executable": false,
+      "path": "v1/evidence/deponent-certification-v1.1.json",
+      "sha256": "b57126955bff19841bc2b8abcdcf9062af6b78300cd1d10c40e45cb5d40327b1",
+      "size": 1365
+    },
+    {
+      "executable": false,
+      "path": "v1/evidence/deponent-certification.json",
+      "sha256": "0105a4722b22edf2bb8a27693916f31a3c892c617a2a8c68f63b44420a5a05a2",
+      "size": 1288
+    },
+    {
+      "executable": false,
+      "path": "v1/evidence/deponent-conformance-receipt-v1.1.json",
+      "sha256": "d17b046657f268dd161fe993eae193e5da2690a818c3f7adf8146d923377fc25",
+      "size": 2997
+    },
+    {
+      "executable": false,
+      "path": "v1/evidence/deponent-conformance-receipt.json",
+      "sha256": "13c9da7ec6a737c1c9ffb4f6a5cf95420cac8cd7937dd801a41552bfad6b4fdf",
+      "size": 2721
+    },
+    {
+      "executable": false,
+      "path": "v1/evidence/deponent-verify-output-v1.1.txt",
+      "sha256": "f054501d0a72673e3afd57f41f31fa8052a1f3914a9e9e1b6c6afe39e80084c5",
+      "size": 94
+    },
+    {
+      "executable": false,
+      "path": "v1/evidence/deponent-verify-output.txt",
+      "sha256": "3f06590922773ef1e5964f30a749ef2bffc19b0c0f3be19c11fbc8607420429a",
+      "size": 99
+    },
+    {
+      "executable": false,
+      "path": "v1/evidence/determinism-proof-v1.1.txt",
+      "sha256": "4d24f9ae48c83b94e8e2f1f12e43592c3932bb8745ab25d9a26a8add3eb8e713",
+      "size": 219
+    },
+    {
+      "executable": false,
+      "path": "v1/evidence/determinism-proof.txt",
+      "sha256": "c1049c551767a99bd65132bc84fac78dfd849ef5038ef1e7d21ca8a558a3114a",
+      "size": 381
+    },
+    {
+      "executable": false,
+      "path": "v1/evidence/harness-clause-list-v1.1.txt",
+      "sha256": "25a9698885ae5043d3d6d8292695e92ba47b59fa943607b24b6a59f9d9830bfb",
+      "size": 1612
+    },
+    {
+      "executable": false,
+      "path": "v1/evidence/harness-clause-list.txt",
+      "sha256": "c1a0ca5e9afe63eb02016cee932bd1e450d24e06150a44c0e707edae38b4c959",
+      "size": 1386
+    },
+    {
+      "executable": false,
+      "path": "v1/evidence/sworn-certification-v1.1.json",
+      "sha256": "5c0d70d161ebd21e24996b7483d58a438145bf851f73c65a2b77e0986d8bb891",
+      "size": 1354
+    },
+    {
+      "executable": false,
+      "path": "v1/evidence/sworn-conformance-receipt-v1.1.json",
+      "sha256": "5f41ec09c702ff1e6fd1744912cc4f21284eb807057842501b66d502746c39cb",
+      "size": 3275
+    },
+    {
+      "executable": false,
+      "path": "v1/receipt.schema.json",
+      "sha256": "0eb4179b6301ede469f17d7affc1c895f00e9c02c852115cb4e08ed423f9600d",
+      "size": 1304
+    },
+    {
+      "executable": false,
+      "path": "v1/spec.md",
+      "sha256": "51b8e6d0970a275634c32dc9ab57ce893380fb9244a1db0b15125affc2a31c2b",
+      "size": 36397
+    }
+  ],
+  "forbidden_scan": "pass",
+  "schema_version": "1.0.0",
+  "secret_scan_hits": [],
+  "sha256": "81d92f14168096dc2cb11dbd484da208387df4b91b087556eb2807f2957eeda2"
+}

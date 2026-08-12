@@ -1,0 +1,9 @@
+leave-behind session-2
+date: 2026-08-12
+product_scan: tests/test_leavebehind.py::test_product_tree_has_no_forbidden_tokens PASS
+zip: .builder-foundry/release/artifact.zip
+zip_sha256: 81d92f14168096dc2cb11dbd484da208387df4b91b087556eb2807f2957eeda2
+forbidden_scan: pass
+members_excluded: .git .builder-foundry MISSION_FOUNDRY_GAK_V0.md AGENTS.builder-foundry.md marathon.pid
+smoke: help=0 selfcheck=0 fixture_score=0
+deponent_adapter_absent: exit 2

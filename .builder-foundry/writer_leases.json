@@ -1,7 +1,7 @@
 [
   {
     "id": "LEASE-LEAD-STATE",
-    "owner": "session-01-lead",
+    "owner": "session-02-research",
     "scope": [
       ".builder-foundry/"
     ],
@@ -11,20 +11,24 @@
       ".builder-foundry/locks/"
     ],
     "mode": "writer",
-    "acquired_at": "2026-08-12T17:55:00Z",
+    "acquired_at": "2026-08-12T18:15:00Z",
     "status": "active"
   },
   {
     "id": "LEASE-IMPL-SCORER",
-    "owner": "session-01-lead",
+    "owner": "session-02-research",
     "scope": [
       "gak_conformance/",
       "tests/",
       "pyproject.toml",
-      "scripts/check_consistency.py"
+      "README.md",
+      "scripts/check_consistency.py",
+      ".gitattributes",
+      ".gitignore",
+      "v1/receipt.schema.json"
     ],
     "mode": "writer",
-    "acquired_at": "2026-08-12T18:05:00Z",
-    "status": "reserved"
+    "acquired_at": "2026-08-12T18:20:00Z",
+    "status": "active"
   }
 ]

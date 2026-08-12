@@ -4,27 +4,31 @@
   "mode": "writer",
   "implemented_work": true,
   "findings": [
-    "gak_conformance is stdlib-only: clauses, adapter protocol, scorer, receipt/digest, CLI, fixtures.",
-    "Default harness is gak-conformance/v1 (13 clauses). --harness v1.1 adds only GAK-AUDIT-CONTENT-BLIND.",
-    "python3 -m pytest -v: 25 passed. check_consistency.py exit 0 without Deponent."
+    "Session-2 closed FEAT-0007/0026/0027/0028 and added verify, list-clauses, loader grammar, path redaction.",
+    "pytest: 44 passed, 1 skipped (live Deponent).",
+    "Release zip smoke pass; SHA-256 81d92f14168096dc2cb11dbd484da208387df4b91b087556eb2807f2957eeda2."
   ],
   "rejected_assumptions": [
-    "Need click/pydantic for a usable CLI.",
-    "Need Deponent installed to run any score."
+    "Need Deponent installed to ship FEAT-0026",
+    "Need jsonschema or Cosign for verify"
   ],
   "work_performed": [
-    "Added gak_conformance package and pyproject.toml",
-    "Rewrote scripts/check_consistency.py onto in-repo clause table",
-    "Updated README first-run to in-repo commands",
-    "Added tests for digest, census, semantics, CLI, import boundary"
+    "verify --adapter --cert",
+    "gak_conformance.adapters.deponent.DeponentKernelAdapter",
+    "load.py identifier grammar",
+    "scorer detail path redaction",
+    "leave-behind tests + create_release zip",
+    "README Sequence D + v1 face + exit table"
   ],
-  "evidence": ["EVID-PYTEST-S01"],
+  "evidence": [
+    "EVID-PYTEST-S02",
+    "EVID-RELEASE-S02"
+  ],
   "conflicts": [],
   "open_risks": [
-    "Optional Deponent adapter not implemented",
-    "Release packaging not done",
-    "No independent review of this implementation"
+    "No independent review of this implementation",
+    "Inner DeponentAdapter class name not live-verified in this env"
   ],
   "verdict": "advisory",
-  "timestamp": "2026-08-12T18:20:00Z"
+  "timestamp": "2026-08-12T18:32:00Z"
 }

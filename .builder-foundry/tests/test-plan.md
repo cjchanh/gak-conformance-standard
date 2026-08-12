@@ -1,6 +1,12 @@
 # GAK v0 — failing-first test plan
 
-**Lane:** testing (advisory). **No tests written. No scorer exists.**
+**Status (2026-08-12 session 2):** STALE as a file map. The scorer exists.
+Shipped tests live under `tests/test_*.py` (44 passed, 1 skipped).
+Session-2 added `test_verify.py`, `test_deponent_adapter.py`,
+`test_leavebehind.py`, `test_load.py`. Planned 20-file names were collapsed
+in session 1. Historical failing-first text below is kept as the original
+oracle, not as the live file index.
+
 **Oracle:** frozen `gak-conformance/v1` (13 clauses). Not live Deponent `v1.1`.
 **Published digest:** `de6b7089f894e009a6d1a1dba8c9b32b26e38daf803b07b83ec0958ff64c5406`
 **Source receipt:** `v1/evidence/deponent-conformance-receipt.json` (10 / 0 / 3).

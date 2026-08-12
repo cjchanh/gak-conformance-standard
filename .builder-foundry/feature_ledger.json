@@ -117,9 +117,12 @@
       "rg scan of product + release archive for forbidden tokens",
       "release forbidden_scan == pass"
     ],
-    "passes": false,
-    "evidence": [],
-    "commit": null,
+    "passes": true,
+    "evidence": [
+      "EVID-LEAVEBEHIND-S02",
+      "EVID-RELEASE-S02"
+    ],
+    "commit": "788b8bddf6c90efe50f2c9c3fda654ca366e3578",
     "owner": "security"
   },
   {
@@ -433,9 +436,11 @@
       "If deponent importable: score --adapter gak_conformance.adapters.deponent:DeponentKernelAdapter produces 13-clause receipt",
       "If not importable: documented skip, not a harness crash"
     ],
-    "passes": false,
-    "evidence": [],
-    "commit": null,
+    "passes": true,
+    "evidence": [
+      "EVID-PYTEST-S02"
+    ],
+    "commit": "788b8bddf6c90efe50f2c9c3fda654ca366e3578",
     "owner": "implementation"
   },
   {
@@ -447,9 +452,11 @@
     "verification": [
       "create_release.py smoke commands pass in extracted zip"
     ],
-    "passes": false,
-    "evidence": [],
-    "commit": null,
+    "passes": true,
+    "evidence": [
+      "EVID-RELEASE-S02"
+    ],
+    "commit": "788b8bddf6c90efe50f2c9c3fda654ca366e3578",
     "owner": "release-engineering"
   },
   {
@@ -462,9 +469,11 @@
       "safe_release_zip forbidden scan pass",
       "no /Users/cj, no marathon.pid, no .git"
     ],
-    "passes": false,
-    "evidence": [],
-    "commit": null,
+    "passes": true,
+    "evidence": [
+      "EVID-RELEASE-S02"
+    ],
+    "commit": "788b8bddf6c90efe50f2c9c3fda654ca366e3578",
     "owner": "release-engineering"
   },
   {
@@ -633,6 +642,112 @@
       "EVID-PYTEST-S01"
     ],
     "commit": "f02022c1b972f308db81c7410cc5c16a4d8c1854",
+    "owner": "security"
+  },
+  {
+    "id": "FEAT-0039",
+    "category": "cli",
+    "priority": "high",
+    "description": "verify --adapter --cert re-scores the kernel and compares the published clauses_digest (spec \u00a75.4).",
+    "user_value": "A published PASS cannot waive a failing re-run.",
+    "verification": [
+      "matching fixture cert exits 0",
+      "stale digest exits 1 even if live score is conformant",
+      "nonconformant live kernel exits 1",
+      "bad adapter exits 2"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-PYTEST-S02"
+    ],
+    "commit": "788b8bddf6c90efe50f2c9c3fda654ca366e3578",
+    "owner": "implementation"
+  },
+  {
+    "id": "FEAT-0040",
+    "category": "cli",
+    "priority": "high",
+    "description": "--help names score, selfcheck, verify, list-clauses, digest; list-clauses prints the 13 v1 ids.",
+    "user_value": "A stranger can see the whole command surface without opening the spec.",
+    "verification": [
+      "python3 -m gak_conformance --help lists those subcommands",
+      "list-clauses prints 13 GAK- ids and not v1.1 extras"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-PYTEST-S02"
+    ],
+    "commit": "788b8bddf6c90efe50f2c9c3fda654ca366e3578",
+    "owner": "implementation"
+  },
+  {
+    "id": "FEAT-0041",
+    "category": "docs",
+    "priority": "high",
+    "description": "README first-run stays fixture-first; Status leads with frozen v1; Sequence D is the in-repo Deponent adapter; exit table 0/1/2 is next to the first commands; third-party count stays zero.",
+    "user_value": "The face matches the product doctrine.",
+    "verification": [
+      "README contains verify and gak_conformance.adapters.deponent:DeponentKernelAdapter",
+      "Status first sentence is frozen v1",
+      "Third-party verdicts: zero remains"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-PYTEST-S02"
+    ],
+    "commit": "788b8bddf6c90efe50f2c9c3fda654ca366e3578",
+    "owner": "product-design"
+  },
+  {
+    "id": "FEAT-0042",
+    "category": "versioning",
+    "priority": "medium",
+    "description": "audit_is_content_blind is documented as v1.1-only; default list-clauses and score stay 13 clauses.",
+    "user_value": "v0 face is not the 14-clause amendment.",
+    "verification": [
+      "list-clauses default has no GAK-AUDIT-CONTENT-BLIND",
+      "Protocol docstring says v1.1 only"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-PYTEST-S02"
+    ],
+    "commit": "788b8bddf6c90efe50f2c9c3fda654ca366e3578",
+    "owner": "architecture"
+  },
+  {
+    "id": "FEAT-0043",
+    "category": "cli",
+    "priority": "high",
+    "description": "Adapter loader rejects .., extra colons, empty parts, filesystem paths, and non-identifier segments (PyPA entry-point grammar).",
+    "user_value": "Path-like adapter tokens are not silently imported.",
+    "verification": [
+      "foo..bar:X raises ValueError",
+      "/tmp/x:Y raises ValueError",
+      "fixture module:Class still loads"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-PYTEST-S02"
+    ],
+    "commit": "788b8bddf6c90efe50f2c9c3fda654ca366e3578",
+    "owner": "security"
+  },
+  {
+    "id": "FEAT-0044",
+    "category": "security",
+    "priority": "medium",
+    "description": "FAIL detail keeps exception type and message but redacts /Users/<name>, /home/<name>, and Windows user paths (CWE-209).",
+    "user_value": "A public receipt does not publish a host home directory.",
+    "verification": [
+      "FileNotFoundError with /Users/cj/... keeps type and <path>",
+      "contiguous host path absent from detail"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-PYTEST-S02"
+    ],
+    "commit": "788b8bddf6c90efe50f2c9c3fda654ca366e3578",
     "owner": "security"
   }
 ]

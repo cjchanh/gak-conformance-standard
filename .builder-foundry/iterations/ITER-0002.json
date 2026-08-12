@@ -1,0 +1,69 @@
+{
+  "id": "ITER-0002",
+  "problem": "Session-1 research locked receipts but left verify missing, no optional Deponent adapter, no leave-behind/release zip, loader accepted .., and exception detail leaked host paths.",
+  "impact_evidence": [
+    "EVID-RESEARCH-S02",
+    "EVID-LEAVEBEHIND-PRODUCT"
+  ],
+  "alternatives": [
+    "Treat digest --receipt as \u00a75.4 verification",
+    "Import deponent.conformance as the optional adapter",
+    "Add a deponent pip extra",
+    "Defer release zip to a later session"
+  ],
+  "choice": "Ship verify + lazy string-import adapter + zipper excludes + PEP 517 loader + CWE-209 redaction, driven by session-2 primary sources",
+  "files_changed": [
+    "gak_conformance/cli.py",
+    "gak_conformance/load.py",
+    "gak_conformance/scorer.py",
+    "gak_conformance/receipt.py",
+    "gak_conformance/adapters/",
+    "tests/test_verify.py",
+    "tests/test_deponent_adapter.py",
+    "tests/test_leavebehind.py",
+    "tests/test_load.py",
+    "README.md",
+    "pyproject.toml"
+  ],
+  "tests": [
+    "tests/test_verify.py",
+    "tests/test_deponent_adapter.py",
+    "tests/test_leavebehind.py",
+    "tests/test_load.py",
+    "tests/test_cli.py",
+    "tests/test_scorer_semantics.py"
+  ],
+  "before": {
+    "subcommands": [
+      "score",
+      "digest",
+      "selfcheck"
+    ],
+    "deponent_adapter": false,
+    "release_zip": false,
+    "pytest": "25 passed"
+  },
+  "after": {
+    "subcommands": [
+      "score",
+      "verify",
+      "digest",
+      "list-clauses",
+      "selfcheck"
+    ],
+    "deponent_adapter": "lazy; exit 2 if absent",
+    "release_zip": "forbidden_scan=pass; smoke=pass",
+    "pytest": "44 passed, 1 skipped"
+  },
+  "regressions": [],
+  "remediation": [],
+  "evidence": [
+    "EVID-PYTEST-S02",
+    "EVID-RELEASE-S02"
+  ],
+  "user_visible": true,
+  "commit": "788b8bddf6c90efe50f2c9c3fda654ca366e3578",
+  "reviewer": "pending-independent",
+  "reviewer_verdict": "pending",
+  "timestamp": "2026-08-12T18:32:00Z"
+}

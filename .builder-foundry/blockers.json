@@ -67,12 +67,15 @@
   {
     "id": "BLK-0006",
     "severity": "medium",
-    "status": "open",
-    "summary": "Deponent and sworn are not importable in the campaign Python, so live reference-kernel scoring cannot be re-run here until an optional adapter + local install path exists.",
+    "status": "closed",
+    "summary": "Deponent and sworn are not importable in the campaign Python, so live reference-kernel scoring cannot be re-run here.",
     "evidence": [
-      "EVID-BASELINE-RUNTIME"
+      "EVID-BASELINE-RUNTIME",
+      "EVID-PYTEST-S02"
     ],
     "owner": "implementation",
-    "opened_at": "2026-08-12T17:59:20Z"
+    "opened_at": "2026-08-12T17:59:20Z",
+    "resolution": "Optional DeponentKernelAdapter shipped. Absent path is documented skip (CLI exit 2). Live 13-clause score remains environment-blocked, not a missing product surface.",
+    "closed_at": "2026-08-12T18:30:00Z"
   }
 ]

@@ -71,7 +71,7 @@ git clone <this-repo-url>
 cd gak-conformance-standard
 python3 -m gak_conformance --help
 python3 -m gak_conformance selfcheck
-python3 -m gak_conformance score --adapter gak_conformance.fixtures:FixtureActionAdapter --out receipt.json
+python3 -m gak_conformance score --adapter gak_conformance.fixtures.action_gate:PassingActionAdapter --out receipt.json
 ```
 
 **Expected after `selfcheck`:** exit `0`; prints that the scorer, fixture adapters, receipt schema, and digest algorithm are internally consistent. Does **not** print a public mark claim.

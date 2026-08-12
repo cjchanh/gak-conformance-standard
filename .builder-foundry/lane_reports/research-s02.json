@@ -1,0 +1,46 @@
+{
+  "lane": "research",
+  "role": "primary-source-researcher",
+  "mode": "read-then-implement",
+  "implemented_work": true,
+  "findings": [
+    "spec §5.4 requires live re-score + digest compare; digest --receipt is not verification (SLSA subject-digest + monotonic deny-unless-evidence).",
+    "Optional Deponent adapter must use find_spec + string import_module; no deponent extra; no deponent.conformance import; AST isolation test stays strict.",
+    "Kit zipper omits .builder-foundry but ships MISSION_FOUNDRY and .agents/.claude/.grok unless extra --exclude. Smoke needs PYTHONPATH=.",
+    "PyPA entry-points grammar requires identifier segments; load.py must reject ...",
+    "CWE-209: keep exception type+message, redact host home paths in detail.",
+    "Keep CLI exits 0/1/2 (doctrine over research 0/1/2/3/4).",
+    "No official vendor-neutral agent-action-gate suite as of 2026-08-12; third-party count stays zero."
+  ],
+  "rejected_assumptions": [
+    "score + digest satisfies §5.4",
+    "A deponent pip extra is required for FEAT-0026",
+    "find_spec / subprocess is a sandbox",
+    "REUSE 3.3 is a v0 gate",
+    "Research 0/1/2/3/4 should replace doctrine 0/1/2",
+    "Cosign is required to verify a GAK claim"
+  ],
+  "work_performed": [
+    "Four grok-fleet primary-source tasks + official page reads (importlib, PEP 639, Apache 2.0, JSON Schema 2020-12, pytest exits, entry-points).",
+    "Six native read-only lanes: spec §5.4, adapter isolation, release, doctrine drift, loader/leaks, test-plan.",
+    "Wrote session-02-primary-sources.md, agent-gate-comparables.md, D-003/D-004/D-005.",
+    "Implemented verify, DeponentKernelAdapter, loader grammar, path redaction, list-clauses, README face, PEP 639, receipt schema, leave-behind tests, release zip."
+  ],
+  "evidence": [
+    "EVID-RESEARCH-S02",
+    "EVID-PYTEST-S02",
+    "EVID-RELEASE-S02"
+  ],
+  "conflicts": [
+    "Doctrine Sequence C vs Architecture CLI (no verify) — spec §5.4 wins; verify shipped.",
+    "test_import_boundary forbids import deponent — kept; adapter uses string import_module."
+  ],
+  "open_risks": [
+    "Live Deponent 13-clause score not re-run in this environment (BLK-0006 closed as skip path).",
+    "Inner class name deponent.adapters.deponent.DeponentAdapter is architecture-specified, not live-verified here.",
+    "Fabricated adapters remain a social/void-mark problem (spec §6.3/§8).",
+    "Independent review of this session's implementation is still pending."
+  ],
+  "verdict": "advisory",
+  "timestamp": "2026-08-12T18:32:00Z"
+}

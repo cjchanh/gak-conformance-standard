@@ -281,6 +281,7 @@ One entrypoint: `python3 -m gak_conformance`
 | `selfcheck` | score in-repo fixture + brick + all-NA + raising; print digest; no Deponent | 0 if harness invariants hold; else 1 |
 | `list-clauses` | print 13 ids / profiles / requires / statements | 0 |
 | `score --adapter M:C [--out receipt.json] [--cert cert.json]` | run §6 adapter; write outputs | **0 iff conformant**; 1 not conformant; 2 load/declaration error |
+| `verify --adapter M:C --cert FILE` | re-score + compare published `clauses_digest` (§5.4) | 0 iff conformant and digest matches; 1 mismatch or not conformant; 2 load/parse |
 | `digest --receipt receipt.json` | re-derive §5.3 to stdout | 0; 2 if file missing/invalid |
 
 Fail-closed: 0 means the mark is earned (or the meta-command succeeded). Nonzero otherwise.
