@@ -1,0 +1,29 @@
+{
+  "lane": "release-engineering",
+  "role": "release-engineer",
+  "mode": "writer",
+  "implemented_work": true,
+  "verdict": "pass",
+  "timestamp": "2026-08-12T18:52:00Z",
+  "work_performed": [
+    "Rebuilt .builder-foundry/release/artifact.zip after session-3 product-face remediations.",
+    "Excludes: MISSION_FOUNDRY_GAK_V0.md, AGENTS.builder-foundry.md, .agents/*, .claude/*, .grok/*.",
+    "Smoke: help, selfcheck (HARNESS_OK), fixture score. forbidden_scan=pass."
+  ],
+  "findings": [
+    "examples/adapter_skeleton.py is in the zip.",
+    ".builder-foundry/ is not in the zip.",
+    "Extracted selfcheck stderr is HARNESS_OK, not a digest-only line."
+  ],
+  "rejected_assumptions": [
+    "The session-2 zip (81d92f14…) still represents the shipped face."
+  ],
+  "conflicts": [],
+  "open_risks": [
+    "Local artifact only. No publish.",
+    "Smoke uses PYTHONPATH=. inside the extract, which is correct for a relocated tree."
+  ],
+  "evidence": [
+    "EVID-RELEASE-S03"
+  ]
+}

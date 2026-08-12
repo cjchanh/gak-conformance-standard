@@ -1,0 +1,46 @@
+{
+  "id": "RED-0001",
+  "attacks": [
+    "README first fence from repo root",
+    "python3 -m gak_conformance with no args",
+    "missing / path-like / foo..bar adapter tokens",
+    "PassingActionAdapter / BrickActionAdapter / PassingCommitAdapter",
+    "selfcheck as a public GAK-conformant screenshot",
+    "score --certify on a fixture",
+    "score --out on a fixture (CONFORMANT render banner)",
+    "non-repo cwd /tmp",
+    "spec §7.1 / Appendix A-B Deponent commands",
+    "missing adapter skeleton",
+    "verify with mutated digest"
+  ],
+  "defects_found": [
+    "SPEC-S71-DEPONENT-PATH",
+    "SELFCHECK-MARK-BANNER",
+    "FIXTURE-CERTIFY-MARK",
+    "FIXTURE-SCORE-OUT-CONFORMANT-BANNER",
+    "UNDOCUMENTED-REPO-ROOT",
+    "NO-ADAPTER-SKELETON",
+    "README-V11-PRIMARY-TABLE"
+  ],
+  "remediation": [
+    "D-007 spec §7.1 / appendix retarget",
+    "cmd_selfcheck HARNESS_OK; no render banner",
+    "CLI refuse --certify on fixture-*",
+    "score --out fixture: no CONFORMANT render; NOTE on stderr",
+    "README repository-root + first 40 bound + Sequence A",
+    "examples/adapter_skeleton.py",
+    "v1.1 sworn demoted to Status"
+  ],
+  "regression_tests": [
+    "tests/test_journeys.py",
+    "tests/test_cli.py::test_selfcheck_conformant",
+    "tests/test_cli.py::test_selfcheck_out_does_not_print_mark_banner",
+    "tests/test_cli.py::test_score_refuses_to_certify_a_fixture",
+    "tests/test_cli.py::test_score_out_writes_file",
+    "tests/test_cli.py::test_no_args_exits_two",
+    "tests/test_verify.py",
+    "tests/test_load.py"
+  ],
+  "verdict": "pass",
+  "timestamp": "2026-08-12T18:55:00Z"
+}

@@ -1,0 +1,40 @@
+{
+  "id": "ITER-0005",
+  "problem": "Journey B sent authors to spec \u00a76 with no copy-paste adapter. Independent UX scored Reuse FAIL.",
+  "impact_evidence": [
+    "EVID-JOURNEYS-DOC"
+  ],
+  "alternatives": [
+    "Only link spec \u00a76",
+    "Put a passing fixture in examples/ (looks like a canned kernel)",
+    "Ship examples/adapter_skeleton.py that raises NotImplementedError"
+  ],
+  "choice": "Raising skeleton. Untouched file cannot earn the mark.",
+  "files_changed": [
+    "examples/adapter_skeleton.py",
+    "examples/README.md",
+    "README.md",
+    "tests/test_journeys.py",
+    "tests/test_leavebehind.py"
+  ],
+  "tests": [
+    "tests/test_journeys.py::test_untouched_skeleton_scores_fail_not_a_mark"
+  ],
+  "before": {
+    "examples_dir": false
+  },
+  "after": {
+    "examples_dir": true,
+    "untouched_skeleton_conformant": false
+  },
+  "regressions": [],
+  "remediation": [],
+  "evidence": [
+    "EVID-PYTEST-S03"
+  ],
+  "user_visible": true,
+  "commit": "0432cac954e74f4f3fef988c23eef5ab10fe2c3a",
+  "reviewer": "independent-qa-s03-post",
+  "reviewer_verdict": "pass",
+  "timestamp": "2026-08-12T18:50:00Z"
+}

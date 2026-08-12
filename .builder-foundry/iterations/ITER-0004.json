@@ -1,0 +1,49 @@
+{
+  "id": "ITER-0004",
+  "problem": "selfcheck reused score and, with --out, printed CONFORMANT via render(). Fixture --certify minted mark GAK-conformant. A stranger could screenshot a public mark from a harness probe.",
+  "impact_evidence": [
+    "EVID-SELFCHECK-S03",
+    "EVID-CUTS-S03"
+  ],
+  "alternatives": [
+    "Keep JSON-only selfcheck and rely on README disclaimers",
+    "Add a non-spec harness_fixture field to the receipt (schema fork)",
+    "Dedicated selfcheck writer (HARNESS_OK), refuse CLI --certify on fixture-* kernels"
+  ],
+  "choice": "Dedicated selfcheck writer + CLI refuse to certify fixtures. Do not fork \u00a75.1.",
+  "files_changed": [
+    "gak_conformance/cli.py",
+    "tests/test_cli.py",
+    "tests/test_verify.py",
+    "README.md"
+  ],
+  "tests": [
+    "tests/test_cli.py",
+    "tests/test_verify.py"
+  ],
+  "before": {
+    "selfcheck_stderr": "digest <hex>",
+    "selfcheck_out_banner": "CONFORMANT",
+    "fixture_certify": "exit 0, mark GAK-conformant"
+  },
+  "after": {
+    "selfcheck_stderr": "HARNESS_OK fixture=fixture-action digest=9949c515\u2026 (not a kernel certification)",
+    "selfcheck_out_banner": "absent",
+    "fixture_certify": "exit 2, BLOCKED cannot be certified"
+  },
+  "regressions": [
+    "verify tests used CLI --certify on the fixture to mint a cert"
+  ],
+  "remediation": [
+    "verify tests write a library certification object; CLI path stays refuse-on-fixture"
+  ],
+  "evidence": [
+    "EVID-SELFCHECK-S03",
+    "EVID-PYTEST-S03"
+  ],
+  "user_visible": true,
+  "commit": "0432cac954e74f4f3fef988c23eef5ab10fe2c3a",
+  "reviewer": "independent-qa-s03-post",
+  "reviewer_verdict": "pass",
+  "timestamp": "2026-08-12T18:50:00Z"
+}

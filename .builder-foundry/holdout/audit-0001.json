@@ -1,0 +1,22 @@
+{
+  "id": "HOLD-0001",
+  "auditor": "independent-holdout-s03",
+  "implemented_work": false,
+  "scenarios": [
+    "commit-gate first-run PassingCommitAdapter → 5 PASS / 8 NA / conformant",
+    "brick first BrickActionAdapter → not conformant, exit 1",
+    "untouched examples/adapter_skeleton.py → not conformant",
+    "spec §7.1 first sample imports gak_conformance",
+    "clean extract of gak_conformance/ help+selfcheck without PYTHONPATH",
+    "empty cwd --help → No module named gak_conformance",
+    "library-built cert + verify PassingActionAdapter → VERIFIED"
+  ],
+  "defects_found": [],
+  "verdict": "pass",
+  "timestamp": "2026-08-12T18:55:00Z",
+  "evidence": [
+    "EVID-PYTEST-S03",
+    "EVID-JOURNEY-S03",
+    "EVID-SELFCHECK-S03"
+  ]
+}

@@ -53,7 +53,7 @@
     ],
     "deponent_adapter": "lazy; exit 2 if absent",
     "release_zip": "forbidden_scan=pass; smoke=pass",
-    "pytest": "44 passed, 1 skipped"
+    "pytest": "52 passed, 1 skipped (full suite at session-2 close; ITER-0002 originally claimed 44+1 from a file subset \u2014 corrected by independent-qa-s03)"
   },
   "regressions": [],
   "remediation": [],
@@ -63,7 +63,7 @@
   ],
   "user_visible": true,
   "commit": "788b8bddf6c90efe50f2c9c3fda654ca366e3578",
-  "reviewer": "pending-independent",
-  "reviewer_verdict": "pending",
+  "reviewer": "independent-qa-s03-post",
+  "reviewer_verdict": "pass",
   "timestamp": "2026-08-12T18:32:00Z"
 }

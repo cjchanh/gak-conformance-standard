@@ -1,7 +1,7 @@
 [
   {
     "id": "LEASE-LEAD-STATE",
-    "owner": "session-02-research",
+    "owner": "session-03-product-director",
     "scope": [
       ".builder-foundry/"
     ],
@@ -11,8 +11,10 @@
       ".builder-foundry/locks/"
     ],
     "mode": "writer",
-    "acquired_at": "2026-08-12T18:15:00Z",
-    "status": "active"
+    "acquired_at": "2026-08-12T18:45:00Z",
+    "released_from": "session-02-research",
+    "status": "released",
+    "released_at": "2026-08-12T18:58:00Z"
   },
   {
     "id": "LEASE-IMPL-SCORER",
@@ -29,6 +31,25 @@
     ],
     "mode": "writer",
     "acquired_at": "2026-08-12T18:20:00Z",
-    "status": "active"
+    "released_at": "2026-08-12T18:45:00Z",
+    "status": "released"
+  },
+  {
+    "id": "LEASE-PRODUCT-FACE",
+    "owner": "session-03-product-director",
+    "scope": [
+      "README.md",
+      "examples/",
+      "gak_conformance/cli.py",
+      "tests/test_cli.py",
+      "tests/test_journeys.py",
+      "tests/test_leavebehind.py",
+      "v1/spec.md"
+    ],
+    "mode": "writer",
+    "acquired_at": "2026-08-12T18:45:00Z",
+    "status": "released",
+    "note": "Product-face only. Frozen clause text and digest strings in spec \u00a74/\u00a75 are out of scope.",
+    "released_at": "2026-08-12T18:58:00Z"
   }
 ]

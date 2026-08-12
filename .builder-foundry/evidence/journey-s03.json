@@ -1,0 +1,6 @@
+{
+  "repo_root_help_exit": 0,
+  "empty_cwd_help_exit": 1,
+  "empty_cwd_stderr": "/opt/homebrew/opt/python@3.14/bin/python3.14: No module named gak_conformance",
+  "selfcheck_stderr": "HARNESS_OK fixture=fixture-action digest=9949c515cac1cfb2581297c6736c244aec117099dcc20cac118a8358507e0039 (not a kernel certification)"
+}

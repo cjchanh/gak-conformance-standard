@@ -329,18 +329,20 @@
     "id": "FEAT-0020",
     "category": "cli",
     "priority": "high",
-    "description": "`selfcheck` runs the fixture path and prints a one-line verdict plus digest.",
-    "user_value": "An operator can confirm the harness itself runs.",
+    "description": "`selfcheck` runs the fixture path and prints HARNESS_OK plus digest on stderr; stdout is a \u00a75.1 fixture receipt. It must not print GAK-conformant.",
+    "user_value": "An operator can confirm the harness itself runs without minting a public mark.",
     "verification": [
       "python3 -m gak_conformance selfcheck exits 0",
-      "stdout contains CONFORMANT or equivalent and a 64-hex digest"
+      "stderr contains HARNESS_OK and a 64-hex digest and 'not a kernel certification'",
+      "stdout JSON kernel starts with fixture-",
+      "GAK-conformant absent from stdout and stderr"
     ],
     "passes": true,
     "evidence": [
-      "EVID-PYTEST-S01"
+      "EVID-PYTEST-S03"
     ],
-    "commit": "f02022c1b972f308db81c7410cc5c16a4d8c1854",
-    "owner": "implementation"
+    "commit": "0432cac954e74f4f3fef988c23eef5ab10fe2c3a",
+    "owner": "product-design"
   },
   {
     "id": "FEAT-0021",
@@ -749,5 +751,127 @@
     ],
     "commit": "788b8bddf6c90efe50f2c9c3fda654ca366e3578",
     "owner": "security"
+  },
+  {
+    "id": "FEAT-0045",
+    "category": "docs",
+    "priority": "high",
+    "description": "README first 40 lines contain the bounded claim, research-prototype face, repository-root contract, and Sequence A. No deponent.badge.",
+    "user_value": "A stranger sees the bound and a runnable first command without opening the spec.",
+    "verification": [
+      "tests/test_journeys.py::test_readme_first_40_lines_are_sequence_a",
+      "tests/test_journeys.py::test_readme_first_fence_is_fixture_score_not_deponent"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-PYTEST-S03"
+    ],
+    "commit": "0432cac954e74f4f3fef988c23eef5ab10fe2c3a",
+    "owner": "product-design"
+  },
+  {
+    "id": "FEAT-0046",
+    "category": "cli",
+    "priority": "high",
+    "description": "selfcheck stderr is HARNESS_OK (not a kernel certification). Fixture score stderr notes fixture adapters are not certifications.",
+    "user_value": "The first success cannot be screenshot as a public GAK-conformant mark.",
+    "verification": [
+      "tests/test_cli.py::test_selfcheck_conformant",
+      "tests/test_cli.py::test_selfcheck_out_does_not_print_mark_banner",
+      "tests/test_cli.py::test_score_out_writes_file"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-PYTEST-S03"
+    ],
+    "commit": "0432cac954e74f4f3fef988c23eef5ab10fe2c3a",
+    "owner": "product-design"
+  },
+  {
+    "id": "FEAT-0047",
+    "category": "docs",
+    "priority": "high",
+    "description": "examples/adapter_skeleton.py is a copy-paste \u00a76 class whose untouched methods raise; scoring it is not conformant.",
+    "user_value": "Journey B does not require rereading the whole spec to start.",
+    "verification": [
+      "tests/test_journeys.py::test_untouched_skeleton_scores_fail_not_a_mark",
+      "README names examples/adapter_skeleton.py"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-PYTEST-S03"
+    ],
+    "commit": "0432cac954e74f4f3fef988c23eef5ab10fe2c3a",
+    "owner": "product-design"
+  },
+  {
+    "id": "FEAT-0048",
+    "category": "docs",
+    "priority": "high",
+    "description": "spec \u00a77.1 first Python sample imports gak_conformance; Appendix A/B primary commands are python3 -m gak_conformance verify/list-clauses.",
+    "user_value": "A stranger following the spec is not sent to Deponent internals.",
+    "verification": [
+      "tests/test_journeys.py::test_spec_7_1_first_python_import_is_in_repo_harness",
+      "tests/test_journeys.py::test_spec_appendix_entrypoint_is_in_repo_harness",
+      "tests/test_journeys.py::test_spec_frozen_v1_digest_untouched",
+      "python3 scripts/check_consistency.py exits 0"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-PYTEST-S03"
+    ],
+    "commit": "0432cac954e74f4f3fef988c23eef5ab10fe2c3a",
+    "owner": "product-design"
+  },
+  {
+    "id": "FEAT-0049",
+    "category": "cli",
+    "priority": "high",
+    "description": "A clean copy of gak_conformance/ scored from that directory as cwd runs --help and selfcheck without PYTHONPATH. An empty cwd cannot import the harness.",
+    "user_value": "Clone-to-run is the documented contract, not a hidden env var.",
+    "verification": [
+      "tests/test_journeys.py::test_clean_tree_from_repo_root_runs_help_and_selfcheck",
+      "tests/test_journeys.py::test_empty_cwd_without_path_cannot_import_harness"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-PYTEST-S03"
+    ],
+    "commit": "0432cac954e74f4f3fef988c23eef5ab10fe2c3a",
+    "owner": "product-design"
+  },
+  {
+    "id": "FEAT-0050",
+    "category": "docs",
+    "priority": "medium",
+    "description": "Primary artifact table does not list v1.1 sworn receipts; Status footnotes author-scored sworn/v1.1 evidence; third-party count remains zero.",
+    "user_value": "v0 face stays frozen 13-clause v1.",
+    "verification": [
+      "README primary table has no sworn-conformance-receipt-v1.1.json",
+      "README contains Third-party verdicts to date: zero"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-PYTEST-S03"
+    ],
+    "commit": "0432cac954e74f4f3fef988c23eef5ab10fe2c3a",
+    "owner": "product-design"
+  },
+  {
+    "id": "FEAT-0051",
+    "category": "cli",
+    "priority": "high",
+    "description": "CLI --certify is refused (exit 2) when the adapter kernel name starts with fixture-. A fixture cannot mint mark GAK-conformant.",
+    "user_value": "The first-run fixture cannot be published as a certification.",
+    "verification": [
+      "tests/test_cli.py::test_score_refuses_to_certify_a_fixture",
+      "score --certify --adapter \u2026PassingActionAdapter exits 2"
+    ],
+    "passes": true,
+    "evidence": [
+      "EVID-PYTEST-S03"
+    ],
+    "commit": "0432cac954e74f4f3fef988c23eef5ab10fe2c3a",
+    "owner": "product-design"
   }
 ]

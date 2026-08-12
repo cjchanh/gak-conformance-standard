@@ -21,3 +21,6 @@
 | A-017 | FAIL `detail` redacts host home paths but keeps exception type + message. | Spec §6.3 vs CWE-209. | test_host_path_is_redacted_in_detail | yes | medium | accepted |
 | A-018 | Full REUSE 3.3 is not a v0 gate. LICENSE + NOTICE + PEP 639 are. | Apache §4d. | D-005 | yes | low | accepted |
 | A-019 | Adapter import is trusted code, not a sandbox. Residual ACE is documented. | CPython runpy/importlib. | --help + adapter.py | yes | medium | accepted |
+| A-020 | First-run is `python3 -m gak_conformance` from the **repository root**. Hidden `PYTHONPATH` is not part of Sequence A. | Measured: repo-root import works; `/tmp` cwd fails `No module named gak_conformance`. | tests/test_journeys.py | yes | high if reversed (two CLIs) | accepted |
+| A-021 | Spec §7.1 / Appendix A/B command samples may be retargeted to `gak_conformance` without touching frozen clauses or digest `de6b7089…`. | ARCHITECTURE.md: §7 docs retarget is allowed. | D-007; check_consistency | no (would re-own the category) | high if reversed | accepted |
+| A-022 | `selfcheck` human output is `HARNESS_OK`, not a public mark. | Doctrine §3 / CUT-03. | test_selfcheck_conformant | yes | high if marketed as a kernel score | accepted |

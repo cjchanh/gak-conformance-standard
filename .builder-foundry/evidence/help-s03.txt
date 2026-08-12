@@ -1,0 +1,25 @@
+usage: gak_conformance [-h] [--version]
+                       {score,verify,digest,list-clauses,selfcheck} ...
+
+Vendor-neutral mechanical scorer for governed agent kernels (gak-
+conformance/v1). Research prototype — not a security evaluation. --adapter
+module:Class imports and executes that Python module. Fixture adapters test
+the harness; they are not kernel certifications.
+
+positional arguments:
+  {score,verify,digest,list-clauses,selfcheck}
+    score               Score an adapter and emit a JSON receipt.
+    verify              Re-score an adapter and compare to a published
+                        certification digest (§5.4).
+    digest              Re-derive §5.3 digest from an existing receipt.
+    list-clauses        Print the harness clause table.
+    selfcheck           Score the in-repo action-gate fixture (harness test,
+                        not a kernel certification).
+
+options:
+  -h, --help            show this help message and exit
+  --version             show program's version number and exit
+
+Exits: 0 scored and conformant; 1 scored not-conformant or verify mismatch; 2
+could not score. Example: python3 -m gak_conformance score --adapter
+gak_conformance.fixtures.action_gate:PassingActionAdapter

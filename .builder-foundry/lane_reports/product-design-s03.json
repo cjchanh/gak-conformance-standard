@@ -1,0 +1,49 @@
+{
+  "lane": "product-design",
+  "role": "product-director",
+  "mode": "writer",
+  "implemented_work": true,
+  "verdict": "advisory",
+  "timestamp": "2026-08-12T18:52:00Z",
+  "work_performed": [
+    "Re-audited shipped face against DESIGN_DOCTRINE (session-1 product-design.json was stale).",
+    "Issued D-006 cut list and D-007 spec §7 retarget.",
+    "Wrote USER_JOURNEYS.md (A–D).",
+    "Rewrote README to doctrine order; HARNESS_OK selfcheck; refuse fixture --certify; adapter skeleton; spec §7.1/appendix retarget.",
+    "Added tests/test_journeys.py and CLI honesty tests.",
+    "Did not approve own iterations (reviewer_verdict left pending for independent QA)."
+  ],
+  "findings": [
+    "S1: first 40 lines lacked the bound (README L56). Remediated.",
+    "S1: spec §7.1 imported deponent.conformance. Remediated (D-007).",
+    "S1: selfcheck/--certify could screenshot a public mark. Remediated.",
+    "S2: no adapter skeleton. Remediated.",
+    "S2: hidden repo-root import. Documented + tested.",
+    "S3: v1.1 sworn rows in primary table. Cut."
+  ],
+  "rejected_assumptions": [
+    "44/44 feature pass meant first-use was done.",
+    "README disclaimers are enough if JSON says GAK-conformant.",
+    "A second CLI or required PYTHONPATH is the clone-to-run fix.",
+    "Adding harness_fixture to the receipt is acceptable (would fork §5.1).",
+    "Editing §1 ratified 'reference harness ships with Deponent' is required for v0 (KEEP historical sentence; added leave-behind pointer)."
+  ],
+  "conflicts": [
+    "Independent spec auditor wanted §1 ownership sentence cut. Product director KEEP + one-line pointer (D-007).",
+    "Red team wanted a receipt watermark field. Cut — schema fork. Fixture kernel name + HARNESS_OK + certify refusal instead."
+  ],
+  "open_risks": [
+    "score --out of a fixture still prints render() CONFORMANT plus a NOTE. Screenshot risk remains on the score path; certify is blocked.",
+    "Live Deponent 13-clause re-score still environment-blocked.",
+    "Third-party verdicts remain zero.",
+    "Fabricated adapters still cannot be fully detected (spec §6.3)."
+  ],
+  "evidence": [
+    "EVID-PYTEST-S03",
+    "EVID-SELFCHECK-S03",
+    "EVID-JOURNEY-S03",
+    "EVID-CUTS-S03",
+    "EVID-JOURNEYS-DOC",
+    "EVID-RELEASE-S03"
+  ]
+}

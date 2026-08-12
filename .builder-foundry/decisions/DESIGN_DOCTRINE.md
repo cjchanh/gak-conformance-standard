@@ -376,13 +376,28 @@ Minimum for the campaign profile: 8. These 12 are the product set.
 
 ## 13. Current README journeys vs required
 
-| Current journey | Verdict |
+Session-3 re-audit of the *shipped* face (not the session-1 pamphlet):
+
+| Journey | Session-3 verdict |
 |---|---|
-| "Verify the reference kernel" via `python3 -m deponent.badge verify --kernel deponent` | **Wrong first-run.** Requires Deponent. Demotes this repo to a pamphlet. Move to Sequence D, relabeled. |
-| "Score your own kernel" as four prose steps, no in-repo command, pointing at spec §7 and `from deponent.conformance import run_conformance` | **Incomplete.** Replace with Sequence B. Spec §7.1's Deponent import is a defect the product must not copy. |
-| Artifact table before a runnable command | **Wrong hierarchy.** Table after first-run. |
-| Status leads with v1.1 as current | **Wrong face for v0.** v1 (13 clauses) is the ship surface. v1.1 may be footnoted. |
+| First fence is `python3 -m gak_conformance` help / selfcheck / fixture score | **Keep.** Locked by `tests/test_journeys.py`. |
+| Bounded claim + research prototype in the first 40 lines | **Keep.** Session-3 moved it above Sequence A. |
+| Repository-root contract (no hidden PYTHONPATH) | **Keep.** Empty cwd fails with `No module named gak_conformance`. |
+| Sequence B once, after how-to-read, pointing at `examples/adapter_skeleton.py` | **Keep.** Duplicate fence cut (D-006 CUT-08). |
+| v1.1 sworn receipts in the primary table | **Cut.** Status footnote only (CUT-07). |
+| Spec §7.1 `from deponent.conformance import run_conformance` | **Retargeted** (D-007). Frozen digest untouched. |
 | Honest "third-party verdicts: zero" | **Keep.** |
+
+## 16. Session-3 product-director addendum
+
+Binding additions after the scorer existed:
+
+1. **Repo-root is the import story.** Do not add a second CLI. Do not require `PYTHONPATH` in Sequence A.
+2. **`selfcheck` banner is `HARNESS_OK`, never `GAK-conformant`.** JSON on stdout may contain `"conformant": true` (receipt field). Human stderr must not mint a mark.
+3. **Fixture `score` prints `NOTE: fixture adapter — not a kernel certification` on stderr.**
+4. **Copy-paste skeleton is Journey B.** Untouched skeleton MUST FAIL.
+5. **Cuts live in D-006.** Spec command retarget lives in D-007. Journeys live in `USER_JOURNEYS.md`.
+6. **FEAT-0020 revised:** one-line verdict means `HARNESS_OK`, not the word `CONFORMANT`.
 
 ---
 

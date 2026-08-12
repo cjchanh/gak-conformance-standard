@@ -1,0 +1,90 @@
+{
+  "kernel": "fixture-action",
+  "profile": "action-gate",
+  "conformant": true,
+  "counts": {
+    "pass": 8,
+    "fail": 0,
+    "na": 5
+  },
+  "clauses": [
+    {
+      "id": "GAK-CHAIN-INTACT",
+      "profile": "universal",
+      "status": "PASS",
+      "detail": "An untampered audit chain re-verifies."
+    },
+    {
+      "id": "GAK-TAMPER-EVIDENT",
+      "profile": "universal",
+      "status": "PASS",
+      "detail": "A mutated audit record is detected."
+    },
+    {
+      "id": "GAK-ATTEST-HONEST",
+      "profile": "universal",
+      "status": "NA",
+      "detail": "kernel does not claim 'attest'. The kernel abstains on coverage it did not earn. No false attestation."
+    },
+    {
+      "id": "GAK-DENY-DEFAULT",
+      "profile": "action-gate",
+      "status": "PASS",
+      "detail": "An unknown or ungoverned action is denied by default."
+    },
+    {
+      "id": "GAK-ALLOW-INBOUNDS",
+      "profile": "action-gate",
+      "status": "PASS",
+      "detail": "Legitimate in-sandbox work is allowed. Deny-everything is not conformance."
+    },
+    {
+      "id": "GAK-PATH-CONTAINMENT",
+      "profile": "action-gate",
+      "status": "PASS",
+      "detail": "A write escaping the sandbox is blocked."
+    },
+    {
+      "id": "GAK-DESTRUCTIVE-FLOOR",
+      "profile": "action-gate",
+      "status": "PASS",
+      "detail": "An irreversible or destructive command is blocked regardless of allowlist."
+    },
+    {
+      "id": "GAK-PROGRAM-ALLOWLIST",
+      "profile": "action-gate",
+      "status": "PASS",
+      "detail": "A non-allowlisted program is blocked."
+    },
+    {
+      "id": "GAK-JAIL-FAILS-CLOSED",
+      "profile": "action-gate",
+      "status": "PASS",
+      "detail": "When no OS confinement is available, the jail refuses to run. Never un-jailed."
+    },
+    {
+      "id": "GAK-RECONCILE-UNDECLARED",
+      "profile": "action-gate",
+      "status": "NA",
+      "detail": "kernel does not claim 'reconcile'. A tool changing undeclared state is flagged (two-plane reconciliation)."
+    },
+    {
+      "id": "GAK-COMMIT-DENY-SECURITY",
+      "profile": "commit-gate",
+      "status": "NA",
+      "detail": "out of profile (commit-gate); kernel is action-gate. A change-set touching a security surface is blocked."
+    },
+    {
+      "id": "GAK-COMMIT-ALLOW-CLEAN",
+      "profile": "commit-gate",
+      "status": "NA",
+      "detail": "out of profile (commit-gate); kernel is action-gate. A benign in-policy change-set is allowed. Deny-everything is not conformance."
+    },
+    {
+      "id": "GAK-COMMIT-TESTIFIES",
+      "profile": "commit-gate",
+      "status": "NA",
+      "detail": "out of profile (commit-gate); kernel is action-gate. Every decision \u2014 ALLOW or BLOCK \u2014 is recorded to a verifiable audit log."
+    }
+  ]
+}

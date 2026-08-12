@@ -1,0 +1,1 @@
+CONSISTENT: gak-conformance/v1 — 13 clauses matched, published receipt re-derives de6b7089f894e009..., spec + in-repo harness agree; frozen v1 record preserved.

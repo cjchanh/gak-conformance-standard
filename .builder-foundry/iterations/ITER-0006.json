@@ -1,0 +1,46 @@
+{
+  "id": "ITER-0006",
+  "problem": "Normative spec \u00a77.1 and Appendix A/B still taught Deponent as THE harness. A stranger who opened the spec (not only the README) was sent to deponent.conformance / deponent.badge.",
+  "impact_evidence": [
+    "EVID-CUTS-S03"
+  ],
+  "alternatives": [
+    "Leave spec historical and hope README is enough",
+    "Rewrite \u00a71/\u00a74/\u00a75 (forbidden \u2014 frozen identity)",
+    "Docs-only retarget of \u00a77.1 + Appendix A/B; keep \u00a71 ratified sentence; add leave-behind pointer; keep digest de6b7089\u2026"
+  ],
+  "choice": "D-007 docs-only retarget. Frozen clauses and digest untouched.",
+  "files_changed": [
+    "v1/spec.md",
+    "tests/test_journeys.py",
+    ".builder-foundry/decisions/D-007-spec-s7-retarget.md"
+  ],
+  "tests": [
+    "tests/test_journeys.py::test_spec_7_1_first_python_import_is_in_repo_harness",
+    "tests/test_journeys.py::test_spec_appendix_entrypoint_is_in_repo_harness",
+    "tests/test_journeys.py::test_spec_frozen_v1_digest_untouched",
+    "scripts/check_consistency.py"
+  ],
+  "before": {
+    "s71_import": "from deponent.conformance import run_conformance",
+    "appendix_a": "python3 -m deponent.badge verify --kernel deponent",
+    "appendix_b": "python3 -m deponent.conform --list-clauses"
+  },
+  "after": {
+    "s71_import": "from gak_conformance import run_conformance",
+    "appendix_a": "python3 -m gak_conformance verify --adapter \u2026 --cert \u2026",
+    "appendix_b": "python3 -m gak_conformance list-clauses",
+    "frozen_digest_present": true,
+    "check_consistency": 0
+  },
+  "regressions": [],
+  "remediation": [],
+  "evidence": [
+    "EVID-PYTEST-S03"
+  ],
+  "user_visible": true,
+  "commit": "0432cac954e74f4f3fef988c23eef5ab10fe2c3a",
+  "reviewer": "independent-qa-s03-post",
+  "reviewer_verdict": "pass",
+  "timestamp": "2026-08-12T18:50:00Z"
+}

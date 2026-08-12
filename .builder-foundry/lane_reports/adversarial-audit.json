@@ -1,0 +1,35 @@
+{
+  "lane": "adversarial-audit",
+  "role": "red-team",
+  "mode": "reviewer",
+  "implemented_work": false,
+  "verdict": "advisory",
+  "timestamp": "2026-08-12T18:40:00Z",
+  "note": "Independent explore agent 019ff742-7cd9-76c2-8a8e-51a02c0c3890 on the pre-remediation tree. Product director remediations landed after this review.",
+  "work_performed": [
+    "Attacked README first fence, no-args, bad/path adapters, fixtures, selfcheck mark surface, non-repo cwd, spec §7 split, missing skeleton, mutated digest."
+  ],
+  "findings": [
+    "S1: spec §7.1 / App A-B Deponent-owned command path.",
+    "S1: undocumented repo-root / empty-cwd contract.",
+    "S2: fixture selfcheck/score --certify can look like a real mark.",
+    "S2: README Deponent 11/3 vs v1 10/3 (pre-rewrite).",
+    "S3: no author skeleton.",
+    "Near-misses held: path grammar, brick FAIL, raise=FAIL, CWE-209, no static deponent import, verify mismatch."
+  ],
+  "rejected_assumptions": [
+    "README-only first-run is enough if the spec teaches a different CLI.",
+    "Prose disclaimers prevent a fixture certification screenshot."
+  ],
+  "conflicts": [],
+  "open_risks": [
+    "Fabricated adapters still score if they return the right bools.",
+    "score --out fixture still has a CONFORMANT render banner (NOTE added later)."
+  ],
+  "evidence": [
+    "tests/test_cli.py",
+    "tests/test_load.py",
+    "tests/test_verify.py",
+    "v1/spec.md"
+  ]
+}

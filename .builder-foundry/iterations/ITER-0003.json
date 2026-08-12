@@ -1,0 +1,45 @@
+{
+  "id": "ITER-0003",
+  "problem": "README first 40 lines buried the bound, mixed Sequence B/C into first-run, and listed v1.1 sworn evidence as a primary artifact. First-use doctrine \u00a74/\u00a710 failed on the shipped face.",
+  "impact_evidence": [
+    "EVID-JOURNEYS-DOC",
+    "EVID-CUTS-S03"
+  ],
+  "alternatives": [
+    "Leave README as session-2 inverted-but-below-fold",
+    "Add a second CLI / PYTHONPATH=. as the documented one-liner",
+    "Rewrite README to doctrine order: bound + face + Sequence A + how-to-read; cut v1.1 sworn from the primary table"
+  ],
+  "choice": "Rewrite README to doctrine order; repository-root contract; cut sworn v1.1 from the primary table",
+  "files_changed": [
+    "README.md",
+    "tests/test_journeys.py",
+    ".builder-foundry/decisions/D-006-v0-cuts.md",
+    ".builder-foundry/decisions/USER_JOURNEYS.md",
+    ".builder-foundry/decisions/DESIGN_DOCTRINE.md"
+  ],
+  "tests": [
+    "tests/test_journeys.py"
+  ],
+  "before": {
+    "bound_line": 56,
+    "first_fence": "gak_conformance (good) but Sequence B mixed in",
+    "primary_table_sworn_v11": true
+  },
+  "after": {
+    "bound_in_first_40": true,
+    "first_fence_sequence_a_only": true,
+    "primary_table_sworn_v11": false
+  },
+  "regressions": [],
+  "remediation": [],
+  "evidence": [
+    "EVID-PYTEST-S03",
+    "EVID-JOURNEY-S03"
+  ],
+  "user_visible": true,
+  "commit": "0432cac954e74f4f3fef988c23eef5ab10fe2c3a",
+  "reviewer": "independent-qa-s03-post",
+  "reviewer_verdict": "pass",
+  "timestamp": "2026-08-12T18:50:00Z"
+}

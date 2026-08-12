@@ -1,0 +1,22 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.14.5, pytest-9.0.2, pluggy-1.6.0
+rootdir: /Users/cj/Workspace/active/gak-conformance-standard
+configfile: pyproject.toml
+testpaths: tests
+plugins: cov-7.1.0, hypothesis-6.155.6, asyncio-1.3.0, anyio-4.13.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 66 items
+
+tests/test_check_consistency.py .                                        [  1%]
+tests/test_clause_census.py ...                                          [  6%]
+tests/test_cli.py ...........                                            [ 22%]
+tests/test_deponent_adapter.py ....s                                     [ 30%]
+tests/test_digest.py ...                                                 [ 34%]
+tests/test_import_boundary.py .                                          [ 36%]
+tests/test_journeys.py ..........                                        [ 51%]
+tests/test_leavebehind.py ..                                             [ 54%]
+tests/test_load.py ............                                          [ 72%]
+tests/test_scorer_semantics.py .............                             [ 92%]
+tests/test_verify.py .....                                               [100%]
+
+======================== 65 passed, 1 skipped in 1.31s =========================
