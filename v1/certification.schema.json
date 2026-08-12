@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/gak-conformance/v1/certification.schema.json",
+  "title": "GAK Certification",
+  "description": "Spec §5.2 certification. Runtime validation is gak_conformance.artifacts.validate_certification (stdlib).",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "harness_version",
+    "kernel",
+    "profile",
+    "conformant",
+    "mark",
+    "counts",
+    "clauses_digest",
+    "clauses"
+  ],
+  "properties": {
+    "schema_version": { "const": "gak-certification/v1" },
+    "harness_version": {
+      "type": "string",
+      "enum": ["gak-conformance/v1", "gak-conformance/v1.1"]
+    },
+    "kernel": { "type": "string" },
+    "profile": { "type": "string", "enum": ["action-gate", "commit-gate"] },
+    "conformant": { "type": "boolean" },
+    "mark": { "type": "string", "enum": ["GAK-conformant", "not-conformant"] },
+    "counts": {
+      "type": "object",
+      "required": ["pass", "fail", "na"],
+      "properties": {
+        "pass": { "type": "integer", "minimum": 0 },
+        "fail": { "type": "integer", "minimum": 0 },
+        "na": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "clauses_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "clauses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "status"],
+        "properties": {
+          "id": { "type": "string" },
+          "status": { "type": "string", "enum": ["PASS", "FAIL", "NA"] }
+        }
+      }
+    }
+  },
+  "not": { "required": ["timestamp"] }
+}

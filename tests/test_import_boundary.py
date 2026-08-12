@@ -22,3 +22,13 @@ def test_no_deponent_import_in_harness_source():
                 if node.module.split(".")[0] in forbidden:
                     offenders.append(f"{path}:{node.module}")
     assert offenders == []
+
+
+def test_artifact_contract_does_not_import_optional_adapters():
+    """Data-flow ownership: classify/validate stay in the harness core."""
+    text = (ROOT / "artifacts.py").read_text(encoding="utf-8")
+    assert "adapters" not in text
+    assert "deponent" not in text
+    init = (ROOT / "__init__.py").read_text(encoding="utf-8")
+    assert "from .artifacts import" in init
+    assert "adapters.deponent" not in init

@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://example.invalid/gak-conformance/v1/receipt.schema.json",
   "title": "GAK Conformance Receipt",
-  "description": "Spec §5.1 receipt. Documentation only — the harness does not validate against this schema at runtime.",
+  "description": "Spec §5.1 receipt. Runtime validation is gak_conformance.artifacts.validate_receipt (stdlib). This file is the documentation schema, not a jsonschema dependency.",
   "type": "object",
   "additionalProperties": true,
   "required": ["kernel", "profile", "conformant", "counts", "clauses"],

@@ -20,6 +20,12 @@ from pathlib import Path
 from typing import Sequence
 
 from . import HARNESS_V1, HARNESS_V1_1, __version__
+from .artifacts import (
+    ArtifactError,
+    resolve_verify_harness,
+    validate_certification,
+    validate_receipt,
+)
 from .clauses import clauses_for
 from .load import load_adapter
 from .receipt import certification_from_receipt, clauses_digest
@@ -93,8 +99,12 @@ def cmd_score(args: argparse.Namespace) -> int:
 def cmd_digest(args: argparse.Namespace) -> int:
     path = Path(args.receipt)
     try:
-        receipt = json.loads(path.read_text(encoding="utf-8"))
+        raw = json.loads(path.read_text(encoding="utf-8"))
+        receipt = validate_receipt(raw, harness=args.harness)
         digest = clauses_digest(receipt, args.harness)
+    except ArtifactError as exc:
+        print(f"BLOCKED: {exc}", file=sys.stderr)
+        return 2
     except Exception as exc:
         print(f"BLOCKED: {exc}", file=sys.stderr)
         return 2
@@ -128,21 +138,24 @@ def cmd_verify(args: argparse.Namespace) -> int:
     """Spec §5.4: re-score the kernel and compare the published digest."""
     cert_path = Path(args.cert)
     try:
-        cert = json.loads(cert_path.read_text(encoding="utf-8"))
+        raw = json.loads(cert_path.read_text(encoding="utf-8"))
+        cert = validate_certification(raw)
+        harness = resolve_verify_harness(cert, args.harness)
         expected = cert["clauses_digest"]
-        if not isinstance(expected, str) or len(expected) != 64:
-            raise ValueError("certification clauses_digest must be a 64-hex digest")
+    except ArtifactError as exc:
+        print(f"BLOCKED: {exc}", file=sys.stderr)
+        return 2
     except Exception as exc:
         print(f"BLOCKED: {exc}", file=sys.stderr)
         return 2
     adapter = _load_or_block(args.adapter)
     try:
-        receipt = run_conformance(adapter, harness=args.harness)
+        receipt = run_conformance(adapter, harness=harness)
     except ValueError as exc:
         print(f"BLOCKED: {exc}", file=sys.stderr)
         return 2
     payload = receipt.to_dict()
-    digest = clauses_digest(payload, args.harness)
+    digest = clauses_digest(payload, harness)
     if args.out:
         _write_json(Path(args.out), payload)
     if not receipt.conformant:
@@ -216,15 +229,31 @@ def build_parser() -> argparse.ArgumentParser:
         "verify",
         help="Re-score an adapter and compare to a published certification digest (§5.4).",
     )
-    add_harness(vf)
+    vf.add_argument(
+        "--harness",
+        default=None,
+        choices=(HARNESS_V1, HARNESS_V1_1),
+        help="Clause table. Default: inherit harness_version from the certification.",
+    )
     vf.add_argument("--adapter", required=True, help="module:Class of the live kernel.")
-    vf.add_argument("--cert", required=True, help="Path to a gak-certification/v1 JSON.")
+    vf.add_argument(
+        "--cert",
+        required=True,
+        help="Path to a gak-certification/v1 JSON (not a §5.1 receipt).",
+    )
     vf.add_argument("--out", help="Optional path for the live receipt.")
     vf.set_defaults(func=cmd_verify)
 
-    dg = sub.add_parser("digest", help="Re-derive §5.3 digest from an existing receipt.")
+    dg = sub.add_parser(
+        "digest",
+        help="Re-derive §5.3 digest from a §5.1 receipt (not a certification).",
+    )
     add_harness(dg)
-    dg.add_argument("--receipt", required=True, help="Path to a §5.1 receipt JSON.")
+    dg.add_argument(
+        "--receipt",
+        required=True,
+        help="Path to a §5.1 receipt JSON (not a §5.2 certification).",
+    )
     dg.set_defaults(func=cmd_digest)
 
     lc = sub.add_parser("list-clauses", help="Print the harness clause table.")

@@ -60,7 +60,7 @@ Drive your **real** kernel. Do not fabricate outcomes. The untouched skeleton sc
 ```
 python3 -m gak_conformance score \
   --adapter your_pkg.adapter:YourAdapter \
-  --out receipt.json --certify
+  --out certification.json --certify
 ```
 
 1. Declare `action-gate` or `commit-gate`.
@@ -79,11 +79,17 @@ python3 -m gak_conformance verify \
 
 `verify` **re-runs** the kernel (spec §5.4) and fail-closes if the live score is
 not conformant or the digest does not match. A previously published receipt
-does not save a failing re-run.
+does not save a failing re-run. Pass a **§5.2 certification**, not the receipt.
+`verify` inherits `harness_version` from the certification. Omit `--harness`
+unless you intend to pass the same value; a conflicting flag exits `2`
+(usage), not `1` (kernel drift).
 
 `digest --receipt FILE` re-derives the published v1 digest
 `de6b7089f894e009a6d1a1dba8c9b32b26e38daf803b07b83ec0958ff64c5406`
-**without** running any kernel.
+**without** running any kernel. It accepts a **§5.1 receipt only**. A
+certification already carries `clauses_digest`. A v1.1 receipt needs
+`--harness gak-conformance/v1.1` — the default v1 table will refuse it
+instead of printing a wrong hash.
 
 ## Optional: score Deponent if it is installed locally
 

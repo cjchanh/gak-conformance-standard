@@ -41,12 +41,16 @@ def test_verify_matching_cert(tmp_path):
 
 
 def test_verify_stale_digest_exits_1_even_if_live_conformant(tmp_path):
-    """Doctrine H-12 / spec §5.4: published digest is not a waiver."""
+    """Doctrine H-12 / spec §5.4: published digest is not a waiver.
+
+    A self-consistent cert for another kernel name is the stale-identity
+    case. Mutating only clauses_digest makes the object self-inconsistent
+    and is a load error (exit 2), not kernel drift.
+    """
+    payload = run_conformance(PassingActionAdapter()).to_dict()
+    payload = {**payload, "kernel": "stale-kernel"}
     cert = tmp_path / "stale.json"
-    _write_library_cert(cert)
-    data = json.loads(cert.read_text())
-    data["clauses_digest"] = "0" * 64
-    cert.write_text(json.dumps(data))
+    cert.write_text(json.dumps(certification_from_receipt(payload, HARNESS_V1)))
     verified = _run(["verify", "--adapter", FIXTURE, "--cert", str(cert)])
     assert verified.returncode == 1
     assert "mismatch" in verified.stderr

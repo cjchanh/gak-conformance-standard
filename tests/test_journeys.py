@@ -62,6 +62,12 @@ def test_readme_names_skeleton_and_repo_root_contract():
     assert "Third-party verdicts to date: zero" in README
 
 
+def test_readme_certify_writes_certification_not_receipt_name():
+    """Sequence B must not name a §5.2 object receipt.json (digest would refuse it)."""
+    assert "--out certification.json --certify" in README
+    assert "--out receipt.json --certify" not in README
+
+
 def test_readme_primary_table_is_v1_not_v11_sworn():
     table = README.split("## Status", 1)[0]
     assert "sworn-conformance-receipt-v1.1.json" not in table

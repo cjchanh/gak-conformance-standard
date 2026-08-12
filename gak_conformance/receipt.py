@@ -90,7 +90,8 @@ def clauses_digest(receipt: Mapping[str, Any], harness: str) -> str:
 
 def certification_from_receipt(receipt: Mapping[str, Any], harness: str) -> dict[str, Any]:
     digest = clauses_digest(receipt, harness)
-    conformant = bool(receipt["conformant"])
+    statuses = [c["status"] for c in receipt["clauses"]]
+    conformant = all(s != "FAIL" for s in statuses) and any(s == "PASS" for s in statuses)
     return {
         "schema_version": CERT_SCHEMA,
         "harness_version": harness,

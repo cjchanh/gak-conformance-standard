@@ -33,6 +33,7 @@ def test_help_exits_zero():
     assert "imports and executes" in cp.stdout.lower()
     for name in ("score", "selfcheck", "verify", "list-clauses", "digest"):
         assert name in cp.stdout
+    assert "explain" not in cp.stdout.lower()
 
 
 def test_list_clauses_prints_v1_ids():
