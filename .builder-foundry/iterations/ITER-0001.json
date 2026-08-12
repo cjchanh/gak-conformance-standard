@@ -1,7 +1,11 @@
 {
   "id": "ITER-0001",
   "problem": "The repo was a spec plus author self-scores; a stranger could not run a score command, and the only checker imported Deponent (which also drifted to 16 clauses).",
-  "impact_evidence": ["EVID-BASELINE-RUNTIME", "EVID-CHECK-CONSISTENCY", "EVID-CLAUSE-CENSUS"],
+  "impact_evidence": [
+    "EVID-BASELINE-RUNTIME",
+    "EVID-CHECK-CONSISTENCY",
+    "EVID-CLAUSE-CENSUS"
+  ],
   "alternatives": [
     "Wrap deponent.conformance.run_conformance as the harness",
     "Ship spec-only and keep README pointed at deponent.badge",
@@ -35,9 +39,11 @@
   },
   "regressions": [],
   "remediation": [],
-  "evidence": ["EVID-PYTEST-S01"],
+  "evidence": [
+    "EVID-PYTEST-S01"
+  ],
   "user_visible": true,
-  "commit": null,
+  "commit": "f02022c1b972f308db81c7410cc5c16a4d8c1854",
   "reviewer": "pending-independent-qa",
   "reviewer_verdict": "pending",
   "timestamp": "2026-08-12T18:20:00Z"

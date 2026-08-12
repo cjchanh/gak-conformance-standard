@@ -15,7 +15,7 @@
       "EVID-BASELINE-RUNTIME",
       "EVID-PYTEST-S01"
     ],
-    "commit": null,
+    "commit": "f02022c1b972f308db81c7410cc5c16a4d8c1854",
     "owner": "implementation"
   },
   {
@@ -32,7 +32,7 @@
     "evidence": [
       "EVID-PYTEST-S01"
     ],
-    "commit": null,
+    "commit": "f02022c1b972f308db81c7410cc5c16a4d8c1854",
     "owner": "implementation"
   },
   {
@@ -50,7 +50,7 @@
       "EVID-BASELINE-RUNTIME",
       "EVID-PYTEST-S01"
     ],
-    "commit": null,
+    "commit": "f02022c1b972f308db81c7410cc5c16a4d8c1854",
     "owner": "implementation"
   },
   {
@@ -68,7 +68,7 @@
     "evidence": [
       "EVID-PYTEST-S01"
     ],
-    "commit": null,
+    "commit": "f02022c1b972f308db81c7410cc5c16a4d8c1854",
     "owner": "implementation"
   },
   {
@@ -86,7 +86,7 @@
       "EVID-DIGEST-SEPARATOR",
       "EVID-PYTEST-S01"
     ],
-    "commit": null,
+    "commit": "f02022c1b972f308db81c7410cc5c16a4d8c1854",
     "owner": "implementation"
   },
   {
@@ -104,7 +104,7 @@
     "evidence": [
       "EVID-PYTEST-S01"
     ],
-    "commit": null,
+    "commit": "f02022c1b972f308db81c7410cc5c16a4d8c1854",
     "owner": "implementation"
   },
   {
@@ -137,7 +137,7 @@
       "EVID-BASELINE-RUNTIME",
       "EVID-PYTEST-S01"
     ],
-    "commit": null,
+    "commit": "f02022c1b972f308db81c7410cc5c16a4d8c1854",
     "owner": "product-design"
   },
   {
@@ -155,7 +155,7 @@
       "EVID-CLAUSE-CENSUS",
       "EVID-PYTEST-S01"
     ],
-    "commit": null,
+    "commit": "f02022c1b972f308db81c7410cc5c16a4d8c1854",
     "owner": "implementation"
   },
   {
@@ -172,7 +172,7 @@
     "evidence": [
       "EVID-PYTEST-S01"
     ],
-    "commit": null,
+    "commit": "f02022c1b972f308db81c7410cc5c16a4d8c1854",
     "owner": "testing"
   },
   {
@@ -189,7 +189,7 @@
     "evidence": [
       "EVID-PYTEST-S01"
     ],
-    "commit": null,
+    "commit": "f02022c1b972f308db81c7410cc5c16a4d8c1854",
     "owner": "testing"
   },
   {
@@ -205,7 +205,7 @@
     "evidence": [
       "EVID-PYTEST-S01"
     ],
-    "commit": null,
+    "commit": "f02022c1b972f308db81c7410cc5c16a4d8c1854",
     "owner": "testing"
   },
   {
@@ -221,7 +221,7 @@
     "evidence": [
       "EVID-PYTEST-S01"
     ],
-    "commit": null,
+    "commit": "f02022c1b972f308db81c7410cc5c16a4d8c1854",
     "owner": "testing"
   },
   {
@@ -237,7 +237,7 @@
     "evidence": [
       "EVID-PYTEST-S01"
     ],
-    "commit": null,
+    "commit": "f02022c1b972f308db81c7410cc5c16a4d8c1854",
     "owner": "testing"
   },
   {
@@ -253,7 +253,7 @@
     "evidence": [
       "EVID-PYTEST-S01"
     ],
-    "commit": null,
+    "commit": "f02022c1b972f308db81c7410cc5c16a4d8c1854",
     "owner": "testing"
   },
   {
@@ -269,7 +269,7 @@
     "evidence": [
       "EVID-PYTEST-S01"
     ],
-    "commit": null,
+    "commit": "f02022c1b972f308db81c7410cc5c16a4d8c1854",
     "owner": "testing"
   },
   {
@@ -286,7 +286,7 @@
     "evidence": [
       "EVID-PYTEST-S01"
     ],
-    "commit": null,
+    "commit": "f02022c1b972f308db81c7410cc5c16a4d8c1854",
     "owner": "implementation"
   },
   {
@@ -302,7 +302,7 @@
     "evidence": [
       "EVID-PYTEST-S01"
     ],
-    "commit": null,
+    "commit": "f02022c1b972f308db81c7410cc5c16a4d8c1854",
     "owner": "implementation"
   },
   {
@@ -319,7 +319,7 @@
     "evidence": [
       "EVID-PYTEST-S01"
     ],
-    "commit": null,
+    "commit": "f02022c1b972f308db81c7410cc5c16a4d8c1854",
     "owner": "implementation"
   },
   {
@@ -336,7 +336,7 @@
     "evidence": [
       "EVID-PYTEST-S01"
     ],
-    "commit": null,
+    "commit": "f02022c1b972f308db81c7410cc5c16a4d8c1854",
     "owner": "implementation"
   },
   {
@@ -353,7 +353,7 @@
     "evidence": [
       "EVID-PYTEST-S01"
     ],
-    "commit": null,
+    "commit": "f02022c1b972f308db81c7410cc5c16a4d8c1854",
     "owner": "testing"
   },
   {
@@ -369,7 +369,7 @@
     "evidence": [
       "EVID-PYTEST-S01"
     ],
-    "commit": null,
+    "commit": "f02022c1b972f308db81c7410cc5c16a4d8c1854",
     "owner": "testing"
   },
   {
@@ -385,7 +385,7 @@
     "evidence": [
       "EVID-PYTEST-S01"
     ],
-    "commit": null,
+    "commit": "f02022c1b972f308db81c7410cc5c16a4d8c1854",
     "owner": "testing"
   },
   {
@@ -402,7 +402,7 @@
     "evidence": [
       "EVID-PYTEST-S01"
     ],
-    "commit": null,
+    "commit": "f02022c1b972f308db81c7410cc5c16a4d8c1854",
     "owner": "product-design"
   },
   {
@@ -420,7 +420,7 @@
       "EVID-CHECK-CONSISTENCY",
       "EVID-PYTEST-S01"
     ],
-    "commit": null,
+    "commit": "f02022c1b972f308db81c7410cc5c16a4d8c1854",
     "owner": "implementation"
   },
   {
@@ -482,7 +482,7 @@
       "EVID-BASELINE-RUNTIME",
       "EVID-PYTEST-S01"
     ],
-    "commit": null,
+    "commit": "f02022c1b972f308db81c7410cc5c16a4d8c1854",
     "owner": "implementation"
   },
   {
@@ -499,7 +499,7 @@
     "evidence": [
       "EVID-PYTEST-S01"
     ],
-    "commit": null,
+    "commit": "f02022c1b972f308db81c7410cc5c16a4d8c1854",
     "owner": "product-design"
   },
   {
@@ -516,7 +516,7 @@
     "evidence": [
       "EVID-PYTEST-S01"
     ],
-    "commit": null,
+    "commit": "f02022c1b972f308db81c7410cc5c16a4d8c1854",
     "owner": "implementation"
   },
   {
@@ -533,7 +533,7 @@
       "EVID-CLAUSE-CENSUS",
       "EVID-PYTEST-S01"
     ],
-    "commit": null,
+    "commit": "f02022c1b972f308db81c7410cc5c16a4d8c1854",
     "owner": "architecture"
   },
   {
@@ -549,7 +549,7 @@
     "evidence": [
       "EVID-PYTEST-S01"
     ],
-    "commit": null,
+    "commit": "f02022c1b972f308db81c7410cc5c16a4d8c1854",
     "owner": "testing"
   },
   {
@@ -565,7 +565,7 @@
     "evidence": [
       "EVID-PYTEST-S01"
     ],
-    "commit": null,
+    "commit": "f02022c1b972f308db81c7410cc5c16a4d8c1854",
     "owner": "testing"
   },
   {
@@ -582,7 +582,7 @@
       "EVID-DIGEST-SEPARATOR",
       "EVID-PYTEST-S01"
     ],
-    "commit": null,
+    "commit": "f02022c1b972f308db81c7410cc5c16a4d8c1854",
     "owner": "implementation"
   },
   {
@@ -599,7 +599,7 @@
     "evidence": [
       "EVID-PYTEST-S01"
     ],
-    "commit": null,
+    "commit": "f02022c1b972f308db81c7410cc5c16a4d8c1854",
     "owner": "testing"
   },
   {
@@ -616,7 +616,7 @@
     "evidence": [
       "EVID-PYTEST-S01"
     ],
-    "commit": null,
+    "commit": "f02022c1b972f308db81c7410cc5c16a4d8c1854",
     "owner": "testing"
   },
   {
@@ -632,7 +632,7 @@
     "evidence": [
       "EVID-PYTEST-S01"
     ],
-    "commit": null,
+    "commit": "f02022c1b972f308db81c7410cc5c16a4d8c1854",
     "owner": "security"
   }
 ]
