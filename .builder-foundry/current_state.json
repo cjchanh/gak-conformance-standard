@@ -1,9 +1,9 @@
 {
   "active_wave": "audit",
   "campaign_id": "mission-gak-v0-standard-20260812",
-  "sessions_completed": 4,
+  "sessions_completed": 6,
   "state": "ACTIVE",
-  "updated_at": "2026-08-12T18:47:18Z",
+  "updated_at": "2026-08-12T19:19:13Z",
   "waves_completed": [
     "baseline",
     "research",
@@ -13,6 +13,7 @@
     "verification",
     "redteam",
     "holdout",
-    "release"
+    "release",
+    "audit"
   ]
 }
