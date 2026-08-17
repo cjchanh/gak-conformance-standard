@@ -1,0 +1,46 @@
+name: CI
+
+"on":
+  push:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          # pyproject.toml declares requires-python = ">=3.10"; this pins the
+          # floor, not a matrix. No 3.11+-only syntax exists in the repo.
+          python-version: "3.10"
+
+      - name: Install test runner
+        # Deliberately NOT `pip install -e .` / `pip install .`: current
+        # setuptools (>=77, unpinned upper bound) hard-errors on this
+        # package's pyproject.toml — it declares both an SPDX `license`
+        # expression (PEP 639) and a legacy "License :: OSI Approved ::
+        # Apache Software License" trove classifier, which recent
+        # setuptools now refuses as InvalidConfigError. Reproduced locally
+        # 2026-08-17 against a fresh venv; not fixed here (out of this
+        # change's scope — see repo history / operator for the classifier
+        # cleanup). The harness itself needs no install: `python -m
+        # gak_conformance ...` and `python -m pytest` both resolve the
+        # package via the checkout's cwd, exactly as README.md documents
+        # ("CPython 3.10+. No pip. No network."). Only the pytest test
+        # runner itself needs fetching.
+        run: pip install "pytest>=8"
+
+      - name: Run test suite
+        run: python -m pytest -q
+
+      - name: Run harness selfcheck (scorer self-proof, not a kernel certification)
+        run: python -m gak_conformance selfcheck
+
+      - name: Run spec/harness consistency check
+        run: python scripts/check_consistency.py

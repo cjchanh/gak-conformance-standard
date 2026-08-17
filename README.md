@@ -1,5 +1,7 @@
 # GAK Conformance Standard
 
+[![CI](https://github.com/cjchanh/gak-conformance-standard/actions/workflows/ci.yml/badge.svg)](https://github.com/cjchanh/gak-conformance-standard/actions/workflows/ci.yml)
+
 A vendor-neutral mechanical scorer for governed agent kernels.
 Thirteen executable clauses. One JSON receipt. Anyone can re-derive it.
 
