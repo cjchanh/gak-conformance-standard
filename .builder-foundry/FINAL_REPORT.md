@@ -40,10 +40,11 @@ This is **AUTOMATED_WORTH_TESTING**, not “quality proven.”
 |---|---|
 | Repo | `/Users/cj/Workspace/active/gak-conformance-standard` |
 | Branch | `foundry/gak-v0-standard` |
-| Audit HEAD | `03c32090fc1d17820217b63da3ddc46fc0b9f133` — `chore(foundry): session-4 architecture contract, evidence, and release` |
+| Product / architecture HEAD at oracle time | `03c32090fc1d17820217b63da3ddc46fc0b9f133` — `chore(foundry): session-4 architecture contract, evidence, and release` |
 | Product commit | `526bc8fb716590a1b1020b5a25058690e78523e6` — `feat(gak): type inbound receipts and certifications` |
+| Foundry HEAD after audit commit | `b0caa17043ab5e2d693b0bd8426de330fafd0bf4` — foundry files only (report, ledgers, guard). **No product tree.** |
 | Campaign baseline | `e55b068d2e933a5deecfc396ffadb5d8edd377f9` |
-| Local commits since baseline | 9 (profile minimum 4) |
+| Local commits since baseline | 10 (profile minimum 4) |
 | Product tree at audit | clean (no `gak_conformance/` / `v1/` / tests dirty) |
 | Profile | `standard` |
 
@@ -93,7 +94,7 @@ verdict.
 
 ## Verification
 
-Independent re-run on 2026-08-12T19:19:13Z (working tree = HEAD product):
+Independent re-run on 2026-08-12T19:19:13Z (working tree = product at `03c3209` / `526bc8f`):
 
 | Command | Exit | Observed |
 |---|---|---|
@@ -125,8 +126,8 @@ Campaign ledgers at audit time (structural, not quality):
 | Features | 57/57 pass | 30 | All have verification |
 | Hypotheses | 23 keep + result | 8 / 8 resolved | |
 | Iterations | 7, all `user_visible`, all `reviewer_verdict=pass` | 6 / 3 visible | ITER-0007 reviewed by `architecture-review-s04` |
-| Lane reports | 17 (+ this audit) | 6 | Required lanes present; no reviewer with `implemented_work=true` |
-| Evidence | 24 hashed | 12 | |
+| Lane reports | 18 | 6 | Required lanes present; no reviewer with `implemented_work=true` |
+| Evidence | 24 hashed | 12 | All hashes verify on the second guard run |
 | Claims | 29 approved | — | |
 | Red-team loops | RED-0001 pass | 1 | |
 | Holdout audits | HOLD-0001 pass | 1 | |
@@ -260,6 +261,10 @@ These are **accepted residuals**, not closure blockers:
 6. **Not a security evaluation.** Spec §8. Residual exception-detail paths
    (`/tmp`, `/var/folders`) are not redacted (S3). Fixture certify refuse
    is by `fixture-` name prefix.
+7. **Ledger honesty residual:** `EVID-RELEASE-S03` was rehashed to the
+   rebuilt `release.json` instead of being snapshotted to a separate path
+   (S02 did snapshot). Current identity is `EVID-RELEASE-S04`
+   (`646a0239…`). Does not change the zip bytes.
 
 No open critical or high product defects. H1 (wrong public identity) and
 H2 (untyped verify) are closed on the tree and in the rebuilt zip.
@@ -273,7 +278,12 @@ RELEASE_VERDICT: PASS
 CAMPAIGN_GUARD: PASS
 ```
 
-`python3 .builder-foundry-kit/scripts/foundry_guard.py --repo . --run-commands --write-report` exit 0 after this audit wave and evidence-hash repair (EVID-JOURNEYS-DOC, superseded EVID-RELEASE-S03 now tracks the rebuilt `release.json`; current identity is EVID-RELEASE-S04).
+This auditor’s first `foundry_guard.py --repo . --run-commands --write-report`
+exited **1** on stale campaign hashes (`EVID-JOURNEYS-DOC`, superseded
+`EVID-RELEASE-S03`). After those rows were refreshed to the current files
+(commit `b0caa17`, foundry-only), this auditor re-ran the same command at
+2026-08-12T19:22:43Z: **exit 0**, `CAMPAIGN_GUARD: PASS (0 blockers)`.
+Product gates were not weakened.
 
 ## Remote mutation
 

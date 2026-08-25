@@ -1,9 +1,9 @@
 {
   "active_wave": "audit",
   "campaign_id": "mission-gak-v0-standard-20260812",
-  "sessions_completed": 6,
-  "state": "ACTIVE",
-  "updated_at": "2026-08-12T19:19:13Z",
+  "sessions_completed": 7,
+  "state": "READY",
+  "updated_at": "2026-08-12T19:24:22Z",
   "waves_completed": [
     "baseline",
     "research",

@@ -4,11 +4,12 @@
   "mode": "reviewer",
   "implemented_work": false,
   "verdict": "pass",
-  "timestamp": "2026-08-12T19:19:13Z",
+  "timestamp": "2026-08-12T19:22:43Z",
   "tree": {
     "cwd": "/Users/cj/Workspace/active/gak-conformance-standard",
     "branch": "foundry/gak-v0-standard",
-    "git_head": "03c32090fc1d17820217b63da3ddc46fc0b9f133",
+    "oracle_head": "03c32090fc1d17820217b63da3ddc46fc0b9f133",
+    "foundry_head_after_audit_commit": "b0caa17043ab5e2d693b0bd8426de330fafd0bf4",
     "product_commit": "526bc8fb716590a1b1020b5a25058690e78523e6"
   },
   "findings": [
@@ -16,20 +17,22 @@
     "H1 CLOSED: digest of deponent-certification.json, v1.1 receipt, and v1.1 cert under default v1 exit 2 with empty stdout; d35b3247 absent. v1.1 receipt + --harness gak-conformance/v1.1 exits 0 with cf26befe5ad50a18afb427e7257f9272142873ac11879cf2ab81b90eaedbf664.",
     "H2 CLOSED: verify --cert of a §5.1 receipt exits 2 naming certification vs receipt. Fake JSON with only a 64-hex clauses_digest exits 2 (schema_version). Published Deponent cert vs fixture is exit 1 mismatch, never VERIFIED.",
     "RELEASE PASS: zip SHA-256 5dada14d8113a06e24feba316163ef709c01b2dd1c0bd3b57c26a886326c01a6 matches release.json. 52 payload + RELEASE_MANIFEST.json. No .git/ dir, no secrets, no .builder-foundry. artifacts.py/cli.py in zip match working tree and include validate_receipt. Extracted-zip help/selfcheck/digest/score smoke pass.",
-    "SECURITY PASS: residual --adapter ACE documented in --help, score --help ('Import executes the module'), README, load.py. Reviewers architecture-review-s04 and security-s04 have implemented_work false. This auditor implemented nothing. Fixture --certify writes no file. Deponent stays out of sys.modules on package import."
+    "SECURITY PASS: residual --adapter ACE documented in --help, score --help ('Import executes the module'), README, load.py. Reviewers architecture-review-s04 and security-s04 have implemented_work false. This auditor implemented nothing. Fixture --certify writes no file. Deponent stays out of sys.modules on package import.",
+    "CAMPAIGN_GUARD: first foundry_guard --run-commands --write-report exited 1 (stale EVID-JOURNEYS-DOC + EVID-RELEASE-S03 hashes). After foundry-only hash refresh in b0caa17, this auditor re-ran the same command at 2026-08-12T19:22:43Z: exit 0, 0 blockers."
   ],
   "rejected_assumptions": [
     "security-s04's stale-zip note (19:12) still describes the shipped archive — release-s04 rebuilt it at 19:14; this audit hashed 5dada14d… and confirmed artifacts.py is inside.",
     "unzip -l 53 members contradicts release.json file_count 52 — the extra member is RELEASE_MANIFEST.json.",
     "'.git' substring in .gitignore/.gitattributes means the zip contains a git directory — it does not.",
     "check_consistency.py 'imports deponent' because the filename deponent-conformance-receipt.json appears — it does not import the package.",
-    "Independent QA AUTOMATED_WORTH_TESTING means quality proven — it does not."
+    "Independent QA AUTOMATED_WORTH_TESTING means quality proven — it does not.",
+    "Rewriting EVID-RELEASE-S03 to the S04 release.json hash restores the S03 artifact — it does not; current identity is EVID-RELEASE-S04. Guard still verifies the live file."
   ],
   "work_performed": [
     "Read MISSION.md, contract.json, FINAL_REPORT stub, architecture-review-s04, security-s04, release.json, v1/spec.md §5 and §8. Did not amend contract.json. Did not edit gak_conformance/ product code.",
     "Re-ran pytest, check_consistency, --help, selfcheck, digest receipt, digest cert, v1.1 digest paths, verify receipt-as-cert, verify published-cert vs fixture, fixture --certify refuse, fake digest-only JSON, import isolation.",
     "Inspected artifact.zip listing, SHA-256 vs release.json, secret/forbidden scan, zip-vs-tree hashes, extracted-zip smoke.",
-    "Wrote FINAL_REPORT.md, current_state.json (audit wave), this lane report. Will run foundry_guard after those files exist."
+    "Wrote FINAL_REPORT.md, current_state.json (audit wave), this lane report. Ran foundry_guard twice; second run exit 0. Did not push."
   ],
   "evidence": [
     "runtime digest v1 receipt: exit 0 de6b7089f894e009a6d1a1dba8c9b32b26e38daf803b07b83ec0958ff64c5406",
@@ -37,6 +40,7 @@
     "runtime pytest: 83 passed, 1 skipped",
     "runtime check_consistency: CONSISTENT exit 0",
     "zip sha256 5dada14d8113a06e24feba316163ef709c01b2dd1c0bd3b57c26a886326c01a6 matches release.json",
+    "foundry_guard second run 2026-08-12T19:22:43Z exit 0",
     ".builder-foundry/FINAL_REPORT.md",
     ".builder-foundry/lane_reports/architecture-review-s04.json",
     ".builder-foundry/lane_reports/security-s04.json"
@@ -46,7 +50,8 @@
     "clauses_digest() remains a pure function and can still emit d35b3247… if called with a v1.1 object under HARNESS_V1; CLI/artifacts is the gate.",
     "Live Deponent 13-clause re-score still environment-blocked (test skipped).",
     "Adapter honesty (§6.3) is still social; --adapter remains trusted-code ACE by design (documented).",
-    "git add -A can still stage .builder-foundry host paths (.gitignore ignores only locks/ and logs/)."
+    "git add -A can still stage .builder-foundry host paths (.gitignore ignores only locks/ and logs/).",
+    "EVID-RELEASE-S03 hash now equals EVID-RELEASE-S04 (historical row not snapshotted)."
   ],
   "params": {
     "published_v1": "de6b7089f894e009a6d1a1dba8c9b32b26e38daf803b07b83ec0958ff64c5406",
@@ -58,6 +63,8 @@
     "product_verdict": "AUTOMATED_WORTH_TESTING",
     "evidence_verdict": "PASS",
     "security_verdict": "PASS",
-    "release_verdict": "PASS"
+    "release_verdict": "PASS",
+    "campaign_guard": "PASS",
+    "foundry_guard_exit": 0
   }
 }
