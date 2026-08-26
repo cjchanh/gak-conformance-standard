@@ -11,6 +11,9 @@ This is a **research prototype**, not a security-evaluated product.
 The mark means exactly: *the adapter passed `gak-conformance/v1` under its declared profile.*
 Not "secure." Not "audited." Not "endorsed." (spec §8)
 
+GAK is authored and maintained by [Centennial Defense Systems](https://centennialsystems.com/standards/gak).
+Passing a CDS-provided evaluator is **not third-party certification**.
+
 ## First run (no Deponent)
 
 From the **repository root** of a clone. CPython 3.10+. No pip. No network. No Deponent.
