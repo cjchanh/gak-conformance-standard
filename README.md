@@ -30,6 +30,8 @@ meaning exactly: *it passes the `gak-conformance/v1` clause set under its
 declared profile.* Not "secure," not "audited," not "endorsed." The bounded
 claim language is part of the standard (spec §8).
 
+GAK is authored and maintained by [Centennial Defense Systems](https://centennialsystems.com/standards/gak). Passing a CDS-provided evaluator is **not third-party certification**.
+
 ## Verify the reference kernel
 
 With the reference implementation (Deponent) installed:
