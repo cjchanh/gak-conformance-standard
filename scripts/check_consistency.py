@@ -130,9 +130,10 @@ def main() -> int:
             print(f"INCONSISTENT: {p}", file=sys.stderr)
         return 1
 
-    print(f"CONSISTENT: {HARNESS_VERSION} — {len(CLAUSES)} clauses matched, digest "
+    print(f"CONSISTENT (SELF-ASSESSED): {HARNESS_VERSION} — {len(CLAUSES)} clauses matched, digest "
           f"deterministic ({d1[:16]}...), spec + evidence agree with the live harness; "
-          f"frozen v1 record preserved.")
+          f"frozen v1 record preserved. This is a self-assessed conformance report run by the "
+          f"implementer, not a certification; it is void for an adapter that returns canned outputs.")
     return 0
 
 
