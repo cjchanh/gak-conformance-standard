@@ -14,9 +14,9 @@ with a reproducible conformance receipt anyone can re-derive.
 |---|---|
 | **The standard (normative)** — 7-primitive thesis, 3 profiles, 13 clauses, receipt + digest schema, adapter contract, worked example (a *hypothetical* commit-gate kernel, spec §7.2) | [`v1/spec.md`](v1/spec.md) |
 | Reference conformance receipt (Deponent, action-gate) | [`v1/evidence/deponent-conformance-receipt.json`](v1/evidence/deponent-conformance-receipt.json) |
-| Reference certification (digest-bearing) | [`v1/evidence/deponent-certification.json`](v1/evidence/deponent-certification.json) |
+| Reference conformance report (self-assessed; digest-bearing) | [`v1/evidence/deponent-certification.json`](v1/evidence/deponent-certification.json) |
 | Second-kernel conformance receipt (sworncode, commit-gate) | [`v1/evidence/sworn-conformance-receipt-v1.1.json`](v1/evidence/sworn-conformance-receipt-v1.1.json) |
-| Second-kernel certification (digest-bearing) | [`v1/evidence/sworn-certification-v1.1.json`](v1/evidence/sworn-certification-v1.1.json) |
+| Second-kernel conformance report (self-assessed; digest-bearing) | [`v1/evidence/sworn-certification-v1.1.json`](v1/evidence/sworn-certification-v1.1.json) |
 | Verifier output (fail-closed command, exit 0) | [`v1/evidence/deponent-verify-output.txt`](v1/evidence/deponent-verify-output.txt) |
 | Two-run determinism proof (identical digests) | [`v1/evidence/determinism-proof.txt`](v1/evidence/determinism-proof.txt) |
 | Harness clause census | [`v1/evidence/harness-clause-list.txt`](v1/evidence/harness-clause-list.txt) |
@@ -31,6 +31,8 @@ declared profile.* Not "secure," not "audited," not "endorsed." The bounded
 claim language is part of the standard (spec §8).
 
 GAK is authored and maintained by [Centennial Defense Systems](https://centennialsystems.com/standards/gak). Passing a CDS-provided evaluator is **not third-party certification**.
+
+Every conformance report published here so far was produced by Centennial Defense Systems evaluating its own kernels against a standard it wrote; treat them as self-assessments. The evidence files keep their historical `*-certification.json` names so existing links resolve; the name is not a certification claim. CDS intends to publish the first outside implementer's report here, pass or fail; until one exists there is no independent result to cite.
 
 ## Verify the reference kernel
 
@@ -57,8 +59,8 @@ You do not need Deponent's code to conform — you need the adapter contract
 2. Claim only capabilities you implement (`reconcile`, `attest`) — unclaimed
    optional clauses score NA, never FAIL.
 3. Implement the adapter methods for your profile against your **real** kernel.
-4. Run the harness; publish your certification JSON so the claim is
-   re-verifiable.
+4. Run the harness; publish your conformance-report JSON (self-declared until
+   independently reproduced) so the claim is re-verifiable.
 
 Spec §7.2 walks a complete hypothetical commit-gate kernel through the process.
 
