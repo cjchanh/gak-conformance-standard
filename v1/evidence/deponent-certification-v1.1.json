@@ -4,7 +4,9 @@
   "kernel": "deponent",
   "profile": "action-gate",
   "conformant": true,
-  "mark": "GAK-conformant",
+  "mark": "GAK-conformant (self-assessed)",
+  "self_assessed": true,
+  "third_party_verified": false,
   "counts": {
     "pass": 11,
     "fail": 0,

@@ -411,15 +411,28 @@ conformance claim points at:
   "kernel": "deponent",
   "profile": "action-gate",
   "conformant": true,
-  "mark": "GAK-conformant",
+  "mark": "GAK-conformant (self-assessed)",
+  "self_assessed": true,
+  "third_party_verified": false,
   "counts": { "pass": 10, "fail": 0, "na": 3 },
   "clauses_digest": "<sha256 hex>",
   "clauses": [ { "id": "...", "status": "PASS" }, ... ]
 }
 ```
 
-- `mark` is `"GAK-conformant"` when conformant, `"not-conformant"` otherwise.
-  A harness MUST NOT emit the conformant mark for a non-conformant receipt.
+- `mark` is `"GAK-conformant (self-assessed)"` when conformant and the party
+  that ran the harness shares an author or organisation with the kernel;
+  `"GAK-conformant"` only when a party independent of the kernel's author ran
+  the harness; `"not-conformant"` otherwise. A harness MUST NOT emit either
+  conformant mark for a non-conformant receipt.
+- `self_assessed` is `true` when the evaluator and the kernel share an author
+  or organisation. A harness that cannot determine independence MUST emit
+  `self_assessed: true`.
+- `third_party_verified` is `true` only when a party other than the kernel's
+  author ran the harness. Author-run reports MUST emit `false`.
+- `self_assessed: true` and `third_party_verified: true` MUST NOT both appear.
+- These three fields are not part of the clauses digest (§5.3). Adding them
+  does not change any kernel's clause outcome.
 - `clauses` here carries `(id, status)` pairs only.
 
 ### 5.3 The clauses digest (normative algorithm)
@@ -630,13 +643,23 @@ credit and no waiver mechanism in v1.
 ## 8. Claiming the mark
 
 A kernel that produces a conformant receipt under this standard MAY describe
-itself as **GAK-conformant**. The claim is bounded and MUST be used honestly:
+itself as **GAK-conformant**, and MUST say **self-assessed** when the party that
+ran the harness and the kernel share an author or organisation. The claim is
+bounded and MUST be used honestly:
 
 - The claim means: *"passes the GAK conformance harness
   (`gak-conformance/v1`), N required clauses, under the declared profile."*
-- The claim does **not** mean: secure, audited, adversarially robust, or
-  endorsed. The harness proves the clauses under test, nothing else. Marketing
-  that stretches the mark beyond the clause set is misuse of the mark.
+- The claim does **not** mean: secure, audited, adversarially robust,
+  endorsed, or independently certified. The harness proves the clauses under
+  test, nothing else. Marketing that stretches the mark beyond the clause set
+  is misuse of the mark.
+- When the evaluator and the kernel share an author or organisation, the
+  certification JSON MUST set `self_assessed: true`,
+  `third_party_verified: false`, and `mark` to
+  `"GAK-conformant (self-assessed)"` (or `"not-conformant"`). The bare mark
+  `"GAK-conformant"` is reserved for a run by a party independent of the
+  kernel's author. A copied JSON without these fields MUST NOT be read as
+  third-party certification.
 - The mark is **vendor-neutral**: it attaches to the test result, not to any
   project or company name. Any kernel that passes may claim it — including
   kernels unrelated to the reference implementation. The reference
@@ -746,6 +769,20 @@ The frozen **v1** reference digest — `de6b7089f894e009a6d1a1dba8c9b32b26e38daf
 require, and is independent of, any patented mechanism. A specific mechanism for achieving
 attribution-under-non-persistence is covered by U.S. provisional 64/104,446 (Centennial
 Defense Systems); implementing this clause requires no CDS-patented mechanism.
+
+---
+
+## Amendment — certification honesty fields (self-assessed)
+
+**Status:** additive. Does not change harness identifier, clause set, or digest.
+
+Adds `self_assessed` and `third_party_verified` to `gak-certification/v1`, and
+requires the conformant mark string to read `GAK-conformant (self-assessed)`
+when the evaluator and the kernel share an author or organisation. A copied
+certification JSON MUST NOT be readable as third-party certification.
+
+These fields are outside the clauses digest (§5.3), so existing v1 and v1.1
+clause outcomes and digests are unchanged.
 
 ---
 
